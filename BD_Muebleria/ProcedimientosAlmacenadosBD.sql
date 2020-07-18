@@ -132,18 +132,15 @@ GO
 GO
 CREATE PROCEDURE ObtenerMuebles
 	@LimInferior int,
-	@LimSuperior int
+	@CantRegistros int
 AS
 BEGIN
-	DECLARE @UbicacionSucursal geometry
-	DECLARE @CantSucursal int
-	DECLARE @Comercio int 
 
 	BEGIN TRY
 
 	  SELECT pkProducto,fkTipoProducto,Detalle
 	  FROM Producto
-	  ORDER BY pkProducto ASC OFFSET @LimInferior ROWS FETCH NEXT @LimSuperior ROWS ONLY; 
+	  ORDER BY pkProducto ASC OFFSET @LimInferior ROWS FETCH NEXT @CantRegistros ROWS ONLY; 
 
 	END TRY
 	BEGIN CATCH
@@ -154,7 +151,39 @@ END
 GO
 --------------------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE ConsultarCliente
+CREATE PROCEDURE ObtenerMueblesCategoria
+	@Categoria int
+AS
+BEGIN
+	DECLARE @ValidarCategoria int
+
+	BEGIN TRY
+
+		SELECT  @ValidarCategoria = COUNT(*) 
+		FROM TipoProducto TP
+		WHERE TP.pkTipoProducto = @Categoria 
+	
+
+		IF(@ValidarCategoria>0)
+			BEGIN
+				SELECT P.Detalle,P.Foto,S.Cantidad,S.Cantidad,S.fkSucursal
+				FROM Producto P JOIN Stock S ON P.pkProducto = S.fkProducto  
+				WHERE P.fkTipoProducto = @Categoria
+
+			END
+		ELSE
+			BEGIN
+				raiserror('La categoria ingresada no existe',1,1)
+			END
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------
+CREATE PROCEDURE ValidarCliente
 	@Email nvarchar(30),
 	@CPassword nvarchar(16)
 AS
@@ -171,7 +200,7 @@ BEGIN
 
 		IF(@CantCliente>0)
 			BEGIN
-				SELECT C.Nombre,Cc.Email
+				SELECT C.pkCliente,C.Nombre
 				FROM CuentaCliente Cc JOIN Cliente C ON Cc.fkCliente = C.pkCliente
 				WHERE Cc.Email = @Email AND Cc.CPassword = @CPassword
 			END
@@ -186,11 +215,49 @@ BEGIN
 	RETURN
 END
 GO
+--------------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE ValidarEmpleado
+	@Email nvarchar(30),
+	@EPassword nvarchar(16)
+AS
+BEGIN
+	DECLARE @CantEmpleado int
+	DECLARE @Comercio int 
 
+	BEGIN TRY
+
+		SELECT  @CantEmpleado=COUNT(*) 
+		FROM Empleado E JOIN Cuenta C on E.pkEmpleado =  C.fkEmpleado
+		WHERE E.Email = @Email AND C.Password = @EPassword
+	
+
+		IF(@CantEmpleado>0)
+			BEGIN
+				SELECT E.pkEmpleado,E.Nombre
+				FROM Empleado E JOIN Cuenta C on E.pkEmpleado =  C.fkEmpleado
+				WHERE E.Email = @Email AND C.Password = @EPassword
+			END
+		ELSE
+			BEGIN
+				raiserror('Los credenciales de empleado son incorrectos o el empleado no se encuentra registrado',1,1)
+			END
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
 --execute ConsultarTallerMasCercano @NumeroSucursal=1;
 
 --execute ConsultarSucursalMasCercana @pkCliente=1;
 
---execute CargarProductos @LimInferior=10,@LimSuperior=20
+--execute ObtenerMuebles @LimInferior=10,@CantRegistros=20
 
---execute ConsultarCliente @Email='ccrock0@blog.com',@CPassword='CM33VN6cSZO'
+--execute ValidarCliente @Email='ccrock0@blog.com',@CPassword='CM33VN6cSZO'
+
+--execute ValidarEmpleado @Email='dpuve0@gnu.org',@EPassword='t5HeUcdWPo'
+
+--execute ObtenerMueblesCategoria @Categoria=5
+
