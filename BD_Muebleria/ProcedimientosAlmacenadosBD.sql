@@ -130,7 +130,7 @@ END
 GO
 ------------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE CargarProductos
+CREATE PROCEDURE ObtenerMuebles
 	@LimInferior int,
 	@LimSuperior int
 AS
