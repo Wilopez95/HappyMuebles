@@ -1,3 +1,4 @@
+--CREATE DATABASE DBII_Muebleria 
 USE DBII_Muebleria;
 GO
 
