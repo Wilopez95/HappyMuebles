@@ -160,14 +160,14 @@ BEGIN
 	BEGIN TRY
 
 		SELECT  @ValidarCategoria = COUNT(*) 
-		FROM TipoProducto P
-		WHERE P.pkTipoProducto = @Categoria 
+		FROM TipoProducto TP
+		WHERE TP.pkTipoProducto = @Categoria 
 	
 
 		IF(@ValidarCategoria>0)
 			BEGIN
-				SELECT P.Detalle
-				FROM Producto P 
+				SELECT P.Detalle,P.Foto,S.Cantidad,S.Cantidad,S.fkSucursal
+				FROM Producto P JOIN Stock S ON P.pkProducto = S.fkProducto  
 				WHERE P.fkTipoProducto = @Categoria
 
 			END
@@ -258,4 +258,6 @@ GO
 --execute ValidarCliente @Email='ccrock0@blog.com',@CPassword='CM33VN6cSZO'
 
 --execute ValidarEmpleado @Email='dpuve0@gnu.org',@EPassword='t5HeUcdWPo'
+
+--execute ObtenerMueblesCategoria @Categoria=5
 
