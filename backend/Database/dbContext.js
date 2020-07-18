@@ -43,3 +43,8 @@ function spPostExecute(qry, params, callback) {
 
     connection.callProcedure(request);
 }
+
+module.exports = {
+    get: spGetExecute,
+    post: spPostExecute,
+};
