@@ -131,10 +131,14 @@ GO
 ------------------------------------------------------------------------------------
 GO
 CREATE PROCEDURE ObtenerMuebles
-	@LimInferior int,
-	@CantRegistros int
+	@pagina int
 AS
 BEGIN
+	DECLARE @LimInferior int 
+	DECLARE @CantRegistros int 
+
+	SET @LimInferior = @pagina*10-9
+	SET @CantRegistros = 10
 
 	BEGIN TRY
 
@@ -253,11 +257,10 @@ GO
 
 --execute ConsultarSucursalMasCercana @pkCliente=1;
 
---execute ObtenerMuebles @LimInferior=10,@CantRegistros=20
-
 --execute ValidarCliente @Email='ccrock0@blog.com',@CPassword='CM33VN6cSZO'
 
 --execute ValidarEmpleado @Email='dpuve0@gnu.org',@EPassword='t5HeUcdWPo'
 
 --execute ObtenerMueblesCategoria @Categoria=5
 
+execute ObtenerMuebles @pagina=2
