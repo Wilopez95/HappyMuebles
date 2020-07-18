@@ -72,6 +72,7 @@ CREATE TABLE TipoEmpleado(
 CREATE TABLE Empleado(
 	pkEmpleado int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	fkTipoEmpleado int NOT NULL FOREIGN KEY REFERENCES TipoEmpleado(pkTipoEmpleado),
+	Nombre varchar(40) NOT NULL,
 	FechaContratacion date NOT NULL,
 	Foto image NOT NULL,
 	Email nvarchar(50)
