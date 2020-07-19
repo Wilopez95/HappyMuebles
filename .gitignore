@@ -1,2 +1,2 @@
-node_modules/
 backend/Database/connect.js
+backend/node_modules
