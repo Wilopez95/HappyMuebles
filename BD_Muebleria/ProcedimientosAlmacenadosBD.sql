@@ -263,4 +263,5 @@ GO
 
 --execute ObtenerMueblesCategoria @Categoria=5
 
+
 execute ObtenerMuebles @pagina=2
