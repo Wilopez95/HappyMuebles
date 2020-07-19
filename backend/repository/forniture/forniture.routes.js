@@ -4,6 +4,6 @@ const dbContext = require('../../Database/dbContext');
 module.exports = function(router){
     const fornitureRepository = _fornitureRepository(dbContext);
 
-    router.route('/fornitures')
-        .get(fornitureRepository.getAll)
+    router.route('/fornitures/:page')
+        .get(fornitureRepository.getPage)
 }
