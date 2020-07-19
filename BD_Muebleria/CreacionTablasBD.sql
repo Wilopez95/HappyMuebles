@@ -1,3 +1,4 @@
+--CREATE DATABASE DBII_Muebleria 
 USE DBII_Muebleria;
 GO
 
@@ -38,7 +39,8 @@ CREATE TABLE TipoProducto(
 CREATE TABLE Producto(
 	pkProducto int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	fkTipoProducto int NOT NULL FOREIGN KEY REFERENCES TipoProducto(pkTipoProducto),
-	Detalle nvarchar(30) NOT NULL
+	Detalle nvarchar(30) NOT NULL,
+	Foto image
 );
 
 CREATE TABLE Sucursal(
@@ -71,6 +73,7 @@ CREATE TABLE TipoEmpleado(
 CREATE TABLE Empleado(
 	pkEmpleado int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	fkTipoEmpleado int NOT NULL FOREIGN KEY REFERENCES TipoEmpleado(pkTipoEmpleado),
+	Nombre varchar(40) NOT NULL,
 	FechaContratacion date NOT NULL,
 	Foto image NOT NULL,
 	Email nvarchar(50)
