@@ -26,7 +26,7 @@ insert into Empleado (fkTipoEmpleado, Nombre, FechaContratacion, Foto) values (3
 insert into Empleado (fkTipoEmpleado, Nombre, FechaContratacion, Foto) values (2,'Kristos', '2019-05-30 19:17:59', 'http://dummyimage.com/230x123.bmp/dddddd/000000');
 insert into Empleado (fkTipoEmpleado, Nombre, FechaContratacion, Foto) values (3,'Almira', '2017-07-30 20:17:37', 'http://dummyimage.com/191x103.jpg/cc0000/ffffff');
 
-insert into Cuenta (fkEmpleado, EPassword, Email) values (4, 't5HeUcdWPo','dpuve0@gnu.org');
+insert into Cuenta (fkEmpleado, EPassword, Email) values (4, 'admini','admin@mail.com');
 insert into Cuenta (fkEmpleado, EPassword, Email) values (8, '5VFhsxFu','tlewsy1@theglobeandmail.com');
 insert into Cuenta (fkEmpleado, EPassword, Email) values (12, 'rTew1ppiL6','hfoottit2@bloomberg.com');
 
@@ -142,7 +142,7 @@ insert into TelefonoXCliente (fkCliente, Numero, Detalle) values (2, '593-515-15
 insert into TelefonoXCliente (fkCliente, Numero, Detalle) values (4, '800-178-7569', 'BYR');
 insert into TelefonoXCliente (fkCliente, Numero, Detalle) values (9, '579-118-0448', 'MXN');
 
-insert into CuentaCliente (fkCliente, Email, CPassword, RecibirInfo) values (10, 'ccrock0@blog.com','CM33VN6cSZO',1);
+insert into CuentaCliente (fkCliente, Email, CPassword, RecibirInfo) values (10, 'cliente@mail.com','cliente',1);
 insert into CuentaCliente (fkCliente, Email, CPassword, RecibirInfo) values (9, 'wtrudgion1@apple.com','ui9dSH06',1);
 insert into CuentaCliente (fkCliente, Email, CPassword, RecibirInfo ) values (8, 'dlanahan2@deliciousdays.com','myZahb',1);
 insert into CuentaCliente (fkCliente, Email, CPassword, RecibirInfo) values (4, 'wmountstephen3@auda.org.au','IDDafFT',1);

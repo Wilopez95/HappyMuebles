@@ -7,7 +7,7 @@ var app = express();
 var port = process.env.port || 3300
 
 app.listen(port, () => {
-    console.log("Hi This port is running");
+    console.log("Hi The server is running on port: "+ port);
 });
 
 app.use(bodyParser.urlencoded({ extended: true }));
