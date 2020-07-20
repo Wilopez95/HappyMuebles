@@ -233,14 +233,14 @@ BEGIN
 
 		SELECT  @CantEmpleado=COUNT(*) 
 		FROM Empleado E JOIN Cuenta C on E.pkEmpleado =  C.fkEmpleado
-		WHERE E.Email = @Email AND C.Password = @EPassword
+		WHERE C.Email = @Email AND C.EPassword = @EPassword
 	
 
 		IF(@CantEmpleado>0)
 			BEGIN
 				SELECT E.pkEmpleado,E.Nombre
 				FROM Empleado E JOIN Cuenta C on E.pkEmpleado =  C.fkEmpleado
-				WHERE E.Email = @Email AND C.Password = @EPassword
+				WHERE C.Email = @Email AND C.EPassword = @EPassword
 			END
 		ELSE
 			BEGIN
@@ -259,9 +259,9 @@ GO
 
 --execute ValidarCliente @Email='ccrock0@blog.com',@CPassword='CM33VN6cSZO'
 
---execute ValidarEmpleado @Email='dpuve0@gnu.org',@EPassword='t5HeUcdWPo'
+--execute ValidarEmpleado @Email='tlewsy1@theglobeandmail.com',@EPassword='5VFhsxFu'
 
 --execute ObtenerMueblesCategoria @Categoria=5
 
 
-execute ObtenerMuebles @pagina=2
+--execute ObtenerMuebles @pagina=2

@@ -76,13 +76,13 @@ CREATE TABLE Empleado(
 	Nombre varchar(40) NOT NULL,
 	FechaContratacion date NOT NULL,
 	Foto image NOT NULL,
-	Email nvarchar(50)
 ); 
 
 CREATE TABLE Cuenta(
 	pkCuenta int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	fkEmpleado int NOT NULL FOREIGN KEY REFERENCES Empleado(pkEmpleado),
-	Password nvarchar(16)
+	EPassword nvarchar(16),
+	Email nvarchar(50)
 ); 
 
 CREATE TABLE EmpleadoXSucursal(
