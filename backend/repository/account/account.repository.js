@@ -6,9 +6,16 @@ function AccountRepository(dbContext){
     function loginAccount(req,res){
         var parameters = [];
         if(req.body.email.includes("Admin/")||req.body.email.includes("admin/")){
-            console.log("Login a Admin")
-            console.log(req.body.email.substr(6) );
-            console.log(req.body.pass);
+            parameters.push({ name: 'Email', type: TYPES.VarChar, val: req.body.email.substr(6) });
+            parameters.push({ name: 'EPassword', type: TYPES.VarChar, val: req.body.pass });
+
+            dbContext.post("ValidarEmpleado", parameters, function (error, data) {
+                if( data.length == 0){
+                    return res.sendStatus(204);
+                }else{
+                    return res.json(response(data, error));
+                } 
+            });
 
         }else{
             parameters.push({ name: 'Email', type: TYPES.VarChar, val: req.body.email });
@@ -23,6 +30,10 @@ function AccountRepository(dbContext){
             });
         }
 
+    }
+
+    function registerAccount(req,res){
+        var parameters = [];
     }
 
 
