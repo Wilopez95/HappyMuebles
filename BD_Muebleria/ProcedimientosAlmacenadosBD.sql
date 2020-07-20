@@ -137,7 +137,7 @@ BEGIN
 	DECLARE @LimInferior int 
 	DECLARE @CantRegistros int 
 
-	SET @LimInferior = @pagina*10-9
+	SET @LimInferior = @pagina*10-10
 	SET @CantRegistros = 10
 
 	BEGIN TRY
