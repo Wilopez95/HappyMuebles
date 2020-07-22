@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <Navbar/>
+    <HeaderComponet/>
   </div>
 </template>
 
 <script>
-import Navbar from './components/Navbar'
+
+import HeaderComponet from './components/HeaderComponet'
+
 
 export default {
   name: 'App',
   components: {
-    Navbar
+    HeaderComponet
   }
 }
 </script>
@@ -23,6 +24,5 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   margin: 0px;
   color: #2c3e50;
-  background: #A97E51;
 }
 </style>
