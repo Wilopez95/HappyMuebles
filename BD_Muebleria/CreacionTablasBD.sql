@@ -40,7 +40,7 @@ CREATE TABLE Producto(
 	pkProducto int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	fkTipoProducto int NOT NULL FOREIGN KEY REFERENCES TipoProducto(pkTipoProducto),
 	Detalle nvarchar(30) NOT NULL,
-	Foto image
+	Foto nvarchar(Max)
 );
 
 CREATE TABLE Sucursal(
@@ -75,7 +75,7 @@ CREATE TABLE Empleado(
 	fkTipoEmpleado int NOT NULL FOREIGN KEY REFERENCES TipoEmpleado(pkTipoEmpleado),
 	Nombre varchar(40) NOT NULL,
 	FechaContratacion date NOT NULL,
-	Foto image NOT NULL,
+	Foto nvarchar(Max),
 ); 
 
 CREATE TABLE Cuenta(
