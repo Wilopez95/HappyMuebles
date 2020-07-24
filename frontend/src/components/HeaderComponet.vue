@@ -1,10 +1,11 @@
 <template>
     <div class="header">
         <img src="../assets/logo.png">
-        <NavbarComponet/>
-
+       
+         <NavbarComponet/>
         
     </div>
+    
 
 </template>
 
