@@ -1,18 +1,21 @@
 <template>
   <div id="app">
     <HeaderComponet/>
+    <RegisterComponent/>
   </div>
 </template>
 
 <script>
-
-import HeaderComponet from './components/HeaderComponet'
-
+import HeaderComponet from './components/HeaderComponet';
+import LoginComponent from './components/LoginComponent';
+import RegisterComponent from './components/RegisterComponent';
 
 export default {
   name: 'App',
   components: {
-    HeaderComponet
+    HeaderComponet,
+    LoginComponent,
+    RegisterComponent
   }
 }
 </script>
