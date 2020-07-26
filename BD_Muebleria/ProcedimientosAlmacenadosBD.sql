@@ -253,6 +253,38 @@ BEGIN
 	RETURN
 END
 GO
+--------------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE obtenerPerfilCliente
+	@idCliente int
+AS
+BEGIN
+	DECLARE @CantCliente int
+
+	BEGIN TRY
+
+		SELECT  @CantCliente=COUNT(*) 
+		FROM Cliente C 
+		WHERE C.pkCliente = @idCliente 
+	
+
+		IF(@CantCliente>0)
+			BEGIN
+				SELECT  C.pkCliente,Nombre,Ubicacion 
+				FROM Cliente C 
+				WHERE C.pkCliente = @idCliente 
+			END
+		ELSE
+			BEGIN
+				raiserror('El idCliente ingresado no existe en la Base de datos',1,1)
+			END
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
 --execute ConsultarTallerMasCercano @NumeroSucursal=1;
 
 --execute ConsultarSucursalMasCercana @pkCliente=1;
