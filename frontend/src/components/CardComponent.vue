@@ -1,5 +1,7 @@
-<template>   
-	 <img src="../assets/userico.png">
+<template>
+    <div>
+        <img src="../assets/cardico.png">
+    </div>
 </template>
 
 <script>
@@ -13,8 +15,8 @@ export default {
 
 img {
 	margin-top: 20px;
-    width: 50px;
-    height: 50px;
+    width: 55px;
+    height: 58px;
 }
 
 </style>
