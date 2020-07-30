@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <HeaderComponet/>
-    <RegisterComponent/>
   </div>
 </template>
 
@@ -28,4 +27,17 @@ export default {
   margin: 0px;
   color: #2c3e50;
 }
+
+@media screen and (min-width: 620px){
+  
+}
+
+@media screen and (min-width: 920px){
+  
+}
+
+@media screen and (min-width: 1200px){
+  
+}
+
 </style>
