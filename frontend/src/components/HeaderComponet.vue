@@ -60,6 +60,7 @@ export default {
     img {
         display: block;
         margin: auto;
+    
     }
        
   
@@ -91,6 +92,12 @@ export default {
     .navbar {
        grid-column: 1 / span 3;
         grid-row: 2; 
+    }
+
+    img {
+        display: block;
+        margin: 0;
+    
     }
 
     
