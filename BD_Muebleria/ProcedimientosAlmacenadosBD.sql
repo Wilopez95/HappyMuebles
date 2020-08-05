@@ -317,6 +317,52 @@ BEGIN
 	RETURN
 END
 GO
+
+--------------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE RegistrarCliente
+	@Nombre varchar(40),
+	@FechaCumpleannos date,
+	@Ubicacion geometry
+AS
+BEGIN
+
+	BEGIN TRY
+		INSERT INTO Cliente(Nombre,FechaCumpleannos,Ubicacion)
+		VALUES (@Nombre,@FechaCumpleannos,@Ubicacion)
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE ActualizarPerfilCliente
+	@idCliente int,
+	@Nombre varchar(40),
+	@FechaCumpleannos date,
+	@Ubicacion geometry
+AS
+BEGIN
+
+	BEGIN TRY
+		UPDATE Cliente
+		SET Nombre=@Nombre,FechaCumpleannos=@FechaCumpleannos,Ubicacion=@Ubicacion
+		WHERE pkCliente = @idCliente
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------
+
+
+
+
 --execute ConsultarTallerMasCercano @NumeroSucursal=1;
 
 --execute ConsultarSucursalMasCercana @pkCliente=1;
