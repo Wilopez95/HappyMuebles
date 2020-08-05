@@ -287,7 +287,7 @@ END
 GO
 --------------------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE obtenerCuponesPorCliente
+CREATE PROCEDURE ObtenerCuponesPorCliente
 	@idCliente int
 AS
 BEGIN
@@ -302,8 +302,8 @@ BEGIN
 
 		IF(@CantCliente>0)
 			BEGIN
-				SELECT Cl.Nombre,MT.fkCliente,MT.fkCupon,MT.Descripcion
-				FROM OPENQUERY(MYSQLVINCULADO,'SELECT C.fkCliente,C.fkCupon,T.Descripcion FROM centroatencioncliente.cuponxcliente C JOIN centroatencioncliente.tipocupon T ON C.fkCupon=T.pkTipoCupon') MT JOIN Cliente Cl ON Cl.pkCliente = MT.fkCliente
+				SELECT Cl.Nombre,MT.fkCliente,MT.Porcentaje,MT.Descripcion
+				FROM OPENQUERY(MYSQLVINCULADO,'SELECT C.fkCliente,Cu.Porcentaje Porcentaje,T.Descripcion FROM centroatencioncliente.cuponxcliente C JOIN centroatencioncliente.tipocupon T ON C.fkCupon=T.pkTipoCupon JOIN centroatencioncliente.cupon Cu ON Cu.pkCupon = C.fkCupon') MT JOIN Cliente Cl ON Cl.pkCliente = MT.fkCliente
 				WHERE fkCliente = @idCliente
 			END
 		ELSE
@@ -359,6 +359,28 @@ BEGIN
 END
 GO
 --------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE ActualizarCuentaCliente
+	@idCliente int,
+	@Email nvarchar(30),
+	@CPassword nvarchar(16),
+	@RecibirInfo bit
+AS
+BEGIN
+
+	BEGIN TRY
+		UPDATE CuentaCliente
+		SET Email=@Email,CPassword=@CPassword,RecibirInfo=@RecibirInfo
+		WHERE fkCliente = @idCliente
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------
 
 
 
@@ -376,4 +398,4 @@ GO
 
 --execute ObtenerMuebles @pagina=2
 
---execute obtenerCuponesPorCliente @idCliente=2
+execute ObtenerCuponesPorCliente @idCliente=1
