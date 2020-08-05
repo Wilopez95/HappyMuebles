@@ -16,7 +16,7 @@ function FornitureRepository(dbContext){
                 return res.json(response(data, error));
             });
         }
-    }
+    } 
 
     function getFornituresCategory(req,res,category){
         if(req.params.category){
