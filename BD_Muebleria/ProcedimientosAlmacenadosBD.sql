@@ -339,6 +339,26 @@ END
 GO
 --------------------------------------------------------------------------------------------
 GO
+CREATE PROCEDURE RegistrarCuentaCliente
+	@fkCliente int,
+	@Email nvarchar(30),
+	@CPassword nvarchar(16),
+	@RecibirIndo bit
+AS
+BEGIN
+
+	BEGIN TRY
+		INSERT INTO CuentaCliente(fkCliente,Email,CPassword,RecibirInfo)
+		VALUES (@fkCliente,@Email,@CPassword,@RecibirIndo)
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------
+GO
 CREATE PROCEDURE ActualizarPerfilCliente
 	@idCliente int,
 	@Nombre varchar(40),
