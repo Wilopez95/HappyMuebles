@@ -361,15 +361,15 @@ GO
 GO
 CREATE PROCEDURE ActualizarPerfilCliente
 	@idCliente int,
-	@Nombre varchar(40),
-	@FechaCumpleannos date,
-	@Ubicacion geometry
+	@Nombre varchar(40) = NULL,
+	@FechaCumpleannos date = NULL,
+	@Ubicacion geometry = NULL
 AS
 BEGIN
 
 	BEGIN TRY
 		UPDATE Cliente
-		SET Nombre=@Nombre,FechaCumpleannos=@FechaCumpleannos,Ubicacion=@Ubicacion
+		SET Nombre = ISNULL(@Nombre,Nombre),FechaCumpleannos=ISNULL(@FechaCumpleannos,FechaCumpleannos),Ubicacion=ISNULL(@Ubicacion,Ubicacion)
 		WHERE pkCliente = @idCliente
 	END TRY
 	BEGIN CATCH
@@ -383,15 +383,15 @@ GO
 GO
 CREATE PROCEDURE ActualizarCuentaCliente
 	@idCliente int,
-	@Email nvarchar(30),
-	@CPassword nvarchar(16),
-	@RecibirInfo bit
+	@Email nvarchar(30) = NULL,
+	@CPassword nvarchar(16) = NULL,
+	@RecibirInfo bit = NULL
 AS
 BEGIN
 
 	BEGIN TRY
 		UPDATE CuentaCliente
-		SET Email=@Email,CPassword=@CPassword,RecibirInfo=@RecibirInfo
+		SET Email=ISNULL(@Email,Email),CPassword=ISNULL(@CPassword,CPassword),RecibirInfo=ISNULL(@RecibirInfo,RecibirInfo)
 		WHERE fkCliente = @idCliente
 	END TRY
 	BEGIN CATCH
@@ -401,9 +401,88 @@ BEGIN
 END
 GO
 --------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE RegistrarEmpleado
+	@fkTipoEmpleado int,
+	@Nombre varchar(40),
+	@FechaContratacion date,
+	@Foto nvarchar(max)
+AS
+BEGIN
 
+	BEGIN TRY
+		INSERT INTO Empleado(fkTipoEmpleado,Nombre,FechaContratacion,Foto)
+		VALUES (@fkTipoEmpleado,@Nombre,@FechaContratacion,@Foto)
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE ActualizarPerfilEmpleado
+	@pkEmpleado int,
+	@fkTipoEmpleado int = NULL,
+	@Nombre varchar(40) =  NULL,
+	@FechaContratacion date = NULL,
+	@Foto nvarchar(max) = NULL
+AS
+BEGIN
 
+	BEGIN TRY
+		UPDATE Empleado
+		SET fkTipoEmpleado  = ISNULL(@fkTipoEmpleado,fkTipoEmpleado),Nombre=ISNULL(@Nombre,Nombre),FechaContratacion=ISNULL(@FechaContratacion,FechaContratacion)
+		WHERE @pkEmpleado = @pkEmpleado
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE RegistrarCuentaEmpleado
+	@fkEmpleado int,
+	@EPassword nvarchar(16),
+	@Email nvarchar(50)
+AS
+BEGIN
 
+	BEGIN TRY
+		INSERT INTO Cuenta(fkEmpleado,EPassword,Email)
+		VALUES (@fkEmpleado,@EPassword,@Email)
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE ActualizarCuentaEmpleado
+	@pkCuenta int,
+	@fkEmpleado int = NULL,
+	@EPassword nvarchar(16) = NULL,
+	@Email nvarchar(50)= NULL
+AS
+BEGIN
+
+	BEGIN TRY
+		UPDATE Cuenta
+		SET fkEmpleado = ISNULL(@fkEmpleado,fkEmpleado),EPassword = ISNULL(@EPassword,EPassword),Email = ISNULL(@Email,Email) 
+		WHERE pkCuenta = @pkCuenta 
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
 
 --execute ConsultarTallerMasCercano @NumeroSucursal=1;
 
@@ -418,4 +497,4 @@ GO
 
 --execute ObtenerMuebles @pagina=2
 
-execute ObtenerCuponesPorCliente @idCliente=1
+--execute ObtenerCuponesPorCliente @idCliente=1
