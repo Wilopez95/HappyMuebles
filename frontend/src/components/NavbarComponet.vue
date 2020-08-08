@@ -1,13 +1,13 @@
 <template>
     <div class="navbar">
-        <ul>
-            <li><a href=#>Armarios</a></li>
-            <li><a href=#>Alavenas</a></li>
-            <li><a href=#>Camas</a></li>
-            <li><a href=#>Escritorios</a></li>
-            <li><a href=#>Librerias</a></li>
-            <li><a href=#>Comodas</a></li>
-            <li><a href=#>Otros</a></li>
+        <ul class='navbar_conteiner'>
+            <li class='navbar_item'><a href=#>Armarios</a></li>
+            <li class='navbar_item'><a href=#>Alacenas</a></li>
+            <li class='navbar_item'><a href=#>Camas</a></li>
+            <li class='navbar_item'><a href=#>Escritorios</a></li>
+            <li class='navbar_item'><a href=#>Librerias</a></li>
+            <li class='navbar_item'><a href=#>Comodas</a></li>
+            <li class='navbar_item'><a href=#>Otros</a></li>
         </ul>
     </div>
 </template>
@@ -21,7 +21,7 @@
 }
 
 @media screen and (min-width: 1200px){
-    ul {
+    .navbar_conteiner {
     display: grid;
     grid-template-columns: repeat(7,1fr);
     list-style-type: none;
@@ -32,7 +32,7 @@
     height: 30px;
 }
 
-li a {
+.navbar_item a {
     display: block;
     color: white;
     text-decoration: none;
@@ -46,7 +46,7 @@ a{
 }
 
 
-li:hover {
+.navbar_item:hover {
     color: white;
     background-color: #e5d80e;
 }
