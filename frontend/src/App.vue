@@ -1,20 +1,26 @@
 <template>
   <div id="app">
     <HeaderComponet/>
+    <FornituresComponet/>
+    <FooterComponet/>
   </div>
 </template>
 
 <script>
 import HeaderComponet from './components/HeaderComponet';
+import FornituresComponet from './components/FornituresComponet';
 import LoginComponent from './components/LoginComponent';
 import RegisterComponent from './components/RegisterComponent';
+import FooterComponet from './components/FooterComponet';
 
 export default {
   name: 'App',
   components: {
     HeaderComponet,
+    FornituresComponet,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    FooterComponet
   }
 }
 </script>
