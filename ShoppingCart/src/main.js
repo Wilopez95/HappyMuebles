@@ -10,6 +10,7 @@ import NProgress from 'nprogress'
 import 'swiper/dist/css/swiper.css'
 import '../node_modules/nprogress/nprogress.css'
 
+
 Vue.use(VueAwesomeSwiper)
 
 Vue.config.productionTip = false

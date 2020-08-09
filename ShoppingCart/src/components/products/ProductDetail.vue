@@ -6,8 +6,8 @@
           <div class="product-image">
             <div class="view hm-zoom z-depth-2" style="cursor: pointer">
               <img
-                v-bind:src="product.productImage"
-                v-bind:alt="product.productName"
+                v-bind:src="bestProducts[0].item.productImage"
+                v-bind:alt="bestProducts[0].item.productName"
                 class="img-fluid rounded"
                 style="max-height: 700px; max-width: 127.135px;margin: auto"
               >
@@ -21,17 +21,18 @@
                   <span
                     class="text-muted"
                     style="color:crimson !important"
-                  >₹ {{product.productPrice}}</span>
+                  >$ {{bestProducts[0].item.productPrice}}</span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
+
+                <!--<li class="list-group-item d-flex justify-content-between lh-condensed">
                   <div>
                     <h6 class="my-0">Product Seller</h6>
                   </div>
                   <span
                     class="text-muted"
                     style="color:crimson !important"
-                  >{{product.productSeller}}</span>
-                </li>
+                  >{{bestProducts[0].item.productSeller}}</span>
+                </li>-->
               </ul>
               <button class="btn btn-primary" v-on:click="addToCart(product)">Add to Cart</button>
             </div>
@@ -44,23 +45,15 @@
               <tbody>
                 <tr>
                   <th scope="row">Product Name</th>
-                  <td>{{product.productName}}</td>
+                  <td>{{bestProducts[0].item.productName}}</td>
                 </tr>
                 <tr>
                   <th scope="row">Product Description</th>
-                  <td>{{product.productDescription}}</td>
+                  <td>{{bestProducts[0].item.productDescription}}</td>
                 </tr>
                 <tr>
                   <th scope="row">Product Category</th>
-                  <td>{{product.productCategory}}</td>
-                </tr>
-                <tr>
-                  <th scope="row">Product Rating</th>
-                  <td>
-                    <div class="stars-outer">
-                      <div class="stars-inner"></div>
-                    </div>
-                  </td>
+                  <td>{{bestProducts[0].item.productCategory}}</td>
                 </tr>
               </tbody>
             </table>
@@ -93,9 +86,60 @@ export default {
   data() {
     return {
       product: new Object(),
-      similarProduct: []
+      //similarProduct: []
+        bestProducts: [
+        {item: {
+          _id: '5bd44827429e8654fc8e5a4c',
+          productName : 'Juego de comedor',
+          productPrice: '25,95' ,
+          productCategory: 'Comedor',
+          productImage: 'https://gollo-prod-grupounicomer.netdna-ssl.com/media/catalog/product/cache/7fab98186e03fe46f2659b9ea1ab996a/4/1/4101050060asdd.jpg',
+          productSeller : 'Aplle',
+          productRating: 5,
+          isBestProduct : true,
+          isTopProduct : true,
+          productDescription: 'sdasdasdasdas'
+        }},
+        {item: {
+          productName : 'Mini Bar',
+          productPrice: '25,95' ,
+          productCategory: 'Comedor',
+          productImage:'https://gollo-prod-grupounicomer.netdna-ssl.com/media/catalog/product/cache/7fab98186e03fe46f2659b9ea1ab996a/b/a/bar-new-drink_01.jpg',
+          productSeller : 'Aplle',
+          productRating: 5,
+          isBestProduct : true,
+          isTopProduct : true,
+          productDescription: 'sdasdasdasdas'
+        }},
+        {item: {
+          productName : 'Escritorio',
+          productPrice: '25,95' ,
+          productCategory: 'Comedor',
+          productImage:'https://gollo-prod-grupounicomer.netdna-ssl.com/media/catalog/product/cache/7fab98186e03fe46f2659b9ea1ab996a/1/-/1-az1023_nogal_branco_fi_3.jpg',
+          productSeller : 'Aplle',
+          productRating: 5,
+          isBestProduct : true,
+          isTopProduct : true,
+          productDescription: 'sdasdasdasdas'
+        }},
+        {item: {
+          productName : 'Cama individual',
+          productPrice: '25,95' ,
+          productCategory: 'Comedor',
+          productImage:'https://gollo-prod-grupounicomer.netdna-ssl.com/media/catalog/product/cache/7fab98186e03fe46f2659b9ea1ab996a/c/a/cama_nicole_jpg.jpg',
+          productSeller : 'Aplle',
+          productRating: 5,
+          isBestProduct : true,
+          isTopProduct : true,
+          productDescription: 'sdasdasdasdas'
+        }},
+      ],
     };
+      this.product = bestProducts[0];
   },
+  
+
+  /*
   methods: {
     getSimilarProduct(productSeller) {
       axios
@@ -137,7 +181,7 @@ export default {
         console.log(error);
         errorToaster("Error while fetching similar products", "");
       });
-  }
+  }*/
 };
 </script>
 
