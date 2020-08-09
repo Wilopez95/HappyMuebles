@@ -483,7 +483,170 @@ BEGIN
 	RETURN
 END
 GO
-
+--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE GenerarCompra
+	@idEstadoCompra int
+AS
+BEGIN
+	BEGIN TRY
+		INSERT INTO Compra (fkEstadoCompra, FechaCompra) values (@idEstadoCompra, GETDATE());
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE AgregarAListaCompra
+	@idProducto int,
+	@idCompra int,
+	@Cantidad int
+AS
+BEGIN
+	BEGIN TRY
+		INSERT INTO ListaCompra(fkProducto, fkCompra, Cantidad) values (@idProducto, @idCompra, @Cantidad);
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE GenerarFactura
+	@idMetodoPago int,
+	@idCompra int,
+	@MontoTotal money
+AS
+BEGIN
+	BEGIN TRY
+		INSERT INTO Factura(fkMetodoPago, fkCompra, MontoTotal) values (@idMetodoPago, @idCompra, @MontoTotal);
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE AgregarALineaFactura
+	@idFactura int,
+	@Detalle nvarchar(50),
+	@Monto  nvarchar(50)
+AS
+BEGIN
+	BEGIN TRY
+		INSERT INTO LineaFactura(fkFactura, Cantidad, Detalle, Monto) values (@idFactura, 1, @Detalle, @Monto);
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE VerMetodosDePago
+AS
+BEGIN
+	BEGIN TRY
+		SELECT MP.Detalle FROM MetodoPago MP
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--EXEC verMetodosDePago
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE VerSucursales
+AS
+BEGIN
+	BEGIN TRY
+		SELECT S.NumeroSucursal FROM Sucursal S
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--EXEC verSucursales
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE VerProducto
+AS
+BEGIN
+	BEGIN TRY
+		SELECT P.Detalle, P.Precio FROM Producto P
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE VerProductosXTipoProducto
+	@idTipoProducto int
+AS
+BEGIN
+	BEGIN TRY
+		SELECT P.Detalle, P.Precio FROM Producto P 
+		INNER JOIN TipoProducto TP ON P.fkTipoProducto = TP.pkTipoProducto 
+		WHERE TP.pkTipoProducto = @idTipoProducto
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE ConfirmarStock
+	@idProducto int,
+	@idSucursal int,
+	@Cantidad int
+AS
+BEGIN
+	BEGIN TRY
+		IF @Cantidad > (SELECT St.Cantidad FROM Stock St WHERE St.fkProducto = @idProducto AND St.fkSucursal = @idSucursal)
+			BEGIN
+				SELECT 0
+			END
+		ELSE
+			BEGIN
+				SELECT 1
+			END
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE ObtenerProductosRandom
+AS
+BEGIN
+	BEGIN TRY
+		SELECT  P.pkProducto, P.Nombre, P.Descripcion, P.Precio, TP.pkTipoProducto, TP.Detalle from Producto P
+		INNER JOIN TipoProducto TP ON P.fkTipoProducto = TP.pkTipoProducto
+		WHERE pkProducto in 
+		(select top 12 pkProducto from Producto order by newid())
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--EXEC ObtenerProductosRandom
+--------------------------------------------------------------------------------------------------
+---Pruebas
+--------------------------------------------------------------------------------------------------
 --execute ConsultarTallerMasCercano @NumeroSucursal=1;
 
 --execute ConsultarSucursalMasCercana @pkCliente=1;
