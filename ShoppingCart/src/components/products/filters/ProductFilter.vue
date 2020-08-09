@@ -7,6 +7,7 @@
       <div class="form-group createProduct" v-if="loggedUser && loggedUser.isAdmin">
         <button class="btn buttonGreen-outline" @click="openCreateModal">Create New Product</button>
       </div>
+      <!--
       <div class="form-group">
         <label for="filterPrdCty">By Category:</label>
         <select
@@ -21,7 +22,17 @@
             v-bind:value="category.productCategory"
           >{{category.productCategory}}</option>
         </select>
-      </div>
+      </div> -->
+      <div class="form-group">
+        <label for="filtro">By Category:</label>
+        <select class="form-control" id="filtro">
+          <option
+            v-for="forniture in fornitures" v-bind:key="forniture">
+            {{forniture.forniture.categories}}
+          </option>
+        </select>
+      </div> 
+      <!--
       <div class="form-group">
         <label for="filterPrdSlr">By Seller:</label>
         <select
@@ -36,7 +47,7 @@
             v-bind:value="seller.productSeller"
           >{{seller.productSeller}}</option>
         </select>
-      </div>
+      </div> -->
       <ul class="list-group">
         <li class="list-group-item">Cras justo odio</li>
         <li class="list-group-item">Dapibus ac facilisis in</li>
@@ -50,6 +61,42 @@
 </template>
 
 <script>
+  
+  import FornitureComponet from '../FornitureComponent'
+  export default {
+    components: {
+      FornitureComponet
+      },
+      data(){
+            return{
+                fornitures: [
+                    {forniture: {
+                        name:'Juego de Comedor',
+                        categories:'Sala',
+                        imgurl:'testurl'
+                    }},
+                    {forniture: {
+                        name:'test2',
+                        categories:'Oficina',
+                        imgurl:'testurl'
+                    }},
+                    {forniture: {
+                        name:'test2',
+                        categories:'Cama',
+                        imgurl:'testurl'
+                    }},
+                    {forniture: {
+                        name:'test2',
+                        categories:'Escritorio',
+                        imgurl:'testurl'
+                    }}
+
+                ]
+            }
+      }
+  }
+
+/*
 import CreateProduct from "../actions/CreateProduct";
 import { mapState } from "vuex";
 export default {
@@ -61,7 +108,7 @@ export default {
     return {
       selectedCategory: "All",
       selectedSeller: "All",
-      showCreateProductModal: false
+      showCreateProductModal: false,
     };
   },
   methods: {
@@ -75,7 +122,8 @@ export default {
       this.$refs.createProduct.showModalForm();
     }
   }
-};
+};*/
+
 </script>
 
 <style lang="scss">
@@ -84,4 +132,5 @@ export default {
     text-align: start !important;
   }
 }
+
 </style>
