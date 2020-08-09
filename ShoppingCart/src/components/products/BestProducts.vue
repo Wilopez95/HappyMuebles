@@ -10,10 +10,11 @@
                 class="card-img-top mt-2"
                 v-bind:src="forniture.item.productImage"
                 alt="Card image cap"
-                style="max-height: 700px; max-width: 127.135px;margin: auto"
+                style="max-height: 500px; max-width: 117.135px;margin: auto"
               >
               <div class="card-body">
-                <h6 class="card-text">{{forniture.item.productName}}.</h6>
+                <h5 class="card-text">{{forniture.item.productName}}.</h5>
+                <h6 class="card-text">${{forniture.item.productPrice}}.</h6>
                 <p class="card-text">{{forniture.item.productDescription}}.</p>
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="btn-group">
@@ -135,6 +136,7 @@ export default {
   created() {
     this.getBestProducts();
   }*/
+
 }
 </script>
 
