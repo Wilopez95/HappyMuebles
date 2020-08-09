@@ -547,8 +547,47 @@ BEGIN
 	RETURN
 END
 GO
-EXEC AgregarALineaFactura 36,'Arroz',100
-SELECT * FROM LineaFactura 
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE VerMetodosDePago
+	@Metodos nvarchar(50) OUTPUT
+AS
+BEGIN
+	BEGIN TRY
+		SELECT @Metodos=MP.Detalle FROM MetodoPago MP
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE VerSucursales
+	@Sucursales nvarchar(50) OUTPUT
+AS
+BEGIN
+	BEGIN TRY
+		SELECT @Sucursales=S.NumeroSucursal FROM Sucursal S
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE VerProducto
+AS
+BEGIN
+	BEGIN TRY
+		SELECT P.Detalle, P.Precio FROM Producto P
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
 --------------------------------------------------------------------------------------------------
 
 
