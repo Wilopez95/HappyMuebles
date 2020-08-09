@@ -39,7 +39,9 @@ CREATE TABLE TipoProducto(
 CREATE TABLE Producto(
 	pkProducto int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	fkTipoProducto int NOT NULL FOREIGN KEY REFERENCES TipoProducto(pkTipoProducto),
-	Detalle nvarchar(30) NOT NULL,
+	Nombre nvarchar(50) NOT NULL,
+	Descripcion nvarchar(30) NOT NULL,
+	Precio money NOT NULL,
 	Foto nvarchar(Max)
 );
 
@@ -113,22 +115,9 @@ CREATE TABLE CuentaCliente(
 	RecibirInfo bit
 );
 
-CREATE TABLE LineaFactura(
-	pkLineaFactura int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	Cantidad int NOT NULL,
-	Detalle nvarchar(50) NOT NULL,
-	Monto money NOT NULL
-)
-
 CREATE TABLE MetodoPago(
 	pkMetodoPago int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	Detalle nvarchar(50) NOT NULL
-)
-
-CREATE TABLE Factura(
-	pkFactura int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkLineaFactura int NOT NULL FOREIGN KEY REFERENCES LineaFactura(pkLineaFactura),
-	fkMetodoPago int NOT NULL FOREIGN KEY REFERENCES MetodoPago(pkMetodoPago),
 )
 
 CREATE TABLE EstadoCompra(
@@ -138,10 +127,24 @@ CREATE TABLE EstadoCompra(
 
 CREATE TABLE Compra(
 	pkCompra int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkFactura int NOT NULL FOREIGN KEY REFERENCES Factura(pkFactura),
 	fkEstadoCompra int NOT NULL FOREIGN KEY REFERENCES EstadoCompra(pkEstadoCompra),
 	FechaCompra date NOT NULL
 );
+
+CREATE TABLE Factura(
+	pkFactura int NOT NULL PRIMARY KEY IDENTITY(1,1),
+	fkMetodoPago int NOT NULL FOREIGN KEY REFERENCES MetodoPago(pkMetodoPago),
+	fkCompra int NOT NULL FOREIGN KEY REFERENCES Compra(pkCompra),
+	MontoTotal money NOT NULL
+)
+
+CREATE TABLE LineaFactura(
+	pkLineaFactura int NOT NULL PRIMARY KEY IDENTITY(1,1),
+	fkFactura int NOT NULL FOREIGN KEY REFERENCES Factura(pkFactura),
+	Cantidad int NOT NULL,
+	Detalle nvarchar(50) NOT NULL,
+	Monto nvarchar(50) NOT NULL
+)
 
 CREATE TABLE ListaCompra(
 	pkListaCompra int NOT NULL PRIMARY KEY IDENTITY(1,1),
