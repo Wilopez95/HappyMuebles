@@ -80,14 +80,12 @@ export default {
         this.product_duplicate = filteredData;
       } else {
         filteredData = productList;
-
         this.product_duplicate = filteredData;
       }
     }
   },
-
-  created() {
-    this.getAllProducts();
+  created () {
+    this.getAllProducts()
   }
 }
 </script>

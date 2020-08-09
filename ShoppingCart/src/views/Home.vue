@@ -20,7 +20,6 @@
         <li class="breadcrumb-item active" aria-current="page">Nuestros mejores productos</li>
         <li class="ml-auto" aria-current="page"><router-link to="/products">Mostrar todo</router-link></li>
       </ol>
-      
     </nav>
     <BestProducts></BestProducts>
     <!--
@@ -36,13 +35,13 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+//import HelloWorld from "@/components/HelloWorld.vue";
 import BestProducts from "@/components/products/BestProducts.vue";
 import TopProducts from "@/components/products/TopProducts.vue";
 export default {
   name: "home",
   components: {
-    HelloWorld,
+    //HelloWorld,
     BestProducts,
     TopProducts
   }

@@ -10,7 +10,7 @@
                 class="card-img-top mt-2"
                 v-bind:src="forniture.item.productImage"
                 alt="Card image cap"
-                style="max-height: 500px; max-width: 117.135px;margin: auto"
+                style="max-height: 700px; max-width: 130px;margin: auto"
               >
               <div class="card-body">
                 <h5 class="card-text">{{forniture.item.productName}}.</h5>
@@ -21,7 +21,7 @@
                     <button
                       type="button"
                       class="btn btn-sm btn-outline-secondary"
-                      v-on:click="navigateProductDetail(item)"
+                      v-on:click="navigateProductDetail(forniture.item)"
                     >View</button>
                     
                     <button
@@ -109,6 +109,14 @@ export default {
       loading: true
     };
   },
+  methods:{
+    navigateProductDetail(product) {
+      this.$router.push({
+        name: "productDetails",
+        params: { id: 2 }
+      });
+    },
+  }
   /*
   methods: {
     //manadatory function called from cardTemplate
