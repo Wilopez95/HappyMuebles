@@ -589,9 +589,60 @@ BEGIN
 END
 GO
 --------------------------------------------------------------------------------------------------
+CREATE PROCEDURE VerProductosXTipoProducto
+	@idTipoProducto int
+AS
+BEGIN
+	BEGIN TRY
+		SELECT P.Detalle, P.Precio FROM Producto P 
+		INNER JOIN TipoProducto TP ON P.fkTipoProducto = TP.pkTipoProducto 
+		WHERE TP.pkTipoProducto = @idTipoProducto
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
 
-
-
+CREATE PROCEDURE ConfirmarStock
+	@idProducto int,
+	@idSucursal int,
+	@Cantidad int,
+	@Resultado bit OUTPUT
+AS
+BEGIN
+	BEGIN TRY
+		IF @Cantidad > (SELECT St.Cantidad FROM Stock St WHERE St.fkProducto = @idProducto AND St.fkSucursal = @idSucursal)
+			BEGIN
+				SELECT @Resultado = 0
+			END
+		ELSE
+			SELECT @Resultado = 1
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE ProductosRandom
+AS
+BEGIN
+	BEGIN TRY
+		SELECT  P.pkProducto, P.Nombre, P.Descripcion, P.Precio, TP.pkTipoProducto, TP.Detalle from Producto P
+		INNER JOIN TipoProducto TP ON P.fkTipoProducto = TP.pkTipoProducto
+		WHERE pkProducto in 
+		(select top 12 pkProducto from Producto order by newid())
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
 --------------------------------------------------------------------------------------------------
 ---Pruebas
 --------------------------------------------------------------------------------------------------

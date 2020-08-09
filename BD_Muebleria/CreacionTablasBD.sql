@@ -39,7 +39,8 @@ CREATE TABLE TipoProducto(
 CREATE TABLE Producto(
 	pkProducto int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	fkTipoProducto int NOT NULL FOREIGN KEY REFERENCES TipoProducto(pkTipoProducto),
-	Detalle nvarchar(30) NOT NULL,
+	Nombre nvarchar(50) NOT NULL,
+	Descripcion nvarchar(30) NOT NULL,
 	Precio money NOT NULL,
 	Foto nvarchar(Max)
 );
