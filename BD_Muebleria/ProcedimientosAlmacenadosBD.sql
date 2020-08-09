@@ -142,7 +142,7 @@ BEGIN
 
 	BEGIN TRY
 
-	  SELECT pkProducto,fkTipoProducto,Detalle
+	  SELECT pkProducto,fkTipoProducto,Descripcion
 	  FROM Producto
 	  ORDER BY pkProducto ASC OFFSET @LimInferior ROWS FETCH NEXT @CantRegistros ROWS ONLY; 
 
@@ -170,7 +170,7 @@ BEGIN
 
 		IF(@ValidarCategoria>0)
 			BEGIN
-				SELECT P.Detalle,P.Foto,S.Cantidad,S.Cantidad,S.fkSucursal
+				SELECT P.Descripcion,P.Foto,S.Cantidad,S.Cantidad,S.fkSucursal
 				FROM Producto P JOIN Stock S ON P.pkProducto = S.fkProducto  
 				WHERE P.fkTipoProducto = @Categoria
 
@@ -534,12 +534,12 @@ GO
 --------------------------------------------------------------------------------------------------
 CREATE PROCEDURE AgregarALineaFactura
 	@idFactura int,
-	@Detalle nvarchar(50),
+	@Descripcion nvarchar(50),
 	@Monto  nvarchar(50)
 AS
 BEGIN
 	BEGIN TRY
-		INSERT INTO LineaFactura(fkFactura, Cantidad, Detalle, Monto) values (@idFactura, 1, @Detalle, @Monto);
+		INSERT INTO LineaFactura(fkFactura, Cantidad, Descripcion, Monto) values (@idFactura, 1, @Descripcion, @Monto);
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -580,7 +580,7 @@ CREATE PROCEDURE VerProducto
 AS
 BEGIN
 	BEGIN TRY
-		SELECT P.Detalle, P.Precio FROM Producto P
+		SELECT P.Descripcion, P.Precio FROM Producto P
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -594,7 +594,7 @@ CREATE PROCEDURE VerProductosXTipoProducto
 AS
 BEGIN
 	BEGIN TRY
-		SELECT P.Detalle, P.Precio FROM Producto P 
+		SELECT P.Descripcion, P.Precio FROM Producto P 
 		INNER JOIN TipoProducto TP ON P.fkTipoProducto = TP.pkTipoProducto 
 		WHERE TP.pkTipoProducto = @idTipoProducto
 	END TRY
