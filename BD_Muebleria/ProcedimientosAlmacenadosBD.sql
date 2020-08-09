@@ -483,7 +483,79 @@ BEGIN
 	RETURN
 END
 GO
+--------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE GenerarCompra
+	@idEstadoCompra int
+AS
+BEGIN
+	BEGIN TRY
+		INSERT INTO Compra (fkEstadoCompra, FechaCompra) values (@idEstadoCompra, GETDATE());
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE AgregarAListaCompra
+	@idProducto int,
+	@idCompra int,
+	@Cantidad int
+AS
+BEGIN
+	BEGIN TRY
+		INSERT INTO ListaCompra(fkProducto, fkCompra, Cantidad) values (@idProducto, @idCompra, @Cantidad);
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE GenerarFactura
+	@idMetodoPago int,
+	@idCompra int,
+	@MontoTotal money
+AS
+BEGIN
+	BEGIN TRY
+		INSERT INTO Factura(fkMetodoPago, fkCompra, MontoTotal) values (@idMetodoPago, @idCompra, @MontoTotal);
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------------
+CREATE PROCEDURE AgregarALineaFactura
+	@idFactura int,
+	@Detalle nvarchar(50),
+	@Monto  nvarchar(50)
+AS
+BEGIN
+	BEGIN TRY
+		INSERT INTO LineaFactura(fkFactura, Cantidad, Detalle, Monto) values (@idFactura, 1, @Detalle, @Monto);
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+EXEC AgregarALineaFactura 36,'Arroz',100
+SELECT * FROM LineaFactura 
+--------------------------------------------------------------------------------------------------
 
+
+
+--------------------------------------------------------------------------------------------------
+---Pruebas
+--------------------------------------------------------------------------------------------------
 --execute ConsultarTallerMasCercano @NumeroSucursal=1;
 
 --execute ConsultarSucursalMasCercana @pkCliente=1;
