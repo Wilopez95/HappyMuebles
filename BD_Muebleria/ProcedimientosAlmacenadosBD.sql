@@ -549,11 +549,10 @@ END
 GO
 --------------------------------------------------------------------------------------------------
 CREATE PROCEDURE VerMetodosDePago
-	@Metodos nvarchar(50) OUTPUT
 AS
 BEGIN
 	BEGIN TRY
-		SELECT @Metodos=MP.Detalle FROM MetodoPago MP
+		SELECT MP.Detalle FROM MetodoPago MP
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -561,13 +560,13 @@ BEGIN
 	RETURN
 END
 GO
+--EXEC verMetodosDePago
 --------------------------------------------------------------------------------------------------
 CREATE PROCEDURE VerSucursales
-	@Sucursales nvarchar(50) OUTPUT
 AS
 BEGIN
 	BEGIN TRY
-		SELECT @Sucursales=S.NumeroSucursal FROM Sucursal S
+		SELECT S.NumeroSucursal FROM Sucursal S
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -575,6 +574,7 @@ BEGIN
 	RETURN
 END
 GO
+--EXEC verSucursales
 --------------------------------------------------------------------------------------------------
 CREATE PROCEDURE VerProducto
 AS
@@ -605,21 +605,21 @@ BEGIN
 END
 GO
 --------------------------------------------------------------------------------------------------
-
 CREATE PROCEDURE ConfirmarStock
 	@idProducto int,
 	@idSucursal int,
-	@Cantidad int,
-	@Resultado bit OUTPUT
+	@Cantidad int
 AS
 BEGIN
 	BEGIN TRY
 		IF @Cantidad > (SELECT St.Cantidad FROM Stock St WHERE St.fkProducto = @idProducto AND St.fkSucursal = @idSucursal)
 			BEGIN
-				SELECT @Resultado = 0
+				SELECT 0
 			END
 		ELSE
-			SELECT @Resultado = 1
+			BEGIN
+				SELECT 1
+			END
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -628,7 +628,7 @@ BEGIN
 END
 GO
 --------------------------------------------------------------------------------------------------
-CREATE PROCEDURE ProductosRandom
+CREATE PROCEDURE ObtenerProductosRandom
 AS
 BEGIN
 	BEGIN TRY
@@ -643,6 +643,7 @@ BEGIN
 	RETURN
 END
 GO
+--EXEC ObtenerProductosRandom
 --------------------------------------------------------------------------------------------------
 ---Pruebas
 --------------------------------------------------------------------------------------------------
