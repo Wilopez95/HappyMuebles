@@ -534,12 +534,12 @@ GO
 --------------------------------------------------------------------------------------------------
 CREATE PROCEDURE AgregarALineaFactura
 	@idFactura int,
-	@Descripcion nvarchar(50),
+	@Detalle nvarchar(50),
 	@Monto  nvarchar(50)
 AS
 BEGIN
 	BEGIN TRY
-		INSERT INTO LineaFactura(fkFactura, Cantidad, Descripcion, Monto) values (@idFactura, 1, @Descripcion, @Monto);
+		INSERT INTO LineaFactura(fkFactura, Cantidad, Detalle, Monto) values (@idFactura, 1, @Detalle, @Monto);
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
