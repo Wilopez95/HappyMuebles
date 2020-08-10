@@ -113,7 +113,7 @@ export default {
     navigateProductDetail(product) {
       this.$router.push({
         name: "productDetails",
-        params: { id: 2 }
+        params: { id: product._id }
       });
     },
   }
