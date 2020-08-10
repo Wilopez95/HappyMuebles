@@ -142,8 +142,8 @@ BEGIN
 
 	BEGIN TRY
 
-	  SELECT pkProducto,fkTipoProducto,Descripcion
-	  FROM Producto
+	  SELECT P.pkProducto, P.Nombre, P.fkTipoProducto, P.Descripcion, P.Foto, TP.pkTipoProducto, TP.Detalle
+	  FROM Producto P INNER JOIN TipoProducto TP ON P.fkTipoProducto = TP.pkTipoProducto
 	  ORDER BY pkProducto ASC OFFSET @LimInferior ROWS FETCH NEXT @CantRegistros ROWS ONLY; 
 
 	END TRY
@@ -170,7 +170,7 @@ BEGIN
 
 		IF(@ValidarCategoria>0)
 			BEGIN
-				SELECT P.Descripcion,P.Foto,S.Cantidad,S.Cantidad,S.fkSucursal
+				SELECT P.Nombre, P.Descripcion,P.Foto,S.Cantidad,S.Cantidad,S.fkSucursal
 				FROM Producto P JOIN Stock S ON P.pkProducto = S.fkProducto  
 				WHERE P.fkTipoProducto = @Categoria
 
@@ -581,7 +581,8 @@ CREATE PROCEDURE VerProducto
 AS
 BEGIN
 	BEGIN TRY
-		SELECT P.Descripcion, P.Precio FROM Producto P
+		SELECT P.pkProducto, P.Nombre, P.Descripcion, P.Foto, P.Precio, TP.pkTipoProducto, TP.Detalle from Producto P
+		INNER JOIN TipoProducto TP ON P.fkTipoProducto = TP.pkTipoProducto
 		WHERE P.pkProducto = @idProducto
 	END TRY
 	BEGIN CATCH
@@ -596,7 +597,7 @@ CREATE PROCEDURE VerProductosXTipoProducto
 AS
 BEGIN
 	BEGIN TRY
-		SELECT P.Descripcion, P.Precio FROM Producto P 
+		SELECT P.pkProducto, P.Nombre, P.Descripcion, P.Foto, P.Precio, TP.pkTipoProducto, TP.Detalle from Producto P
 		INNER JOIN TipoProducto TP ON P.fkTipoProducto = TP.pkTipoProducto 
 		WHERE TP.pkTipoProducto = @idTipoProducto
 	END TRY
