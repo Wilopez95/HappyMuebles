@@ -170,7 +170,7 @@ BEGIN
 
 		IF(@ValidarCategoria>0)
 			BEGIN
-				SELECT P.Detalle,P.Foto,S.Cantidad,S.Cantidad,S.fkSucursal
+				SELECT P.Descripcion,P.Foto,S.Cantidad,S.Cantidad,S.fkSucursal
 				FROM Producto P JOIN Stock S ON P.pkProducto = S.fkProducto  
 				WHERE P.fkTipoProducto = @Categoria
 
@@ -577,10 +577,11 @@ GO
 --EXEC verSucursales
 --------------------------------------------------------------------------------------------------
 CREATE PROCEDURE VerProducto
+	@idProducto int
 AS
 BEGIN
 	BEGIN TRY
-		SELECT P.Detalle, P.Precio FROM Producto P
+		SELECT P.Nombre, P.Detalle, P.Precio FROM Producto P WHERE P.pkProducto = @idProducto
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -632,7 +633,7 @@ CREATE PROCEDURE ObtenerProductosRandom
 AS
 BEGIN
 	BEGIN TRY
-		SELECT  P.pkProducto, P.Nombre, P.Descripcion, P.Precio, TP.pkTipoProducto, TP.Detalle from Producto P
+		SELECT  P.pkProducto, P.Nombre, P.Descripcion, P.Foto, P.Precio, TP.pkTipoProducto, TP.Detalle from Producto P
 		INNER JOIN TipoProducto TP ON P.fkTipoProducto = TP.pkTipoProducto
 		WHERE pkProducto in 
 		(select top 12 pkProducto from Producto order by newid())

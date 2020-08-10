@@ -9,4 +9,7 @@ module.exports = function(router){
 
     router.route('/fornitures/category/:category')
         .get(fornitureRepository.getCategory)
+
+    router.route('/fornitures')
+    .get(fornitureRepository.getRandom)
 }

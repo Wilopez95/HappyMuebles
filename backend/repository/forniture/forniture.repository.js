@@ -31,11 +31,23 @@ function FornitureRepository(dbContext){
             
         }
     }
+    function getFornituresRandom(req,res){
+        if(req,res){
+            var parameters =[];
+            var query = "execute ObtenerProductosRandom"
+
+            dbContext.getQuery(query, parameters, false, function (error, data) {
+                return res.json(response(data, error));
+            });
+            
+        }
+    }
 
 
     return {
         getPage: getFornitures,
-        getCategory: getFornituresCategory
+        getCategory: getFornituresCategory,
+        getRandom: getFornituresRandom
     }
 
 }
