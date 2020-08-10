@@ -17,7 +17,7 @@ export default class Login extends Component {
                         <input type="text" class="form-control" name="username" placeholder="Username" required="required"/>			
                     </div>
                     <duv className="form-group">
-                        <input type="password" class="form-control" name="password" placeholder="Password" required="required"/>
+                        <input type="password" className="form-control" name="password" placeholder="Password" required="required"/>
                     </duv>
                    <form onSubmit={this.onSubmit}>
                         <button type="submit" className="btn btn-dark">
