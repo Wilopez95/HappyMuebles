@@ -17,12 +17,7 @@ class FornitureVie extends Component {
     }
 
     añadirCarrito = async e =>{
-        e.preventDefault();
-        const res = await axios.post('http://localhost:3300/api/purchase/addShoppingList/add',{
-            cantidad: 1,//deberia agregarse uno
-            compra:2,// no se como acceder al id de la compra
-            producto:2 //no se como obtener el id del producto que se está viendo
-        });
+   
     }
 
     render() {
