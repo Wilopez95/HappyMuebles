@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../Styles/FornitureView.css';
+import Axios from 'axios';
 
 
 
@@ -15,7 +16,14 @@ class FornitureVie extends Component {
 
     }
 
-
+    añadirCarrito = async e =>{
+        e.preventDefault();
+        const res = await axios.post('http://localhost:3300/api/purchase/addShoppingList/add',{
+            cantidad: 1,//deberia agregarse uno
+            compra:2,// no se como acceder al id de la compra
+            producto:2 //no se como obtener el id del producto que se está viendo
+        });
+    }
 
     render() {
         return (
@@ -26,8 +34,8 @@ class FornitureVie extends Component {
                     <p className="text-center">{this.props.prod.description}</p>
                     <p className="text-center">{this.props.prod.price}₡</p>
                     <div className="row">
-                        <div className="col-sm text-center">                         
-                            <button className="btn btn-dark">Añadir al carrito</button>
+                        <div onSubmit={this.añadirCarrito} className="col-sm text-center">                         
+                            <button type="submit" className="btn btn-dark">Añadir al carrito</button>
                         </div>
                         <div className="col-sm text-center">
                             <button className="btn btn-dark" onClick={this.dispose}>Cerrar</button>

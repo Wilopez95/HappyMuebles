@@ -9,6 +9,7 @@ import Fornitures from './components/FornituresHomeList'
 import Login from './components/Login'
 import RegisterAcc from './components/RegisterAccount'
 import Footer from './components/Footer'
+import addToCart from './components/addToCart'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/login" component={Login} />
         <Route path="/register" component={RegisterAcc} />
         <Route path="/updateacc/:id" component={RegisterAcc} />
+        <Route path="/cart" component={addToCart}/>
       </div>
       <Footer/>
     </Router>
