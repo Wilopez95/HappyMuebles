@@ -646,6 +646,38 @@ BEGIN
 	RETURN
 END
 GO
+----------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE RegistrarClienteCuenta
+	@Nombre varchar(40),
+	@FechaCumpleannos date,
+	@Ubicacion geometry,
+	@Email nvarchar(30),
+	@CPassword nvarchar(16),
+	@RecibirInfo bit
+AS
+BEGIN
+	DECLARE @fkCliente int 
+
+	BEGIN TRY
+		INSERT INTO Cliente(Nombre,FechaCumpleannos,Ubicacion)
+		VALUES (@Nombre,@FechaCumpleannos,@Ubicacion)
+
+
+	  SELECT TOP (1) @fkCliente=C.pkCliente
+	  FROM Cliente C
+	  order by pkCliente desc
+
+	  INSERT INTO CuentaCliente(fkCliente,Email,CPassword,RecibirInfo)
+	  VALUES(@fkCliente,@Email,@CPassword,@RecibirInfo)
+
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
 --EXEC ObtenerProductosRandom
 --------------------------------------------------------------------------------------------------
 ---Pruebas
