@@ -14,7 +14,7 @@ export default class Login extends Component {
                <div className="card card-body">
                    <h4 className="text-center">Iniciar sesion</h4>
                     <div className="form-group">
-                        <input type="text" class="form-control" name="username" placeholder="Username" required="required"/>			
+                        <input type="text" className="form-control" name="username" placeholder="Username" required="required"/>			
                     </div>
                     <div className="form-group">
                         <input type="password" className="form-control" name="password" placeholder="Password" required="required"/>
