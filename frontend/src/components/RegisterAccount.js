@@ -79,13 +79,13 @@ export default class RegisterAccount extends Component {
     onSubmit =  async e => {
         e.preventDefault();
         const res = await axios.post('http://localhost:3300/api/account/register/cliente',{
-            email : this.state.email,
-            password : this.state.password,
-            info : this.setState.info,
-            name : this.state.username,
-            birthdate : this.state.fechaProvisional,
-            location : this.state.ubicacion
-        });
+            email: this.state.email,
+            password:this.state.password,
+            info:"1",
+            name: this.state.username,
+            birthdate: this.state.fechaProvisional,
+            location: this.state.ubicacion
+        })
         console.log(res)
     }
 
