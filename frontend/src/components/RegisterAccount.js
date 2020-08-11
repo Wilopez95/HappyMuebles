@@ -85,6 +85,7 @@ export default class RegisterAccount extends Component {
             name: this.state.username,
             birthdate: this.state.fechaProvisional,
             location: this.state.ubicacion
+            
         })
         console.log(res)
     }
