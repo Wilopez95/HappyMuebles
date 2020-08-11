@@ -41,7 +41,34 @@ export default class FornituresHomeList extends Component {
 
     render() {
         return (
-            <div>
+        
+        <div className="row">
+            <div className="col-md-4">
+                <div className="card card-body">
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                            <h4 className="text-center">Filtros por Categoria</h4>
+                        </div>
+                        <div className="form-group">
+                            <select value={this.state.value} onChange={this.handleChange}>
+                                <option value="grapefruit">Grapefruit</option>
+                                <option value="lime">Lime</option>
+                                <option value="coconut">Coconut</option>
+                                <option value="mango">Mango</option>
+                            </select>
+                        </div>
+                        <div className="row">
+                            <div className="col text-center">
+                                <button type="submit" className="btn btn-primary">
+                                    Filtrar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-8">
+            <div class="card-body">
                 <div>
                     {this.state.seen ? <FornitureVie toggle={this.viewMore} prod={this.state.product}/> : null}
                 </div>
@@ -77,13 +104,10 @@ export default class FornituresHomeList extends Component {
                             </div>
                         ))
                     }
-
                 </div>
-
             </div>
-
+            </div>
+        </div>
         )
     }
 }
-
-

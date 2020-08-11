@@ -27,7 +27,7 @@ class FornitureVie extends Component {
                     <h1 className="text-center">{this.props.prod.name}</h1>
                     <img src={this.props.prod.image} className="rounded mx-auto d-block img-sizes" alt=""></img>
                     <p className="text-center">{this.props.prod.description}</p>
-                    <p className="text-center">{this.props.prod.price}₡</p>
+                    <p className="text-center">₡{this.props.prod.price}</p>
                     <div className="row">
                         <div onSubmit={this.añadirCarrito} className="col-sm text-center">                         
                             <button type="submit" className="btn btn-dark">Añadir al carrito</button>
