@@ -163,7 +163,7 @@ CREATE TABLE EvaluacionCompra(
 );
 
 CREATE TABLE ComisionXCompra(
-	pkComisionxVenta int NOT NULL PRIMARY KEY IDENTITY(1,1),
+	pkComisionxCompra int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	fkEmpleado int NOT NULL FOREIGN KEY REFERENCES Empleado(pkEmpleado),
 	fkCompra int NOT NULL FOREIGN KEY REFERENCES Compra(pkCompra),
 	Comision int NOT NULL
