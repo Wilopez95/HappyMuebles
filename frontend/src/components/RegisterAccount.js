@@ -7,10 +7,12 @@ export default class RegisterAccount extends Component {
     state = {
         startDate: new Date(),
         isChecked: false,
+        info : '',
         username: '',
         email: '',
         password: '',
-        ubicacion: ''
+        ubicacion: '',
+        fechaProvisional: ''
 
 
       };
@@ -21,6 +23,7 @@ export default class RegisterAccount extends Component {
         this.setState({
           startDate: date,
         });
+        console.log()
       };
 
       
@@ -37,28 +40,53 @@ export default class RegisterAccount extends Component {
 
     onChangeUsername = (e) => {
         this.setState({
-            username: e.target.value
+            username: e.target.value,
         })
+        console.log(e.target.value)
     }
     onChangeEmail= (e) => {
         this.setState({
             email: e.target.value
         })
+        console.log(e.target.value)
     }
     onChangePassword= (e) => {
         this.setState({
             password: e.target.value
         })
+        console.log(e.target.value)
     }
     onChangeUbicacion= (e) => {
         this.setState({
             ubicacion: e.target.value
         })
+        console.log(e.target.value)
+    }
+    onChangeFecha = (e) => {
+        this.setState({
+            fechaProvisional: e.target.value
+        })
+        console.log(e.target.value)
+    }
+    onChangeInfo = (e) => {
+        this.setState({
+            info: e.target.value
+        })
+        console.log(e.target.value)
     }
 
+
     onSubmit =  async e => {
-        await axios.post
         e.preventDefault();
+        const res = await axios.post('http://localhost:3300/api/account/register/cliente',{
+            email : this.state.email,
+            password : this.state.password,
+            info : this.setState.info,
+            name : this.state.username,
+            birthdate : this.state.fechaProvisional,
+            location : this.state.ubicacion
+        });
+        console.log(res)
     }
 
     render() {
@@ -70,7 +98,7 @@ export default class RegisterAccount extends Component {
                     <div className="form-group">
                         <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             name="username"
                             placeholder="Nombre Usuario"
                             required="required"
@@ -121,6 +149,26 @@ export default class RegisterAccount extends Component {
                             placeholder="Ubicacion Cliente"
                             required="required"
                             onChange = {this.onChangeUbicacion}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="ubicacion"
+                            placeholder="fecha"
+                            required="required"
+                            onChange = {this.onChangeFecha}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="ubicacion"
+                            placeholder="Enviar info"
+                            required="required"
+                            onChange = {this.onChangeInfo}
                         />
                     </div>
                     <button type="submit" className="btn btn-primary">
