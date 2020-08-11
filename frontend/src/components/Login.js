@@ -16,9 +16,9 @@ export default class Login extends Component {
                     <div className="form-group">
                         <input type="text" class="form-control" name="username" placeholder="Username" required="required"/>			
                     </div>
-                    <duv className="form-group">
+                    <div className="form-group">
                         <input type="password" className="form-control" name="password" placeholder="Password" required="required"/>
-                    </duv>
+                    </div>
                    <form onSubmit={this.onSubmit}>
                         <button type="submit" className="btn btn-dark">
                             Acceder
@@ -28,7 +28,7 @@ export default class Login extends Component {
                </div>
                <div className="modal-footer">
 				        ¿Nuevo en Happy Muebles? 
-                        <Link to="/">
+                        <Link to="/register">
                         Registrate
                         </Link>
 			    </div>  
