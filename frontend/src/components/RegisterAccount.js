@@ -37,28 +37,40 @@ export default class RegisterAccount extends Component {
 
     onChangeUsername = (e) => {
         this.setState({
-            username: e.target.value
+            username: e.target.value,
         })
+        console.log(e.target.value)
     }
     onChangeEmail= (e) => {
         this.setState({
             email: e.target.value
         })
+        console.log(e.target.value)
     }
     onChangePassword= (e) => {
         this.setState({
             password: e.target.value
         })
+        console.log(e.target.value)
     }
     onChangeUbicacion= (e) => {
         this.setState({
             ubicacion: e.target.value
         })
+        console.log(e.target.value)
     }
 
     onSubmit =  async e => {
-        await axios.post
         e.preventDefault();
+        const res = await axios.post('http://localhost:3300/api/account/register/cliente',{
+            email : this.state.email,
+            password : this.state.password,
+            info : this.setState.isChecked,
+            name : this.state.username,
+            birthdate : this.state.startDate,
+            location : this.state.ubicacion
+        });
+        console.log(res)
     }
 
     render() {
@@ -70,7 +82,7 @@ export default class RegisterAccount extends Component {
                     <div className="form-group">
                         <input
                             type="text"
-                            class="form-control"
+                            className="form-control"
                             name="username"
                             placeholder="Nombre Usuario"
                             required="required"
