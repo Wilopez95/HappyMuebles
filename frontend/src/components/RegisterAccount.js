@@ -1,11 +1,18 @@
 import React, { Component } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import axios from 'axios'
 
 export default class RegisterAccount extends Component {
     state = {
         startDate: new Date(),
-        isChecked: false
+        isChecked: false,
+        username: '',
+        email: '',
+        password: '',
+        ubicacion: ''
+
+
       };
 
       handleChecked = this.handleChecked.bind(this);
@@ -22,42 +29,101 @@ export default class RegisterAccount extends Component {
         this.setState({isChecked: !this.state.isChecked});
       }
     
+    async componentDidMount() {
+        const res = await axios.get('http://localhost:3300/api/fornitures/');
+        this.setState({ fornitures: res.data });
+    }
+
+
+    onChangeUsername = (e) => {
+        this.setState({
+            username: e.target.value
+        })
+    }
+    onChangeEmail= (e) => {
+        this.setState({
+            email: e.target.value
+        })
+    }
+    onChangePassword= (e) => {
+        this.setState({
+            password: e.target.value
+        })
+    }
+    onChangeUbicacion= (e) => {
+        this.setState({
+            ubicacion: e.target.value
+        })
+    }
+
+    onSubmit =  async e => {
+        await axios.post
+        e.preventDefault();
+    }
 
     render() {
         return (
             <div className="col-md-6 offset-md-3 mt-5 mb-5">
             <div className="card card-body">
                 <h4 className="text-center">Registrar Cliente</h4>
-                 <div className="form-group">
-                     <input type="text" class="form-control" name="username" placeholder="Nombre Usuario" required="required"/>			
-                 </div>
-                 <div className="form-group">
-                     <input type="text" className="form-control" name="email" placeholder="Email" required="required"/>
-                 </div>
-                 <div className="form-group">
-                     <input type="password" className="form-control" name="password" placeholder="Password" required="required"/>
-                 </div>
-                 <div className="form-group">
-                     <span>Fecha Cumpleaños: </span>
-                    <DatePicker
-                        selected={this.state.startDate}
-                        onChange={this.handleChange}
-                    />
-                 </div>
-                 <div className="form-group">
-                     <span>Recibir informacion: </span>
-                     <div>
-                        <input type="checkbox" 
-                        selected={this.state.isChecked}
-                        onChange={ this.handleChecked }
+                <form onSubmit = {this.onSubmit}>
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="username"
+                            placeholder="Nombre Usuario"
+                            required="required"
+                            onChange={this.onChangeUsername}
+                        />			
+                    </div>
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="email"
+                            placeholder="Email"
+                            required="required"
+                            onChange = {this.onChangeEmail}
                         />
                     </div>
-                 </div>
-                 <div className="form-group">
-                     <input type="text" className="form-control" name="ubicacion" placeholder="Ubicacion Cliente" required="required"/>
-                 </div>
-                <form>
-                     <button type="submit" className="btn btn-dark">
+                    <div className="form-group">
+                        <input
+                            type="password"
+                            className="form-control"
+                            name="password"
+                            placeholder="Password"
+                            required="required"
+                            onChange = {this.onChangePassword}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <span>Fecha Cumpleaños: </span>
+                        <DatePicker
+                            selected={this.state.startDate}
+                            onChange={this.handleChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <span>Recibir informacion: </span>
+                        <div>
+                            <input type="checkbox" 
+                            selected={this.state.isChecked}
+                            onChange={ this.handleChecked }
+                            />
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            className="form-control"
+                            name="ubicacion"
+                            placeholder="Ubicacion Cliente"
+                            required="required"
+                            onChange = {this.onChangeUbicacion}
+                        />
+                    </div>
+                    <button type="submit" className="btn btn-primary">
                          Registrar
                      </button>
                 </form>
