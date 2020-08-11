@@ -47,6 +47,7 @@ function AccountRepository(dbContext){
         });
     }
     function registerAccountCliente(req,res){
+        var parameters = [];
         parameters.push({ name: 'Email', type: TYPES.NVarChar, val: req.body.email });
         parameters.push({ name: 'CPassword', type: TYPES.NVarChar, val: req.body.password });
         parameters.push({ name: 'RecibirInfo', type: TYPES.VarChar, val: req.body.info});
