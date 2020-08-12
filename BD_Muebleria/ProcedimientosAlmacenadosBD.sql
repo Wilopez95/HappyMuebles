@@ -678,7 +678,134 @@ BEGIN
 	RETURN
 END
 GO
-------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE EliminarCliente
+	@pkCliente int
+AS
+BEGIN
+	DECLARE @CantCliente int
+
+	BEGIN TRY
+
+		SELECT  @CantCliente=COUNT(*) 
+		FROM Cliente C 
+		WHERE C.pkCliente = @pkCliente 
+	
+
+		IF(@CantCliente>0)
+			BEGIN
+				DELETE FROM Cliente
+				WHERE pkCliente = @pkCliente;
+			END
+		ELSE
+			BEGIN
+				raiserror('El idCliente ingresado no existe en la Base de datos',1,1)
+			END
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+----------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE EliminarCuentaCliente
+	@pkCliente int
+AS
+BEGIN
+	DECLARE @CantCliente int
+
+	BEGIN TRY
+
+		SELECT  @CantCliente=COUNT(*) 
+		FROM Cliente C 
+		WHERE C.pkCliente = @pkCliente 
+	
+
+		IF(@CantCliente>0)
+			BEGIN
+				DELETE FROM CuentaCliente
+				WHERE fkCliente = @pkCliente;
+			END
+		ELSE
+			BEGIN
+				raiserror('El idCliente ingresado no existe en la Base de datos',1,1)
+			END
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+----------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE EliminarEmpleado
+	@pkEmpleado int
+AS
+BEGIN
+	DECLARE @CantEmpleado int
+
+	BEGIN TRY
+
+		SELECT  @CantEmpleado=COUNT(*) 
+		FROM Empleado E 
+		WHERE E.pkEmpleado = @pkEmpleado 
+	
+
+		IF(@CantEmpleado>0)
+			BEGIN
+				DELETE FROM Empleado
+				WHERE pkEmpleado = @pkEmpleado;
+			END
+		ELSE
+			BEGIN
+				raiserror('El idCliente ingresado no existe en la Base de datos',1,1)
+			END
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+----------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE EliminarCuentaEmpleado
+	@pkEmpleado int
+AS
+BEGIN
+	DECLARE @CantEmpleado int
+
+	BEGIN TRY
+
+		SELECT  @CantEmpleado=COUNT(*) 
+		FROM Empleado E 
+		WHERE E.pkEmpleado = @pkEmpleado 
+	
+
+		IF(@CantEmpleado>0)
+			BEGIN
+				DELETE FROM Cuenta
+				WHERE fkEmpleado = @pkEmpleado;
+			END
+		ELSE
+			BEGIN
+				raiserror('El idCliente ingresado no existe en la Base de datos',1,1)
+			END
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+
+--exec EliminarCliente @pkCliente = 9
+
 CREATE PROCEDURE getProductoPrice
     @nombre VARCHAR(40)
 as 
@@ -687,6 +814,7 @@ BEGIN
     where Producto.Nombre = @nombre
 end
 go
+
 --EXEC ObtenerProductosRandom
 --------------------------------------------------------------------------------------------------
 ---Pruebas
