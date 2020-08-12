@@ -804,8 +804,7 @@ BEGIN
 END
 GO
 
---exec EliminarCliente @pkCliente = 9
-
+-----------------------------------------------------------------------------
 CREATE PROCEDURE getProductoPrice
     @nombre VARCHAR(40)
 as 
@@ -814,7 +813,80 @@ BEGIN
     where Producto.Nombre = @nombre
 end
 go
+---------------------------------------------------------------
+GO
+CREATE PROCEDURE ConsultarCumpleannos
+AS
+BEGIN
+	DECLARE @Date date
+	DECLARE @Month varchar(5)
+	DECLARE @CantCupones int
+	DECLARE @CantEmpleado int
+	DECLARE @idCliente int
+	DECLARE @idEmpleado int
+	DECLARE @randEmpleado int
 
+	SELECT @Date = GETDATE() 
+	SELECT @Month = FORMAT(GETDATE(),'MM');
+
+
+	BEGIN TRY
+
+		DECLARE @Total_Cumples TABLE(id int identity(1,1),pkCliente int,Nombre varchar(40),FechaCumpleanos date,Ubicacion geometry)
+		DECLARE @servicio_Cliente TABLE(id int identity(1,1),pkEmpleado int)
+		
+		INSERT INTO @Total_Cumples
+		SELECT Cq.pkCliente,Cq.Nombre,Cq.FechaCumpleannos,Cq.Ubicacion
+		FROM Cliente Cq
+		WHERE FORMAT(Cq.FechaCumpleannos,'MM') = @Month
+
+		INSERT INTO @servicio_Cliente
+		SELECT E.pkEmpleado
+		FROM Empleado E
+		WHERE E.fkTipoEmpleado = 4
+
+		SELECT @CantEmpleado = COUNT(*)
+		FROM @servicio_Cliente
+		
+		
+
+		SELECT @CantCupones = COUNT(*) 
+		FROM @Total_Cumples 
+
+
+		WHILE(@CantCupones > 0)
+		BEGIN
+			
+			SELECT @idCliente=t.pkCliente
+			FROM @Total_Cumples t
+			WHERE id = @CantCupones 
+
+			INSERT INTO OPENQUERY(MYSQLVINCULADO,'SELECT fkCliente,fkCupon FROM cuponxcliente')
+			VALUES (@idCliente,2)
+
+			SELECT @randEmpleado = FLOOR(RAND()*(1-@CantEmpleado+1))+@CantEmpleado;
+			
+			SELECT @idEmpleado = s.pkEmpleado
+			FROM @servicio_Cliente s
+			Where s.id = @randEmpleado 
+
+
+			INSERT INTO OPENQUERY(MYSQLVINCULADO,'SELECT fkCliente,fkEmpleado,Motivo,FechaLlamada FROM registrollamada') 
+			VALUES (@idCliente,@idEmpleado,'Notificar cupon cumpleannos',@Date)
+
+			SELECT @CantCupones = @CantCupones - 1 
+		END
+
+
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+
+--execute ConsultarCumpleannos
 --EXEC ObtenerProductosRandom
 --------------------------------------------------------------------------------------------------
 ---Pruebas
@@ -823,7 +895,7 @@ go
 
 --execute ConsultarSucursalMasCercana @pkCliente=1;
 
---execute ValidarCliente @Email='ccrock0@blog.com',@CPassword='CM33VN6cSZO'
+--execute ValidarCliente @Email='pedro@gmail.com',@CPassword='p2123'
 
 --execute ValidarEmpleado @Email='tlewsy1@theglobeandmail.com',@EPassword='5VFhsxFu'
 
@@ -833,3 +905,8 @@ go
 --execute ObtenerMuebles @pagina=2
 
 --execute ObtenerCuponesPorCliente @idCliente=1
+
+
+--execute RegistrarCliente @Nombre='Pedro',@FechaCumpleannos='1990-07-12',@Ubicacion='POLYGON((110 -75, 115 -75, 115 -80, 110 -80, 110 -75))';
+
+--execute RegistrarCuentaCliente @fkCliente=11,@Email='pedro@gmail.com',@CPassword='p2123',@RecibirIndo=1
