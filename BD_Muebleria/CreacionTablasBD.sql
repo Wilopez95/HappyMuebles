@@ -38,7 +38,7 @@ CREATE TABLE TipoProducto(
 
 CREATE TABLE Producto(
 	pkProducto int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkTipoProducto int NOT NULL FOREIGN KEY REFERENCES TipoProducto(pkTipoProducto),
+	fkTipoProducto int NOT NULL FOREIGN KEY REFERENCES TipoProducto(pkTipoProducto) ON DELETE CASCADE,
 	Nombre nvarchar(50) NOT NULL,
 	Descripcion nvarchar(30) NOT NULL,
 	Precio money NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE Sucursal(
 
 CREATE TABLE TelefonoXSucursal(
 	pkTelefonoXSucursal int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkSucursal int NOT NULL FOREIGN KEY REFERENCES Sucursal(pkSucursal), 
+	fkSucursal int NOT NULL FOREIGN KEY REFERENCES Sucursal(pkSucursal) ON DELETE CASCADE, 
 	Numero varchar(30) NOT NULL,
 	Detalle nvarchar(30) NOT NULL
 );
@@ -61,8 +61,8 @@ CREATE TABLE TelefonoXSucursal(
 
 CREATE TABLE Stock(
 	pkStock int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkProducto int NOT NULL FOREIGN KEY REFERENCES Producto(pkProducto),
-	fkSucursal int NOT NULL FOREIGN KEY REFERENCES Sucursal(pkSucursal),
+	fkProducto int NOT NULL FOREIGN KEY REFERENCES Producto(pkProducto) ON DELETE CASCADE,
+	fkSucursal int NOT NULL FOREIGN KEY REFERENCES Sucursal(pkSucursal) ON DELETE CASCADE,
 	Cantidad int NOT NULL
 );
 
@@ -74,7 +74,7 @@ CREATE TABLE TipoEmpleado(
 
 CREATE TABLE Empleado(
 	pkEmpleado int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkTipoEmpleado int NOT NULL FOREIGN KEY REFERENCES TipoEmpleado(pkTipoEmpleado),
+	fkTipoEmpleado int NOT NULL FOREIGN KEY REFERENCES TipoEmpleado(pkTipoEmpleado) ON DELETE CASCADE,
 	Nombre varchar(40) NOT NULL,
 	FechaContratacion date NOT NULL,
 	Foto nvarchar(Max),
@@ -82,15 +82,15 @@ CREATE TABLE Empleado(
 
 CREATE TABLE Cuenta(
 	pkCuenta int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkEmpleado int NOT NULL FOREIGN KEY REFERENCES Empleado(pkEmpleado),
+	fkEmpleado int NOT NULL FOREIGN KEY REFERENCES Empleado(pkEmpleado) ON DELETE CASCADE,
 	EPassword nvarchar(16),
 	Email nvarchar(50)
 ); 
 
 CREATE TABLE EmpleadoXSucursal(
 	pkEmpleadoXSucursal int NOT NULL,
-	fkEmpleado int NOT NULL FOREIGN KEY REFERENCES Empleado(pkEmpleado),
-	fkSucursal int NOT NULL FOREIGN KEY REFERENCES Sucursal(pkSucursal),
+	fkEmpleado int NOT NULL FOREIGN KEY REFERENCES Empleado(pkEmpleado) ON DELETE CASCADE,
+	fkSucursal int NOT NULL FOREIGN KEY REFERENCES Sucursal(pkSucursal) ON DELETE CASCADE,
 ) ON EsquemaParticion (fkSucursal);
 
 CREATE TABLE Cliente(
@@ -102,14 +102,14 @@ CREATE TABLE Cliente(
 
 CREATE TABLE TelefonoXCliente(
 	pkTelefonoXCliente int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkCliente int NOT NULL FOREIGN KEY REFERENCES Cliente(pkCliente),
+	fkCliente int NOT NULL FOREIGN KEY REFERENCES Cliente(pkCliente) ON DELETE CASCADE,
 	Numero varchar(30) NOT NULL,
 	Detalle nvarchar(30) NOT NULL
 );
 
 CREATE TABLE CuentaCliente(
 	pkCuentaCliente int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkCliente int NOT NULL FOREIGN KEY REFERENCES Cliente(pkCliente),
+	fkCliente int NOT NULL FOREIGN KEY REFERENCES Cliente(pkCliente) ON DELETE CASCADE,
 	Email nvarchar(30) NOT NULL,
 	CPassword nvarchar(16),
 	RecibirInfo bit
@@ -127,20 +127,20 @@ CREATE TABLE EstadoCompra(
 
 CREATE TABLE Compra(
 	pkCompra int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkEstadoCompra int NOT NULL FOREIGN KEY REFERENCES EstadoCompra(pkEstadoCompra),
+	fkEstadoCompra int NOT NULL FOREIGN KEY REFERENCES EstadoCompra(pkEstadoCompra) ON DELETE CASCADE,
 	FechaCompra date NOT NULL
 );
 
 CREATE TABLE Factura(
 	pkFactura int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkMetodoPago int NOT NULL FOREIGN KEY REFERENCES MetodoPago(pkMetodoPago),
-	fkCompra int NOT NULL FOREIGN KEY REFERENCES Compra(pkCompra),
+	fkMetodoPago int NOT NULL FOREIGN KEY REFERENCES MetodoPago(pkMetodoPago) ON DELETE CASCADE,
+	fkCompra int NOT NULL FOREIGN KEY REFERENCES Compra(pkCompra) ON DELETE CASCADE,
 	MontoTotal money NOT NULL
 )
 
 CREATE TABLE LineaFactura(
 	pkLineaFactura int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkFactura int NOT NULL FOREIGN KEY REFERENCES Factura(pkFactura),
+	fkFactura int NOT NULL FOREIGN KEY REFERENCES Factura(pkFactura) ON DELETE CASCADE,
 	Cantidad int NOT NULL,
 	Detalle nvarchar(50) NOT NULL,
 	Monto nvarchar(50) NOT NULL
@@ -148,14 +148,14 @@ CREATE TABLE LineaFactura(
 
 CREATE TABLE ListaCompra(
 	pkListaCompra int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkProducto int NOT NULL FOREIGN KEY REFERENCES Producto(pkProducto),
-    fkCompra int NOT NULL FOREIGN KEY REFERENCES Compra(pkCompra),
+	fkProducto int NOT NULL FOREIGN KEY REFERENCES Producto(pkProducto) ON DELETE CASCADE,
+    fkCompra int NOT NULL FOREIGN KEY REFERENCES Compra(pkCompra) ON DELETE CASCADE,
 	Cantidad int NOT NULL
 )
 
 CREATE TABLE EvaluacionCompra(
 	pkEvaluacionCompra int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkCompra int NOT NULL FOREIGN KEY REFERENCES Compra(pkCompra),
+	fkCompra int NOT NULL FOREIGN KEY REFERENCES Compra(pkCompra) ON DELETE CASCADE,
 	EvaluacionServicio int NOT NULL,
 	EvaluacionProducto int NOT NULL,
 	EvaluacionEntrega int NOT NULL,
@@ -164,15 +164,15 @@ CREATE TABLE EvaluacionCompra(
 
 CREATE TABLE ComisionXCompra(
 	pkComisionxCompra int NOT NULL PRIMARY KEY IDENTITY(1,1),
-	fkEmpleado int NOT NULL FOREIGN KEY REFERENCES Empleado(pkEmpleado),
-	fkCompra int NOT NULL FOREIGN KEY REFERENCES Compra(pkCompra),
+	fkEmpleado int NOT NULL FOREIGN KEY REFERENCES Empleado(pkEmpleado) ON DELETE CASCADE,
+	fkCompra int NOT NULL FOREIGN KEY REFERENCES Compra(pkCompra) ON DELETE CASCADE,
 	Comision int NOT NULL
 );
 
 CREATE TABLE Entrega(
 	pkEntrega int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	fkSucursal int NOT NULL FOREIGN KEY REFERENCES Sucursal(pkSucursal),
-	fkCompra int NOT NULL FOREIGN KEY REFERENCES Compra(pkCompra),
-	fkCliente int NOT NULL FOREIGN KEY REFERENCES Cliente(pkCliente),
+	fkCompra int NOT NULL FOREIGN KEY REFERENCES Compra(pkCompra) ON DELETE CASCADE,
+	fkCliente int NOT NULL FOREIGN KEY REFERENCES Cliente(pkCliente) ON DELETE CASCADE,
 	Monto money NOT NULL
 );

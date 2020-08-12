@@ -678,6 +678,40 @@ BEGIN
 	RETURN
 END
 GO
+----------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE EliminarCliente
+	@pkCliente int
+AS
+BEGIN
+	DECLARE @CantCliente int
+
+	BEGIN TRY
+
+		SELECT  @CantCliente=COUNT(*) 
+		FROM Cliente C 
+		WHERE C.pkCliente = @pkCliente 
+	
+
+		IF(@CantCliente>0)
+			BEGIN
+				DELETE FROM Cliente
+				WHERE pkCliente = @pkCliente;
+			END
+		ELSE
+			BEGIN
+				raiserror('El idCliente ingresado no existe en la Base de datos',1,1)
+			END
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+
+--exec EliminarCliente @pkCliente = 9
+
 --EXEC ObtenerProductosRandom
 --------------------------------------------------------------------------------------------------
 ---Pruebas
