@@ -11,7 +11,11 @@ export default class addToCart extends Component {
                     <div className = "col-md-4">
                         <div className="card card-body">
                             <h3>Info Compra</h3>
-                            <h4>Precio total:</h4>
+                            <span> 
+                                <h4>Precio total:</h4>
+                                  
+
+                            </span>
                             <h4>Descuento por cupones:</h4>
                             <div>
                             <button type="button" className="button" >
