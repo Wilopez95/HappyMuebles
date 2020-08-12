@@ -1,13 +1,42 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 /*import logo from '../assets/logo.png'*/
+import axios from 'axios'
 
 export default class Login extends Component {
 
     
+    state = {
+        email: '',
+        pass: ''
+      };
 
-    onSubmit=(e) =>{
-        e.preventDefault()
+
+      onChangeEmail= (e) => {
+        this.setState({
+            email: e.target.value
+        })
+        console.log(e.target.value)
+    }
+
+    onChangePassword= (e) => {
+        this.setState({
+            pass: e.target.value
+        })
+        console.log(e.target.value)
+    }
+      onSubmit =  async e => {
+        e.preventDefault();
+        const res = await axios.post('http://localhost:3300/api/account/login',{
+          email:this.state.email,
+          pass:this.state.pass
+            
+        })
+        console.log(res)
+        if(res){
+            localStorage.setItem('idCliente',res.data[0].pkCliente)
+            
+        }
     }
 
     render() {
@@ -16,10 +45,10 @@ export default class Login extends Component {
                <div className="card card-body">
                    <h4 className="text-center">Iniciar sesion</h4>
                     <div className="form-group">
-                        <input type="text" className="form-control" name="username" placeholder="Username" required="required"/>			
+                        <input type="text" className="form-control" name="username" placeholder="Email" required="required" onChange={this.onChangeEmail}/>			
                     </div>
                     <div className="form-group">
-                        <input type="password" className="form-control" name="password" placeholder="Password" required="required"/>
+                        <input type="password" className="form-control" name="password" placeholder="Password" required="required"  onChange = {this.onChangePassword} />
                     </div>
                    <form onSubmit={this.onSubmit}>
                         <button type="submit" className="btn btn-dark">

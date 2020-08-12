@@ -678,6 +678,15 @@ BEGIN
 	RETURN
 END
 GO
+------------------------------------------------------------------------------------
+CREATE PROCEDURE getProductoPrice
+    @nombre VARCHAR(40)
+as 
+BEGIN
+    Select Producto.Precio from Producto 
+    where Producto.Nombre = @nombre
+end
+go
 --EXEC ObtenerProductosRandom
 --------------------------------------------------------------------------------------------------
 ---Pruebas
