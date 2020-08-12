@@ -32,6 +32,7 @@ export default class FornituresHomeList extends Component {
                 image: photo,
                 type: detail,
                 price: price
+                
             }
         })
         this.setState({
