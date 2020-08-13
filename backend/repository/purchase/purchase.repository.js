@@ -3,10 +3,10 @@ var TYPES = require('tedious').TYPES;
 
 function PurchaseRepository(dbContext){
 
-    function registerPurchase(req,res,estadoCompra){
+    function registerPurchase(req,res){
         var parameters = [];
 
-            parameters.push({name: 'idEstadoCompra', type: TYPES.Int, val: req.params.estadoCompra})
+            parameters.push({name: 'idEstadoCompra', type: TYPES.Int, val: req.body.estadoCompra})
 
             dbContext.post("GenerarCompra", parameters, function (error, data) {
                 if( data.length == 0){

@@ -24,14 +24,15 @@ export default class FornituresHomeList extends Component {
 
     }
 
-    viewMore = (name,description,photo,detail,price) => {
+    viewMore = (name,description,photo,detail,price,pkProducto) => {
         this.setState({
             product: {
                 name: name,
                 description: description,
                 image: photo,
                 type: detail,
-                price: price
+                price: price,
+                pkProducto:pkProducto
                 
             }
         })
@@ -66,7 +67,8 @@ export default class FornituresHomeList extends Component {
                                                     forniture.Descripcion,
                                                     forniture.Foto,
                                                     forniture.Detalle,
-                                                    forniture.Precio
+                                                    forniture.Precio,
+                                                    forniture.pkProducto
                                                     )}>Ver mas</button>
                                             </div>
 
