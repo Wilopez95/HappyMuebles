@@ -4,7 +4,7 @@ const dbContext = require('../../Database/dbContext');
 module.exports = function(router){
     const purchaseRepository = _purchaseRepository(dbContext);
 
-    router.route('/purchase/estado/:estadoCompra')
+    router.route('/purchase/estado')
         .post(purchaseRepository.register)
 
     router.route('/purchase/addShoppingList/add')

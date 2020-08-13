@@ -7,46 +7,37 @@ import axios from 'axios';
 
 class FornitureVie extends Component {
     
-    state = {
-        totalPrice:0
-    }
-
+    
+   
 
     dispose = () => {
         this.props.toggle();
 
     }
 
-    getPrice = async function(pProducto){
-        const res = await axios.post('http://localhost:3300/api/fornitures/price/get',{
-            nombre:pProducto,      
-          })
-        if(res){
-            this.state.totalPrice += res.data[0]
-        }
-
+   
+    añadirProducto = function(pProducto,pPrice,pPk){
         if(localStorage.length ===0){
+            var ids =[];
             var oldItems = [];
+            var totalPrice = Number(0.0);
             oldItems.push(pProducto) ;
+            totalPrice += Number(pPrice);
+            ids.push(pPk);
             localStorage.setItem('cartList',JSON.stringify(oldItems));
+            localStorage.setItem('totalPrice',totalPrice);
+            localStorage.setItem('productsID',JSON.stringify(ids))
         }else{
             oldItems = JSON.parse(localStorage.getItem('cartList'));
+            totalPrice = Number(localStorage.getItem('totalPrice'));
+            ids = JSON.parse(localStorage.getItem('productsID'));
             oldItems.push(pProducto);
+            totalPrice += Number(pPrice);
+            ids.push(pPk);
             localStorage.setItem('cartList',JSON.stringify(oldItems));
-        }
-    }
-
-
-    añadirProducto = function(pProducto){
-        if(localStorage.length ===0){
-            var oldItems = [];
-            oldItems.push(pProducto) ;
-            localStorage.setItem('cartList',JSON.stringify(oldItems));
-        }else{
-            oldItems = JSON.parse(localStorage.getItem('cartList'));
-            oldItems.push(pProducto);
-            localStorage.setItem('cartList',JSON.stringify(oldItems));
-        }
+            localStorage.setItem('totalPrice',totalPrice);
+            localStorage.setItem('productsID',JSON.stringify(ids));
+        }    
     }
 
 
@@ -60,7 +51,7 @@ class FornitureVie extends Component {
                     <p className="text-center">{this.props.prod.price}₡</p>
                     <div className="row">
                         <div className="col-sm text-center">                         
-                            <button onClick ={ () =>this.añadirProducto(this.props.prod.name)} className="btn btn-dark">Añadir al carrito</button>
+                            <button onClick ={ () =>this.añadirProducto(this.props.prod.name,this.props.prod.price,this.props.prod.pkProducto)} className="btn btn-dark">Añadir al carrito</button>
                         </div>
                         <div className="col-sm text-center">
                             <button className="btn btn-dark"  onClick={this.dispose}>Cerrar</button>

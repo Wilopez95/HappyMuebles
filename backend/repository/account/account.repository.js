@@ -29,7 +29,6 @@ function AccountRepository(dbContext){
                 } 
             });
         }
-
     }
 
     function registerAccountEmpleado(req,res){

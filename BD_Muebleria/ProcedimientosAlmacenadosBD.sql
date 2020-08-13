@@ -683,7 +683,7 @@ CREATE PROCEDURE getProductoPrice
     @nombre VARCHAR(40)
 as 
 BEGIN
-    Select Producto.Precio from Producto 
+    Select Producto.Precio, Producto.pkProducto from Producto 
     where Producto.Nombre = @nombre
 end
 go

@@ -33,9 +33,10 @@ export default class Login extends Component {
             
         })
         console.log(res)
-        if(res){
+        if(res.data !== ""){
             localStorage.setItem('idCliente',res.data[0].pkCliente)
-            
+        }else{
+            console.log('no se puede logear')
         }
     }
 
