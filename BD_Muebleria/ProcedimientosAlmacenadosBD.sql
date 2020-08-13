@@ -435,7 +435,7 @@ BEGIN
 	BEGIN TRY
 		UPDATE Empleado
 		SET fkTipoEmpleado  = ISNULL(@fkTipoEmpleado,fkTipoEmpleado),Nombre=ISNULL(@Nombre,Nombre),FechaContratacion=ISNULL(@FechaContratacion,FechaContratacion)
-		WHERE @pkEmpleado = @pkEmpleado
+		WHERE pkEmpleado = @pkEmpleado
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -466,7 +466,6 @@ GO
 GO
 CREATE PROCEDURE ActualizarCuentaEmpleado
 	@pkCuenta int,
-	@fkEmpleado int = NULL,
 	@EPassword nvarchar(16) = NULL,
 	@Email nvarchar(50)= NULL
 AS
@@ -474,7 +473,7 @@ BEGIN
 
 	BEGIN TRY
 		UPDATE Cuenta
-		SET fkEmpleado = ISNULL(@fkEmpleado,fkEmpleado),EPassword = ISNULL(@EPassword,EPassword),Email = ISNULL(@Email,Email) 
+		SET EPassword = ISNULL(@EPassword,EPassword),Email = ISNULL(@Email,Email) 
 		WHERE pkCuenta = @pkCuenta 
 	END TRY
 	BEGIN CATCH
@@ -885,6 +884,195 @@ BEGIN
 	RETURN
 END
 GO
+---------------------------------------------------------------
+GO
+CREATE PROCEDURE ObtenerEmpleadosPorSucursal
+	@idSucursal int =  NULL
+AS
+BEGIN
+
+	BEGIN TRY
+		SELECT E.Nombre,S.NumeroSucursal 
+		FROM EmpleadoXSucursal Es JOIN Empleado E ON Es.fkEmpleado = E.pkEmpleado JOIN Sucursal S ON Es.fkSucursal = S.pkSucursal  
+		WHERE ISNULL(@idSucursal,Es.fkSucursal) = Es.fkSucursal
+		order by Es.fkSucursal
+
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+---------------------------------------------------------------
+GO
+CREATE PROCEDURE ObtenerTiposEmpleado
+AS
+BEGIN
+
+	BEGIN TRY
+		SELECT Te.pkTipoEmpleado,Te.Detalle,Te.Salario 
+		FROM TipoEmpleado Te
+
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+---------------------------------------------------------------
+GO
+CREATE PROCEDURE RegistrarTipoEmpleado
+	@Detalle nvarchar(30),
+	@Salario money
+AS
+BEGIN
+
+	BEGIN TRY
+		INSERT INTO TipoEmpleado(Detalle,Salario)
+		VALUES(@Detalle,@Salario)
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+---------------------------------------------------------------
+GO
+CREATE PROCEDURE VerStockProductosxSucursal
+	@idSucursal int
+AS
+BEGIN
+
+	BEGIN TRY
+		SELECT S.fkSucursal Sucursal, P.Nombre, S.Cantidad
+		FROM Stock S JOIN Producto P ON S.fkProducto = P.pkProducto 
+		WHERE ISNULL (@idSucursal,S.fkSucursal)= S.fkSucursal
+		Order by S.fkSucursal
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+
+---------------------------------------------------------------
+GO
+CREATE PROCEDURE RegistrarProducto
+	@fkTipoProducto int,
+	@Nombre nvarchar(50),
+	@Descripcion nvarchar(30),
+	@Precio money,
+	@Foto nvarchar(max)
+AS
+BEGIN
+
+	BEGIN TRY
+		INSERT INTO Producto (fkTipoProducto,Nombre,Descripcion,Precio,Foto)
+		VALUES(@fkTipoProducto,@Nombre,@Descripcion,@Precio,@Foto)
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+---------------------------------------------------------------
+GO
+CREATE PROCEDURE ActualizarProducto
+	@pkProducto int,
+	@Nombre nvarchar(50) = NULL,
+	@Descripcion nvarchar(50) = NULL,
+	@Precio money = NULL,
+	@Foto nvarchar(max) = NULL
+AS
+BEGIN
+
+	BEGIN TRY
+		UPDATE Producto
+		SET Nombre  = ISNULL(@Nombre,Nombre),Descripcion=ISNULL(@Descripcion,Descripcion),Precio=ISNULL(@Precio,Precio),Foto = ISNULL(@Foto,Foto)
+		WHERE pkProducto = @pkProducto
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+---------------------------------------------------------------
+---------------------------------------------------------------
+GO
+CREATE PROCEDURE ActualizarStockProducto
+	@fkSucursal int,
+	@fkProducto int,
+	@Cantidad int
+AS
+BEGIN
+	DECLARE @CantActual int
+	BEGIN TRY
+
+		SELECT @CantActual = S.Cantidad
+		FROM Stock S
+		WHERE S.fkSucursal = @fkSucursal AND S.fkProducto = @fkProducto
+
+		IF(@CantActual>0)
+		BEGIN
+			UPDATE Stock 
+			SET Cantidad = @CantActual + @Cantidad
+			WHERE fkSucursal = @fkSucursal AND fkProducto = @fkProducto 
+		END
+		ELSE
+		BEGIN
+			INSERT INTO Stock(fkProducto,fkSucursal,Cantidad)
+			VALUES (@fkProducto,@fkSucursal,@Cantidad)
+		END
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+
+---------------------------------------------------------------
+---------------------------------------------------------------
+GO
+CREATE PROCEDURE ActualizarStockProductoReducir
+	@fkSucursal int,
+	@fkProducto int,
+	@Cantidad int
+AS
+BEGIN
+	DECLARE @CantActual int
+	BEGIN TRY
+
+		SELECT @CantActual = S.Cantidad
+		FROM Stock S
+		WHERE S.fkSucursal = @fkSucursal AND S.fkProducto = @fkProducto
+
+		IF(@CantActual>=@Cantidad)
+		BEGIN
+			UPDATE Stock 
+			SET Cantidad = @CantActual - @Cantidad
+			WHERE fkSucursal = @fkSucursal AND fkProducto = @fkProducto 
+		END
+		ELSE
+		BEGIN
+			print('Cantidad insuficiente en Stock')
+		END
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+
+---------------------------------------------------------------
+
 
 --execute ConsultarCumpleannos
 --EXEC ObtenerProductosRandom
