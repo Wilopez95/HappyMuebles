@@ -19,3 +19,34 @@
 --execute ConsultarSucursalMasCercana @pkCliente=1;
 
 --execute ConsultarCumpleannos
+
+
+-------------------------CRUD EMPLEADO---------------------------------
+--execute RegistrarEmpleado @fkTipoEmpleado=1,@Nombre='Juan',@FechaContratacion='2015-02-14',@Foto='https://www.cinconoticias.com/wp-content/uploads/personas-arrogantes.jpg';
+--execute RegistrarCuentaEmpleado  @fkEmpleado=21,@Epassword='123',@Email='juan@gmail.com'
+--execute ValidarEmpleado @Email='juan@gmail.com',@EPassword='123'
+--execute ObtenerEmpleadosPorSucursal @idSucursal=1
+--execute ObtenerTiposEmpleado
+
+--execute ActualizarCuentaEmpleado @pkCuenta=1,@Epassword='4567',@Email='efr@gmail.com'
+--execute ActualizarPerfilEmpleado @pkEmpleado=1,@fkTipoEmpleado=2,@Nombre='Maria',@FechaContratacion='2000-04-12',@Foto='https://pymstatic.com/5844/conversions/personas-emocionales-social.jpg'
+
+--execute EliminarEmpleado @pkEmpleado=5
+--execute EliminarCuentaEmpleado @pkEmpleado=4
+
+--BD/TALLER
+--execute ConsultarGerenteTaller @NumeroTaller = 2;
+
+
+
+
+---------------------CRUD TIPO Empleado
+--execute RegistrarTipoEmpleado @Detalle='Bodeguero',@Salario=250.25
+
+------------------CRUD Producto
+--execute RegistrarProducto @fkTipoProducto=1,@Nombre='Producto',@Descripcion='uso',@Precio=25.23,@Foto = 'https://gollo-prod-grupounicomer.netdna-ssl.com/media/catalog/product/cache/7fab98186e03fe46f2659b9ea1ab996a/4/3/4303040128.jpg'
+--execute VerProducto @idProducto=1
+--execute VerProductosXTipoProducto @idTipoProducto=2
+--execute VerStockProductosxSucursal @idSucursal=1
+--execute ActualizarProducto @pkProducto = 5,@Nombre='Mesa de sala',@Precio=8.19,@Foto='https://gollo-prod-grupounicomer.netdna-ssl.com/media/catalog/product/cache/7fab98186e03fe46f2659b9ea1ab996a/1/-/1-az1027_nogal_branco_fi_3.jpg';
+--execute ActualizarStockProducto @fkSucursal=1,@fkProducto=2,@Cantidad=4
