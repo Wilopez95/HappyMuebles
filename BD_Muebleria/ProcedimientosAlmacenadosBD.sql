@@ -1070,6 +1070,24 @@ BEGIN
 	RETURN
 END
 GO
+---------------------------------------------------------------
+GO
+CREATE PROCEDURE EliminarProducto
+	@pkProducto int
+AS
+BEGIN
+	DECLARE @CantActual int
+	BEGIN TRY
+
+		DELETE FROM Producto
+		WHERE pkProducto = @pkProducto 
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
 
 ---------------------------------------------------------------
 
