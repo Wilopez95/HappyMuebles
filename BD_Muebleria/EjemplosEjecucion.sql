@@ -50,3 +50,19 @@
 --execute VerStockProductosxSucursal @idSucursal=1
 --execute ActualizarProducto @pkProducto = 5,@Nombre='Mesa de sala',@Precio=8.19,@Foto='https://gollo-prod-grupounicomer.netdna-ssl.com/media/catalog/product/cache/7fab98186e03fe46f2659b9ea1ab996a/1/-/1-az1027_nogal_branco_fi_3.jpg';
 --execute ActualizarStockProducto @fkSucursal=1,@fkProducto=2,@Cantidad=4
+--execute EliminarProducto @pkProducto=2
+
+
+
+
+--execute ConsultarProductolMasCercano @pkCliente=1,@pkProducto=1,@cantProducto=1
+
+
+------------------GENERAR COMPRA
+--execute GenerarCompraNueva
+--execute AgregarAListaCompra @idProducto=1,@idCompra=1
+--execute GenerarFactura @idMetodoPago=1,@idCompra=1
+--execute ProcesarFacturacion @fkFactura=37
+--execute ObtenerCuponesPorCliente @idCliente = 1
+
+--select dbo.ObtenerMontoPorCompra(1)

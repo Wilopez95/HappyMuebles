@@ -48,10 +48,59 @@ BEGIN
 
 END;
 GO
+-----------------------------------------------------------------------------
+GO
+CREATE FUNCTION ObtenerMontoPorCompra(@pkCompra int)
+RETURNS money
+AS
+BEGIN
+	DECLARE @totalCompra money;
+
+	SELECT @totalCompra=SUM(P.Precio * L.Cantidad)
+	FROM ListaCompra L JOIN Producto P ON L.fkProducto = P.pkProducto
+	WHERE L.fkCompra = @pkCompra 
+
+	RETURN @totalCompra;
+
+END;
+GO
+-----------------------------------------------------------------------------
+GO
+CREATE FUNCTION aplicarDescuentoCompra(@totalCompra money,@Porcentaje float)
+RETURNS money
+AS
+BEGIN
+	DECLARE @totalGeneral money;
+
+	SELECT @totalGeneral = @totalCompra - (@totalCompra * @Porcentaje) 
+
+	RETURN @totalGeneral;
+
+END;
+GO
 
 
 -----------------------------------------------------------------------------
+GO
+CREATE FUNCTION transformarMonto(@Monto money)
+RETURNS varchar(10)
+AS
+BEGIN
+	DECLARE @dolar varchar(10)
+	SET @dolar = '$'
+	
+	DECLARE @montoConver varchar(10)
+	DECLARE @Salida varchar(10)
 
+	SELECT @montoConver=convert(varchar(30),@Monto, 1)
+
+	SELECT @Salida = @dolar+@montoConver 
+
+
+	RETURN @Salida;
+
+END;
+GO
 
 ---------------------STORE PROCEDURES--------------------------------------------
 GO
@@ -483,14 +532,19 @@ BEGIN
 END
 GO
 --------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE GenerarCompra
-	@idEstadoCompra int
+CREATE PROCEDURE GenerarCompraNueva
 AS
 BEGIN
+	DECLARE @FechaCompra date = GETDATE()
 	BEGIN TRY
-		INSERT INTO Compra (fkEstadoCompra, FechaCompra) values (@idEstadoCompra, GETDATE());
+		INSERT INTO Compra (fkEstadoCompra, FechaCompra) 
+		VALUES (1, @FechaCompra);
+
+		SELECT TOP(1) C.pkCompra
+		FROM Compra C
+		Order by C.pkCompra desc
+
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -498,15 +552,31 @@ BEGIN
 	RETURN
 END
 GO
+
 --------------------------------------------------------------------------------------------------
 CREATE PROCEDURE AgregarAListaCompra
 	@idProducto int,
-	@idCompra int,
-	@Cantidad int
+	@idCompra int
 AS
 BEGIN
 	BEGIN TRY
-		INSERT INTO ListaCompra(fkProducto, fkCompra, Cantidad) values (@idProducto, @idCompra, @Cantidad);
+		DECLARE @ExisteLinea int
+
+		SELECT @ExisteLinea = COUNT(*)
+		FROM ListaCompra L
+		WHERE L.fkCompra = @idCompra AND L.fkProducto = @idProducto
+
+		If (@ExisteLinea>0)
+		BEGIN
+			UPDATE ListaCompra
+			SET Cantidad = Cantidad + 1
+			WHERE fkCompra = @idCompra AND fkProducto = @idProducto 
+		END
+		ELSE
+		BEGIN
+			INSERT INTO ListaCompra(fkProducto, fkCompra, Cantidad)
+			VALUES (@idProducto, @idCompra, 1);
+		END
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -514,15 +584,23 @@ BEGIN
 	RETURN
 END
 GO
+
+
 --------------------------------------------------------------------------------------------------
 CREATE PROCEDURE GenerarFactura
 	@idMetodoPago int,
-	@idCompra int,
-	@MontoTotal money
+	@idCompra int
 AS
 BEGIN
 	BEGIN TRY
-		INSERT INTO Factura(fkMetodoPago, fkCompra, MontoTotal) values (@idMetodoPago, @idCompra, @MontoTotal);
+		INSERT INTO Factura(fkMetodoPago, fkCompra, MontoTotal)
+		VALUES (@idMetodoPago, @idCompra, 0)
+
+		SELECT TOP(1) F.pkFactura
+		FROM Factura F
+		WHERE F.fkCompra = @idCompra
+		Order by F.pkFactura desc
+
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -530,15 +608,29 @@ BEGIN
 	RETURN
 END
 GO
+
 --------------------------------------------------------------------------------------------------
 CREATE PROCEDURE AgregarALineaFactura
 	@idFactura int,
+	@Cantidad int,
 	@Detalle nvarchar(50),
 	@Monto  nvarchar(50)
 AS
 BEGIN
 	BEGIN TRY
-		INSERT INTO LineaFactura(fkFactura, Cantidad, Detalle, Monto) values (@idFactura, 1, @Detalle, @Monto);
+		DECLARE @MontoConver varchar(10)
+		DECLARE @MontoObtenido money
+
+		INSERT INTO LineaFactura(fkFactura, Cantidad, Detalle, Monto)
+		VALUES (@idFactura, @Cantidad, @Detalle, @Monto);
+
+		SELECT TOP(1)@MontoConver = value FROM STRING_SPLIT(@monto, '$') order by value desc;
+		SELECT @MontoObtenido=CONVERT(money,@MontoConver)
+
+		UPDATE Factura
+		SET MontoTotal = MontoTotal + @MontoObtenido
+		WHERE pkFactura = @idFactura 
+
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -1070,31 +1162,96 @@ BEGIN
 	RETURN
 END
 GO
-
 ---------------------------------------------------------------
+GO
+CREATE PROCEDURE EliminarProducto
+	@pkProducto int
+AS
+BEGIN
+	DECLARE @CantActual int
+	BEGIN TRY
 
+		DELETE FROM Producto
+		WHERE pkProducto = @pkProducto 
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
 
---execute ConsultarCumpleannos
---EXEC ObtenerProductosRandom
+----------------------------------------------------------------------------
+GO
+CREATE PROCEDURE ConsultarProductolMasCercano
+	@pkCliente int,
+	@pkProducto int,
+	@cantProducto int
+AS
+BEGIN
+	DECLARE @UbicacionCliente geometry
+	DECLARE @CantCliente int
+
+	BEGIN TRY
+
+		SELECT  @CantCliente=COUNT(*) 
+		FROM Cliente C
+		WHERE c.pkCliente = @pkCliente 
+	
+
+		IF(@CantCliente>0)
+			BEGIN
+				SELECT @UbicacionCliente = dbo.ObtenerUbicacionCliente(@pkCliente);
+				
+				SELECT S.NumeroSucursal,@UbicacionCliente.STDistance(S.Ubicacion) AS Distancia
+				FROM Sucursal S JOIN Stock Sk ON S.pkSucursal = Sk.fkSucursal 
+				WHERE Sk.fkProducto = @pkProducto AND Sk.Cantidad >= @cantProducto 
+				Order by Distancia asc
+		
+			END
+		ELSE
+			BEGIN
+				raiserror('La sucursal ingresada no existe',1,1)
+			END
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
 --------------------------------------------------------------------------------------------------
----Pruebas
---------------------------------------------------------------------------------------------------
---execute ConsultarTallerMasCercano @NumeroSucursal=1;
+CREATE PROCEDURE ProcesarFacturacion
+	@fkFactura int
+AS
+BEGIN
+	BEGIN TRY
+		DECLARE @idCompra int
+		DECLARE @MontoCompra money
 
---execute ConsultarSucursalMasCercana @pkCliente=1;
+		SELECT @idCompra = F.fkCompra
+		FROM Factura F
+		WHERE F.pkFactura = @fkFactura 
 
---execute ValidarCliente @Email='pedro@gmail.com',@CPassword='p2123'
+		INSERT INTO LineaFactura(fkFactura,Cantidad,Detalle,Monto)
+		SELECT @fkFactura,L.Cantidad, P.Nombre,dbo.transformarMonto(L.Cantidad * P.Precio)
+		FROM ListaCompra L JOIN Producto P ON L.fkProducto = P.pkProducto 
+		WHERE L.fkCompra = @idCompra 
 
---execute ValidarEmpleado @Email='tlewsy1@theglobeandmail.com',@EPassword='5VFhsxFu'
+		SELECT @MontoCompra = dbo.ObtenerMontoPorCompra(@idCompra)
 
---execute ObtenerMueblesCategoria @Categoria=5
+		UPDATE Factura
+		SET MontoTotal = @MontoCompra
+		WHERE pkFactura = @fkFactura 
+
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
 
 
---execute ObtenerMuebles @pagina=2
-
---execute ObtenerCuponesPorCliente @idCliente=1
 
 
---execute RegistrarCliente @Nombre='Pedro',@FechaCumpleannos='1990-07-12',@Ubicacion='POLYGON((110 -75, 115 -75, 115 -80, 110 -80, 110 -75))';
-
---execute RegistrarCuentaCliente @fkCliente=11,@Email='pedro@gmail.com',@CPassword='p2123',@RecibirIndo=1
