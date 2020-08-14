@@ -67,8 +67,8 @@ export default class FornituresHomeList extends Component {
                     </form>
                 </div>
             </div>
-            <div class="col-md-8">
-            <div class="card-body">
+            <div className="col-md-8">
+            <div className="card-body">
                 <div>
                     {this.state.seen ? <FornitureVie toggle={this.viewMore} prod={this.state.product}/> : null}
                 </div>

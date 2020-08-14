@@ -18,7 +18,7 @@ function FornitureRepository(dbContext){
         }
     } 
 
-    function getFornituresCategory(req,res,category){
+   /* function getFornituresCategory(req,res,category){
         if(req.params.category){
             var parameters = [];
 
@@ -30,6 +30,19 @@ function FornitureRepository(dbContext){
             });
             
         }
+    }*/
+
+
+    function getFornituresCategory(req,res,category){
+            var parameters = [];
+
+            parameters.push({name: 'Category', type: TYPES.Int, val: req.body.category})
+            var query = "execute ObtenerMueblesCategoria @Categoria = @category"
+
+            dbContext.getQuery(query, parameters, false, function (error, data) {
+                return res.json(response(data, error));
+            });
+        
     }
     function getFornituresRandom(req,res){
         if(req,res){
@@ -76,17 +89,7 @@ function FornitureRepository(dbContext){
             return res.json(response(data, error));
         });
     }
-    function getProduct(req,res){
-        var parameters = [];
-
-
-        parameters.push({ name: 'nombre', type: TYPES.VarChar, val: req.body.nombre});
-        var query = "execute getProductoPrice @nombre = @nombre"
-
-        dbContext.getQuery(query, parameters, false, function (error, data) {
-            return res.json(response(data, error));
-        });
-    }
+ 
 
     return {
         getPage: getFornitures,
@@ -94,8 +97,7 @@ function FornitureRepository(dbContext){
         getRandom: getFornituresRandom,
         getForniture: getFornitureDescription,
         getStock:getStockCheck,
-        getSucursales:getSucursales,
-        getProduct:getProduct
+        getSucursales:getSucursales
     }
 
 }

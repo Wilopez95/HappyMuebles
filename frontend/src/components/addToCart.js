@@ -6,22 +6,24 @@ export default class addToCart extends Component {
     cartItems = [];
     cartItems = JSON.parse(localStorage.getItem('cartList'));
 
-
+    state ={
+        coupons :[],
+        id:''
+    }
     addShoppingList =  async e =>{
-        /*e.preventDefault();
-        const compra = await axios.post('http://localhost:3300/api/purchase/estado',{estadoCompra:1});
-        JSON.parse(localStorage.getItem('productsID')).map(product => {
+     //aqui deberia hacer el post 
+    }
 
-
-            const res = await axios.post('http://localhost:3300/api/purchase/addShoppingList/add',{
-                producto:product,
-                compra:1,
-                cantidad:1
-            });
-            console.log('se añadió a lista de compra')
-            
-        })*/
-
+    async componentDidMount() {
+        if(localStorage.getItem('idCliente')!==null){
+            var prueba = localStorage.getItem('idCliente');
+        const res = await axios.post('http://localhost:3300/api/costumer/coupons/get',{
+            id:prueba
+        });
+        this.setState({coupons:res.data})
+        console.log(this.state.coupons)
+        console.log(prueba)
+        }
     }
    
    
@@ -34,7 +36,22 @@ export default class addToCart extends Component {
                             <span> 
                                 <h4>Precio total: {localStorage.getItem('totalPrice')}</h4>  
                             </span>
-                            <h4>Descuento por cupones:</h4>
+
+                            <h4>Cupones disponibles:</h4>
+                            <div className = "col-md">
+                                <div className = ""> 
+                                    <ul className="list-group">
+                                        {       
+                                            this.state.coupons.length ===0 ?
+                                            <li>No hay cupones disponibles </li>
+                                                :
+                                             this.state.coupons.map(coupon => <li className="list-group-item list-group-item-action" key={coupon._id}>
+                                            {coupon['Descripcion']}
+                                            </li>)
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
                             <div>
                                 {
                                     localStorage.getItem('idCliente') === null?
