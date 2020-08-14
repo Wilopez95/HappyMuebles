@@ -135,6 +135,7 @@ CREATE TABLE Factura(
 	pkFactura int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	fkMetodoPago int NOT NULL FOREIGN KEY REFERENCES MetodoPago(pkMetodoPago) ON DELETE CASCADE,
 	fkCompra int NOT NULL FOREIGN KEY REFERENCES Compra(pkCompra) ON DELETE CASCADE,
+	fkSucursal int NOT NULL FOREIGN KEY REFERENCES Sucursal(pkSucursal) ON DELETE CASCADE,
 	MontoTotal money NOT NULL
 )
 

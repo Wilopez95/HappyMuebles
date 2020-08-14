@@ -589,12 +589,13 @@ GO
 --------------------------------------------------------------------------------------------------
 CREATE PROCEDURE GenerarFactura
 	@idMetodoPago int,
-	@idCompra int
+	@idCompra int,
+	@idSucursal int
 AS
 BEGIN
 	BEGIN TRY
-		INSERT INTO Factura(fkMetodoPago, fkCompra, MontoTotal)
-		VALUES (@idMetodoPago, @idCompra, 0)
+		INSERT INTO Factura(fkMetodoPago, fkCompra,fkSucursal,MontoTotal)
+		VALUES (@idMetodoPago, @idCompra,@idSucursal,0)
 
 		SELECT TOP(1) F.pkFactura
 		FROM Factura F
@@ -1251,6 +1252,112 @@ BEGIN
 	RETURN
 END
 GO
+---------------------------------------------------------------------------
+CREATE PROCEDURE AgregarEvaluacionCompra
+	@fkCompra int,
+	@EvaluacionServicio int,
+	@EvaluacionProducto int,
+	@EvaluacionEntrega int,
+	@Comentario nvarchar =  NULL
+AS
+BEGIN
+	DECLARE @CantActual int
+	BEGIN TRY
+		INSERT INTO EvaluacionCompra(fkCompra,EvaluacionServicio,EvaluacionProducto,EvaluacionEntrega,Comentario)
+		VALUES (@fkCompra,@EvaluacionServicio,@EvaluacionProducto,@EvaluacionEntrega,@Comentario)
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+---------------------------------------------------------------------------
+CREATE PROCEDURE AgregarMetodoPago
+	@Detalle nvarchar(50)
+AS
+BEGIN
+	DECLARE @CantActual int
+	BEGIN TRY
+		INSERT INTO MetodoPago(Detalle)
+		VALUES (@Detalle)
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+---------------------------------------------------------------------------
+CREATE PROCEDURE ActualizarMetodoPago
+	@pkMetodoPago int,
+	@Detalle nvarchar(50)
+AS
+BEGIN
+	DECLARE @CantActual int
+	BEGIN TRY
+		UPDATE MetodoPago
+		SET Detalle = @Detalle
+		WHERE pkMetodoPago = @pkMetodoPago
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+---------------------------------------------------------------------------
+CREATE PROCEDURE EliminarMetodoPago
+	@pkMetodoPago int
+AS
+BEGIN
+	DECLARE @CantActual int
+	BEGIN TRY
+		DELETE MetodoPago
+		WHERE pkMetodoPago = @pkMetodoPago 
+
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------
+CREATE PROCEDURE RegistrarEmpleadoCuenta
+	@fkTipoEmpleado int,
+	@Nombre varchar(40),
+	@FechaContratacion date,
+	@Foto nvarchar(max),
+	@EPassword nvarchar(16),
+	@Email nvarchar(50)
+
+AS
+BEGIN
+	DECLARE @fkEmpleado int
+	
+	BEGIN TRY
+		
+		INSERT INTO Empleado(fkTipoEmpleado,Nombre,FechaContratacion,Foto)
+		VALUES (@fkEmpleado,@Nombre,@FechaContratacion,@Foto)
+
+		
+		 SELECT TOP (1) @fkEmpleado = E.pkEmpleado
+		 FROM Empleado E
+		 order by pkEmpleado desc
+
+		 INSERT INTO Cuenta(fkEmpleado,EPassword,Email)
+		VALUES(@fkEmpleado,@EPassword,@Email)
+
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+
+
 
 
 
