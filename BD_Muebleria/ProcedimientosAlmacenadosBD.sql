@@ -532,7 +532,6 @@ BEGIN
 END
 GO
 --------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------
 GO
 CREATE PROCEDURE GenerarCompraNueva
 AS
@@ -619,8 +618,19 @@ CREATE PROCEDURE AgregarALineaFactura
 AS
 BEGIN
 	BEGIN TRY
+		DECLARE @MontoConver varchar(10)
+		DECLARE @MontoObtenido money
+
 		INSERT INTO LineaFactura(fkFactura, Cantidad, Detalle, Monto)
 		VALUES (@idFactura, @Cantidad, @Detalle, @Monto);
+
+		SELECT TOP(1)@MontoConver = value FROM STRING_SPLIT(@monto, '$') order by value desc;
+		SELECT @MontoObtenido=CONVERT(money,@MontoConver)
+
+		UPDATE Factura
+		SET MontoTotal = MontoTotal + @MontoObtenido
+		WHERE pkFactura = @idFactura 
+
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -1217,6 +1227,7 @@ AS
 BEGIN
 	BEGIN TRY
 		DECLARE @idCompra int
+		DECLARE @MontoCompra money
 
 		SELECT @idCompra = F.fkCompra
 		FROM Factura F
@@ -1227,6 +1238,12 @@ BEGIN
 		FROM ListaCompra L JOIN Producto P ON L.fkProducto = P.pkProducto 
 		WHERE L.fkCompra = @idCompra 
 
+		SELECT @MontoCompra = dbo.ObtenerMontoPorCompra(@idCompra)
+
+		UPDATE Factura
+		SET MontoTotal = @MontoCompra
+		WHERE pkFactura = @fkFactura 
+
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -1234,5 +1251,7 @@ BEGIN
 	RETURN
 END
 GO
+
+
 
 
