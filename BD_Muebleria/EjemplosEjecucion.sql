@@ -66,3 +66,13 @@
 --execute ObtenerCuponesPorCliente @idCliente = 1
 
 --select dbo.ObtenerMontoPorCompra(1)
+
+---------------Evaluacion del servicio
+--execute AgregarEvaluacionCompra @fkCompra=1,@EvaluacionServicio=10,@EvaluacionProducto=10,@EvaluacionEntrega=10,@Comentario='Buen servicio'
+
+
+------------------------CRUD Tipo pago
+--execute AgregarMetodoPago @Detalle='SinpeMovil'
+--execute VerMetodosDePago
+--execute ActualizarMetodoPago @pkMetodoPago=1,@Detalle='otro pago'
+--execute EliminarMetodoPago @pkMetodoPago=1
