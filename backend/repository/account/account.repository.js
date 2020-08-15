@@ -91,6 +91,7 @@ function AccountRepository(dbContext){
     }
         function updateAccountCliente(req,res){
         
+            var parameters = [];
             parameters.push({ name: 'idCliente', type: TYPES.Int, val: req.body.id});
             parameters.push({ name: 'Nombre', type: TYPES.VarChar, val: req.body.name});
             parameters.push({ name: 'FechaCumpleannos', type: TYPES.Date, val: req.body.birthdate});
@@ -99,7 +100,7 @@ function AccountRepository(dbContext){
             parameters.push({ name: 'CPassword', type: TYPES.NVarChar, val: req.body.password });
             parameters.push({ name: 'RecibirInfo', type: TYPES.VarChar, val: req.body.info});
 
-            dbContext.post("ActualizarCuentaCliente", parameters, function (error, data) {
+            dbContext.post("ActualizarClienteCuenta", parameters, function (error, data) {
                 if( data.length == 0){
                     return res.sendStatus(204);
                 }else{

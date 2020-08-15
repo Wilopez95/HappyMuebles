@@ -16,7 +16,7 @@ export default class addToCart extends Component {
     }
 
     async componentDidMount() {
-        if(localStorage.getItem('idCliente')!==null){
+        if(localStorage.getItem('idCliente')!==null && localStorage.getItem('idCliente') !== 'undefined'){
             var prueba = localStorage.getItem('idCliente');
         const res = await axios.post('http://localhost:3300/api/costumer/coupons/get',{
             id:prueba
