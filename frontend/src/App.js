@@ -32,7 +32,7 @@ function App() {
         <Route path="/reports" component={Reportes}/>
         <Route path='/profileCliente' component={clienteProfile}/>
         <Route path='/profileEmpleado' component={empleadoProfile}/>
-        <Route path='/updateEmpleado' component={updateEmpleado}/>
+        <Route path='/updatempleado' component={UpdateEmpleado}/>
       </div>
       <Footer/>
     </Router>
