@@ -1607,7 +1607,23 @@ END
 GO
 
 
-
+---------------------------------------------------------
+CREATE PROCEDURE ConsultarComisiones
+AS
+BEGIN
+	BEGIN TRY
+		SELECT C.FechaCompra, E.Nombre, F.pkFactura, F.MontoTotal, CC.Comision, F.MontoTotal*(CC.Comision/CAST(100 AS FLOAT)) 'Ganancia' From ComisionXCompra CC 
+		INNER JOIN Empleado E ON E.pkEmpleado = CC.fkEmpleado
+		INNER JOIN Compra C ON C.pkCompra = CC.fkCompra
+		INNER JOIN Factura F ON F.fkCompra = C.pkCompra
+		ORDER BY C.FechaCompra DESC
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
 
 
 
