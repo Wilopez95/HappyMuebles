@@ -4,7 +4,12 @@ import axios from 'axios'
 export default class UpdateCliente extends Component {
 
     state = {
-        username: ''
+        name: null,
+        birthdate: null,
+        location:null,
+        email:null,
+        password:null,
+        info:null
     }
 
     componentDidMount() {
@@ -16,31 +21,58 @@ export default class UpdateCliente extends Component {
         console.log(res)
     }
 
+    submit= async(e) => {
+        e.preventDefault();
+        var idCliente = localStorage.getItem('idCliente');
+
+        const newCal = {
+            id:idCliente,
+            name: this.state.name,
+            birthdate: this.state.birthdate,
+            location:this.state.location,
+            email:this.state.email,
+            password:this.state.password,
+            info:this.state.info
+        }
+        const res = await axios.post('http://localhost:3300/api/account/updateCliente',newCal)
+        console.log(newCal)
+        console.log(res)
+    }
+
+
+
+
+    onInputChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+
     render() {
         return (
             <div className="card cord-body">
                 <h1 className="text-center">Actualizar perfil</h1>
-                <form>
+                <form onSubmit={this.submit}>
                         <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Nombre"/>
+                            <input name="name"  type="text" className="form-control" placeholder="Nombre"  onChange={this.onInputChange}/>
                         </div>
                         <div className="form-group">
-                            <input type="date" className="form-control" placeholder="Fecha de nacimiento"/>
+                            <input name="birthdate" type="date" className="form-control" placeholder="Fecha de nacimiento" onChange={this.onInputChange}/>
                         </div>
                         <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Ubicacion"/>
+                            <input name="location"  type="text" className="form-control" placeholder="Ubicacion" onChange={this.onInputChange}/>
                         </div>
                         <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Coreo"/>
+                            <input name="email"  type="text" className="form-control" placeholder="Email" onChange={this.onInputChange}/>
                         </div>
                         <div className="form-group">
-                        <input type="password" className="form-control" placeholder="Contraseña"/>
+                        <input name="password"  type="password" className="form-control" placeholder="Contraseña" onChange={this.onInputChange}/>
                         </div>
 
                         
                         <div className="form-group">
                             <p>¿Desea recibir información?</p>
-                            <input type="checkbox"></input>
+                            <input name="info"  type="checkbox" onChange={this.onInputChange}></input>
                         </div>
                         
                         <button className="btn btn-dark">Actualizar</button>
