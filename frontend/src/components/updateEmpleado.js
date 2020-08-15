@@ -4,7 +4,12 @@ import axios from 'axios'
 export default class updateEmpleado extends Component {
 
     state = {
-        username: ''
+        tipoEmpleado: null,
+        name: null,
+        date: null,
+        photo: null,
+        email: null,
+        password: null
     }
 
     componentDidMount() {
@@ -12,8 +17,32 @@ export default class updateEmpleado extends Component {
      }
 
     async getClientInfo(){
-        const res = await axios.get('http://localhost:3300/api/costumer/info/get/'+localStorage.getItem('idCliente') );
+        //const res = await axios.get('http://localhost:3300/api/costumer/info/get/'+localStorage.getItem('idCliente') );
+        //console.log(res)
+    }
+
+    submit= async(e) => {
+        e.preventDefault();
+        var idEmpleado = localStorage.getItem('idEmpleado');
+        console.log(idEmpleado)
+        const newCal = {
+            id:idEmpleado,
+            tipoEmpleado: this.state.tipoEmpleado,
+            name: this.state.name,
+            date: this.state.date,
+            photo:this.state.photo,
+            email:this.state.email,
+            password:this.state.password
+        }
+        const res = await axios.post('http://localhost:3300/api/account/updateEmpleado',newCal)
+        console.log(newCal)
         console.log(res)
+    }
+
+    onInputChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     }
 
     render() {
@@ -22,22 +51,22 @@ export default class updateEmpleado extends Component {
                 <h1 className="text-center">Actualizar perfil</h1>
                 <form>
                         <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Nombre"/>
+                            <input name="name" type="text" className="form-control" placeholder="Nombre" onChange={this.onInputChange}/>
                         </div>
                         <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Tipo de Empleado"/>
+                            <input name="tipoEmpleado" type="text" className="form-control" placeholder="Tipo de Empleado" onChange={this.onInputChange}/>
                         </div>
                         <div className="form-group">
-                            <input type="date" className="form-control" placeholder="Fecha de Contratacion"/>
+                            <input name="date" type="date" className="form-control" placeholder="Fecha de Contratacion" onChange={this.onInputChange}/>
                         </div>
                         <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Enlace de Foto"/>
+                            <input name="photo" type="text" className="form-control" placeholder="Enlace de Foto" onChange={this.onInputChange}/>
                         </div>
                         <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Correo"/>
+                            <input name="email" type="text" className="form-control" placeholder="Correo" onChange={this.onInputChange}/>
                         </div>
                         <div className="form-group">
-                        <input type="password" className="form-control" placeholder="Contraseña"/>
+                        <input name="password" type="password" className="form-control" placeholder="Contraseña" onChange={this.onInputChange}/>
                         </div>
                         <button className="btn btn-dark">Actualizar</button>
                    
