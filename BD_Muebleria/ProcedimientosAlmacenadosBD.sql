@@ -1361,12 +1361,12 @@ END
 GO
 
 ---------------------------------------------------------------------------
-CREATE PROCEDURE AgregarEvaluacionCompra
+Create PROCEDURE AgregarEvaluacionCompra
 	@fkCompra int,
 	@EvaluacionServicio int,
 	@EvaluacionProducto int,
 	@EvaluacionEntrega int,
-	@Comentario nvarchar =  NULL
+	@Comentario nvarchar(50) =  NULL
 AS
 BEGIN
 	DECLARE @CantActual int
