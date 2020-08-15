@@ -676,13 +676,14 @@ GO
 CREATE PROCEDURE GenerarFactura
 	@idMetodoPago int,
 	@idCompra int,
-	@idSucursal int
+	@idSucursal int,
+	@idCliente int
 AS
 BEGIN
 	DECLARE @idFactura int 
 	BEGIN TRY
-		INSERT INTO Factura(fkMetodoPago, fkCompra,fkSucursal,MontoTotal)
-		VALUES (@idMetodoPago, @idCompra,@idSucursal,0)
+		INSERT INTO Factura(fkMetodoPago, fkCompra,fkSucursal,fkCliente,MontoTotal)
+		VALUES (@idMetodoPago, @idCompra,@idSucursal,@idCliente,0)
 
 		SELECT TOP(1) @idFactura = F.pkFactura
 		FROM Factura F
@@ -698,7 +699,43 @@ BEGIN
 	RETURN
 END
 GO
-
+-----------------------------AGREAR FACTURAS DE PRUEBA-------------------------------------------
+execute GenerarFactura @idMetodoPago=3, @idCompra=1, @idSucursal=1, @idCliente=1
+execute GenerarFactura @idMetodoPago=2, @idCompra=2, @idSucursal=2, @idCliente=2
+execute GenerarFactura @idMetodoPago=1, @idCompra=3, @idSucursal=3, @idCliente=3
+execute GenerarFactura @idMetodoPago=2, @idCompra=4, @idSucursal=3, @idCliente=4
+execute GenerarFactura @idMetodoPago=2, @idCompra=5, @idSucursal=1, @idCliente=5
+execute GenerarFactura @idMetodoPago=3, @idCompra=6, @idSucursal=2, @idCliente=6
+execute GenerarFactura @idMetodoPago=1, @idCompra=7, @idSucursal=3, @idCliente=7
+execute GenerarFactura @idMetodoPago=3, @idCompra=8, @idSucursal=1, @idCliente=8
+execute GenerarFactura @idMetodoPago=3, @idCompra=9, @idSucursal=1, @idCliente=9
+execute GenerarFactura @idMetodoPago=1, @idCompra=10, @idSucursal=2, @idCliente=10
+execute GenerarFactura @idMetodoPago=2, @idCompra=11, @idSucursal=3, @idCliente= 1
+execute GenerarFactura @idMetodoPago=2, @idCompra=12, @idSucursal=2, @idCliente= 2
+execute GenerarFactura @idMetodoPago=2, @idCompra=13, @idSucursal=1, @idCliente= 3
+execute GenerarFactura @idMetodoPago=2, @idCompra=14, @idSucursal=2, @idCliente= 4
+execute GenerarFactura @idMetodoPago=3, @idCompra=15, @idSucursal=3, @idCliente= 5
+execute GenerarFactura @idMetodoPago=2, @idCompra=16, @idSucursal=2, @idCliente= 6
+execute GenerarFactura @idMetodoPago=3, @idCompra=17, @idSucursal=1, @idCliente= 7
+execute GenerarFactura @idMetodoPago=1, @idCompra=18, @idSucursal=2, @idCliente= 8
+execute GenerarFactura @idMetodoPago=1, @idCompra=19, @idSucursal=3, @idCliente= 9
+execute GenerarFactura @idMetodoPago=2, @idCompra=20, @idSucursal=3, @idCliente= 10
+execute GenerarFactura @idMetodoPago=1, @idCompra=21, @idSucursal=1, @idCliente= 1
+execute GenerarFactura @idMetodoPago=2, @idCompra=22, @idSucursal=2, @idCliente= 2
+execute GenerarFactura @idMetodoPago=3, @idCompra=23, @idSucursal=3, @idCliente= 3
+execute GenerarFactura @idMetodoPago=1, @idCompra=24, @idSucursal=2, @idCliente= 4
+execute GenerarFactura @idMetodoPago=3, @idCompra=25, @idSucursal=1, @idCliente= 5
+execute GenerarFactura @idMetodoPago=3, @idCompra=26, @idSucursal=2, @idCliente= 6
+execute GenerarFactura @idMetodoPago=1, @idCompra=27, @idSucursal=3, @idCliente= 7
+execute GenerarFactura @idMetodoPago=3, @idCompra=28, @idSucursal=2, @idCliente= 8
+execute GenerarFactura @idMetodoPago=1, @idCompra=29, @idSucursal=1, @idCliente= 9
+execute GenerarFactura @idMetodoPago=2, @idCompra=30, @idSucursal=2, @idCliente= 10
+execute GenerarFactura @idMetodoPago=3, @idCompra=31, @idSucursal=3, @idCliente= 1
+execute GenerarFactura @idMetodoPago=3, @idCompra=32, @idSucursal=1, @idCliente= 2
+execute GenerarFactura @idMetodoPago=1, @idCompra=33, @idSucursal=1, @idCliente= 3
+execute GenerarFactura @idMetodoPago=3, @idCompra=34, @idSucursal=2, @idCliente= 4
+execute GenerarFactura @idMetodoPago=1, @idCompra=35, @idSucursal=3, @idCliente= 5
+GO
 --------------------------------------------------------------------------------------------------
 CREATE PROCEDURE AgregarALineaFactura
 	@idFactura int,
@@ -741,7 +778,6 @@ BEGIN
 	RETURN
 END
 GO
---EXEC verMetodosDePago
 --------------------------------------------------------------------------------------------------
 CREATE PROCEDURE VerSucursales
 AS
@@ -1415,6 +1451,78 @@ BEGIN
 	RETURN
 END
 GO
+--------------------------------------------------
+CREATE PROCEDURE ObtenerHistorialCompra
+	@fkMetodoPago int = NULL,
+	@fkSucursal int =  NULL,
+	@fkCliente int = NULL
+
+AS
+BEGIN
+	
+	BEGIN TRY
+		SELECT C.FechaCompra, S.NombreSucursal, Cl.Nombre NombreCliente,Mp.Detalle MetodoPago
+		FROM Factura F JOIN MetodoPago Mp ON F.fkMetodoPago = Mp.pkMetodoPago
+		JOIN Compra C ON F.fkCompra = C.pkCompra
+		JOIN Sucursal S ON F.fkSucursal = S.pkSucursal
+		JOIN Cliente Cl ON F.fkCliente = Cl.pkCliente
+		WHERE ISNULL(@fkMetodoPago,Mp.pkMetodoPago) = Mp.pkMetodoPago AND ISNULL(@fkSucursal,S.pkSucursal) = S.pkSucursal AND ISNULL(@fkCliente,Cl.pkCliente) = Cl.pkCliente
+
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------
+CREATE PROCEDURE ObtenerListaCompra
+	@idCompra int = NULL
+
+AS
+BEGIN
+	
+	BEGIN TRY
+		SELECT P.Nombre,L.Cantidad
+		FROM ListaCompra L JOIN Producto P ON L.fkProducto = P.pkProducto
+		WHERE L.fkCompra = @idCompra 
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+----------------------------------------------------------
+CREATE PROCEDURE obtenerPerfilEmpleado
+	@idEmpleado int
+AS
+BEGIN
+	DECLARE @CantEmpleado int
+
+	BEGIN TRY
+
+		SELECT  @CantEmpleado=COUNT(*) 
+		FROM Empleado E
+		WHERE E.pkEmpleado = @idEmpleado 
+	
+
+		IF(@CantEmpleado>0)
+			BEGIN
+				SELECT  E.pkEmpleado,E.Nombre, T.Detalle TipoEmpleado,E.FechaContratacion,E.Foto
+				FROM Empleado E JOIN TipoEmpleado  T ON E.fkTipoEmpleado = T.pkTipoEmpleado
+				WHERE E.pkEmpleado = @idEmpleado 
+			END
+		ELSE
+			BEGIN
+				raiserror('El idEmpleado ingresado no existe en la Base de datos',1,1)
+			END
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
 
 
 
