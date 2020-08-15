@@ -7,7 +7,7 @@ class CalificarCompra extends Component {
 
     state = {
         calificacion: {
-            sercivio: '',
+            servicio: '',
             producto: '',
             entrega: '',
             comentario: ''
@@ -30,12 +30,15 @@ class CalificarCompra extends Component {
         e.preventDefault();
         const newCal = {
             id:this.props.prod,
-            servicio: this.state.sercivio,
+            servicio: this.state.servicio,
             producto: this.state.producto,
             entrega: this.state.entrega,
             comentario: this.state.comentario
         }
-        const res = await axios.post('http://localhost:3300/api/purchase/calificaction',newCal)
+        const res = await axios.post('http://localhost:3300/api/purchase/calification',newCal)
+        console.log(newCal)
+        console.log(this.props.prod)
+        console.log(this.state.sercivio)
         console.log(res)
     }
 
