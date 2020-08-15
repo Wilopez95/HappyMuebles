@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
-export default class UpdateEmpleado extends Component {
+export default class updateEmpleado extends Component {
 
     state = {
         username: ''
