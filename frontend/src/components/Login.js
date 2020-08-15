@@ -40,7 +40,7 @@ export default class Login extends Component {
             console.log('no se puede logear')
         }
 
-        window.location.reload(false);
+        window.location.href = "/"
     }
 
     render() {

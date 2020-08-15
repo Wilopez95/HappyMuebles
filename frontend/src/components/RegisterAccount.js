@@ -93,6 +93,7 @@ export default class RegisterAccount extends Component {
             location: this.state.ubicacion
         })
         console.log(res)
+        window.location.href = "/login"
     }
 
     render() {
@@ -132,22 +133,6 @@ export default class RegisterAccount extends Component {
                         />
                     </div>
                     <div className="form-group">
-                        <span>Fecha Cumpleaños: </span>
-                        <DatePicker
-                            selected={this.state.startDate}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <span>Recibir informacion: </span>
-                        <div>
-                            <input type="checkbox" 
-                            selected={this.state.isChecked}
-                            onChange={ this.handleChecked }
-                            />
-                        </div>
-                    </div>
-                    <div className="form-group">
                         <input
                             type="text"
                             className="form-control"
@@ -159,6 +144,15 @@ export default class RegisterAccount extends Component {
                     </div>
                     <div className="form-group">
                         <input
+                            type="number"
+                            className="form-control"
+                            name="Telefono"
+                            placeholder="Telefono"
+                            required="required"
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input
                             type="text"
                             className="form-control"
                             name="ubicacion"
@@ -166,6 +160,15 @@ export default class RegisterAccount extends Component {
                             required="required"
                             onChange = {this.onChangeFecha}
                         />
+                    </div>
+                    <div className="form-group">
+                        <span>¿ Desea recibir informacion de nuestras promociones?: </span>
+                        <div>
+                            <input type="checkbox" 
+                            selected={this.state.isChecked}
+                            onChange={ this.handleChecked }
+                            />
+                        </div>
                     </div>
                     <div className="row">
                         <div className="col text-center">
