@@ -13,7 +13,6 @@ import Categories from './components/Categories'
 import addToCart from './components/addToCart'
 import RegisterEmployee from './components/RegisterEmployee'
 import Reportes from './components/Reportes'
-import updateCliente from './components/UpdateCliente'
 import clienteProfile from './components/clienteProfile'
 import empleadoProfile from './components/empleadoProfile'
 import updateEmpleado from './components/updateEmpleado'
@@ -31,7 +30,6 @@ function App() {
         <Route path="/cart" component={addToCart}/>
         <Route path= "/registerEmp" component={RegisterEmployee}/>
         <Route path="/reports" component={Reportes}/>
-        <Route path='/updateCliente' component={updateCliente}/>
         <Route path='/profileCliente' component={clienteProfile}/>
         <Route path='/profileEmpleado' component={empleadoProfile}/>
         <Route path='/updateEmpleado' component={updateEmpleado}/>

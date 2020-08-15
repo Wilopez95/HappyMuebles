@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import '../Styles/FornitureView.css';
-import axios from 'axios';
-
 
 
 
 class FornitureVie extends Component {
     
-    
-   
-
     dispose = () => {
         this.props.toggle();
 
