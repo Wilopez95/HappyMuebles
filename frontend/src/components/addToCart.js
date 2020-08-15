@@ -8,7 +8,8 @@ export default class addToCart extends Component {
 
     state ={
         coupons :[],
-        id:''
+        id:'',
+        metodosPago:[]
     }
     addShoppingList =  async e =>{
      //aqui deberia hacer el post 
@@ -21,14 +22,20 @@ export default class addToCart extends Component {
             id:prueba
         });
         this.setState({coupons:res.data})
-        console.log(this.state.coupons)
-        console.log(prueba)
         }
+        const metodosP = await axios.post('http://localhost:3300/api/purchase/paymentMethods')
+        this.setState({metodosPago:metodosP.data})
+       // console.log(this.state.metodosPago[1]['pkMetodoPago'])
     }
 
     selectCoupon = (pPorcentaje)  =>{
         console.log(pPorcentaje)
         localStorage.setItem('Cupon',pPorcentaje)
+        window.location.reload(false);
+    }
+    selectMetodo = (pOpcion)  =>{
+        console.log(pOpcion)
+        localStorage.setItem('MetodoPago',pOpcion)
         window.location.reload(false);
     }
    
@@ -60,9 +67,22 @@ export default class addToCart extends Component {
                                     </ul>
                                 </div>
                             </div>
-
+                            <h4>Métodos de pago:</h4>
                             <div className= "col-md">
-                                 hola
+                            <div className = ""> 
+                                    <ul className="list-group">
+                                        {       
+                                            this.state.metodosPago.length ===0 ?
+                                            <li>No hay metodos de pago disponibles </li>
+                                                :
+                                             this.state.metodosPago.map(metodo => <li className="list-group-item list-group-item-action" 
+                                             key={metodo._id}
+                                             onDoubleClick={() => this.selectMetodo(metodo['pkMetodoPago'])}>
+                                            {metodo['Detalle']}
+                                            </li>)
+                                        }
+                                    </ul>
+                                </div>
                             </div>               
 
                             <div>
