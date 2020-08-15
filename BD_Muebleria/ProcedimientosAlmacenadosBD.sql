@@ -591,16 +591,26 @@ GO
 --------------------------------------------------------------------------------------------
 GO
 CREATE PROCEDURE GenerarCompraNueva
+	@idEmpleado int = NULL
 AS
 BEGIN
 	DECLARE @FechaCompra date = GETDATE()
+	DECLARE @CompraGenerada int 
 	BEGIN TRY
 		INSERT INTO Compra (fkEstadoCompra, FechaCompra) 
 		VALUES (1, @FechaCompra);
 
-		SELECT TOP(1) C.pkCompra
+		SELECT TOP(1) @CompraGenerada = C.pkCompra
 		FROM Compra C
 		Order by C.pkCompra desc
+
+		SELECT @CompraGenerada
+		
+		IF (@idEmpleado != NULL)
+		BEGIN
+			INSERT INTO ComisionXCompra(fkEmpleado,fkCompra,Comision)
+			VALUES (@idEmpleado,@CompraGenerada,0.3)
+		END
 
 	END TRY
 	BEGIN CATCH
