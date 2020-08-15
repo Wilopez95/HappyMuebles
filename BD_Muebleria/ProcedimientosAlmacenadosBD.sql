@@ -1494,6 +1494,24 @@ BEGIN
 	RETURN
 END
 GO
+---------------------------------------------------------
+CREATE PROCEDURE ObtenerDetalleFactura
+	@idFactura int = NULL
+
+AS
+BEGIN
+	
+	BEGIN TRY
+		SELECT L.Cantidad,L.Detalle,L.Monto
+		FROM LineaFactura L
+		WHERE L.fkFactura = @idFactura 
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
 ----------------------------------------------------------
 CREATE PROCEDURE obtenerPerfilEmpleado
 	@idEmpleado int
