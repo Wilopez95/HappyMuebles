@@ -17,7 +17,7 @@ class FornitureVie extends Component {
 
    
     añadirProducto = function(pProducto,pPrice,pPk){
-        if(localStorage.length ===0){
+        if(localStorage.getItem('cartList') ===null){
             var ids =[];
             var oldItems = [];
             var totalPrice = Number(0.0);

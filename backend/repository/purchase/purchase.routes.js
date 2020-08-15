@@ -18,6 +18,6 @@ module.exports = function(router){
         .post(purchaseRepository.billLine)  
             
     router.route('/purchase/paymentMethods')
-    .get(purchaseRepository.getPayment)  
+    .post(purchaseRepository.getPayment)  
   
 }

@@ -11,6 +11,8 @@ import RegisterAcc from './components/RegisterAccount'
 import Footer from './components/Footer'
 import Categories from './components/Categories'
 import addToCart from './components/addToCart'
+import RegisterEmployee from './components/RegisterEmployee'
+import Reportes from './components/Reportes'
 
 function App() {
   return (
@@ -23,6 +25,8 @@ function App() {
         <Route path="/updateacc/:id" component={RegisterAcc} />
         <Route path="/categories" component={Categories} />
         <Route path="/cart" component={addToCart}/>
+        <Route path= "/registerEmp" component={RegisterEmployee}/>
+        <Route path="/reports" component={Reportes}/>
       </div>
       <Footer/>
     </Router>

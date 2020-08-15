@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
 class Navigation extends Component {
+
+    refreshPage() {
+        localStorage.clear()
+        window.location.reload(false);
+      }
+
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -25,15 +31,26 @@ class Navigation extends Component {
                                 </Link>
                             </li>
                             <li className="nav-item">
-
-                                <Link className="nav-link" to="/login">
+                                {
+                                    <Link className="nav-link" to="/login">
                                     Iniciar Sesión
-                                </Link>
+                                   </Link>
+                                    
+                                }
                             </li>
                             <li>
-                                <Link className="nav-link" to="/cart">
-                                    Carrito
-                                </Link>
+                                {
+    
+                                     <Link className="nav-link" to="/cart">
+                                     Carrito
+                                     </Link>
+
+                                }
+                            </li>
+                            <li>
+                                <button className="btn btn-dark" type="button"  onClick={this.refreshPage}>
+                                    Log out
+                                </button>
                             </li>
                         </ul>
                     </div>

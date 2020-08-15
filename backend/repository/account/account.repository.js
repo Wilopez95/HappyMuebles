@@ -33,11 +33,14 @@ function AccountRepository(dbContext){
 
     function registerAccountEmpleado(req,res){
         var parameters = [];
-        parameters.push({ name: 'fkEmpleado', type: TYPES.Int, val: req.body.id});
         parameters.push({ name: 'Email', type: TYPES.NVarChar, val: req.body.email});
         parameters.push({ name: 'EPassword', type: TYPES.NVarChar, val: req.body.password });
+        parameters.push({ name: 'fkTipoEmpleado', type: TYPES.Int, val: req.body.tipoEmpleado});
+        parameters.push({ name: 'Nombre', type: TYPES.VarChar, val: req.body.name});
+        parameters.push({ name: 'FechaContratacion', type: TYPES.Date, val: req.body.date});
+        parameters.push({ name: 'Foto', type: TYPES.NVarChar, val: req.body.photo});
 
-        dbContext.post("RegistrarCuentaEmpleado", parameters, function (error, data) {
+        dbContext.post("RegistrarEmpleadoCuenta", parameters, function (error, data) {
             if( data.length == 0){
                 return res.sendStatus(204);
             }else{

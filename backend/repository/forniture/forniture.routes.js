@@ -7,7 +7,7 @@ module.exports = function(router){
     router.route('/fornitures/:page')
         .get(fornitureRepository.getPage)
 
-    router.route('/fornitures/category/:category')
+    router.route('/fornitures/category/get')
         .get(fornitureRepository.getCategory)
 
     router.route('/fornitures')
@@ -23,6 +23,5 @@ module.exports = function(router){
     .get(fornitureRepository.getSucursales)
 
 
-    router.route('/fornitures/price/get')
-    .get(fornitureRepository.getProduct)
+   
 }
