@@ -92,9 +92,9 @@ insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio, Foto) values 
 insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio, Foto) values (18, 'Banco infantil', 'De pl�stico, roja', '$0.50', 'https://gollo-prod-grupounicomer.netdna-ssl.com/media/catalog/product/cache/7fab98186e03fe46f2659b9ea1ab996a/4/3/4303040128.jpg');
 
 
-insert into Sucursal (NumeroSucursal, Ubicacion) values (1, 'POLYGON((55 -25, 65 -25, 65 -35, 55 -35, 55 -25))');
-insert into Sucursal (NumeroSucursal, Ubicacion) values (2, 'POLYGON((100 -55, 110 -55, 110 -65, 100 -65, 100 -55))');
-insert into Sucursal (NumeroSucursal, Ubicacion) values (3, 'POLYGON((45 -75, 55 -75, 55 -85, 45 -85, 45 -75))');
+insert into Sucursal (NumeroSucursal,NombreSucursal, Ubicacion) values (1,'Sucursal1', 'POLYGON((55 -25, 65 -25, 65 -35, 55 -35, 55 -25))');
+insert into Sucursal (NumeroSucursal,NombreSucursal, Ubicacion) values (2,'Sucursal2', 'POLYGON((100 -55, 110 -55, 110 -65, 100 -65, 100 -55))');
+insert into Sucursal (NumeroSucursal,NombreSucursal, Ubicacion) values (3,'Sucursal3', 'POLYGON((45 -75, 55 -75, 55 -85, 45 -85, 45 -75))');
 
 insert into TelefonoXSucursal (fkSucursal, Detalle, Numero) values (3, 'LS', '805-652-5318');
 insert into TelefonoXSucursal (fkSucursal, Detalle, Numero) values (3, 'CN', '312-706-1397');
