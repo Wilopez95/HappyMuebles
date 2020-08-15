@@ -19,5 +19,10 @@ module.exports = function(router){
             
     router.route('/purchase/paymentMethods')
     .post(purchaseRepository.getPayment)  
+
+
+    router.route('/purchase/calification')
+    .post(purchaseRepository.getCalification)
+
   
 }

@@ -69,14 +69,18 @@ function AccountRepository(dbContext){
         
     
 
-    function updateAccount(req,res){
-        var parameters = [];
-        if(req.body.tipocuenta.includes("empleado")){
-            parameters.push({ name: 'fkEmpleado', type: TYPES.Int, val: req.body.id});
+    function updateAccountEmpleado(req,res){
+            var parameters = [];
+
+            parameters.push({ name: 'pkEmpleado', type: TYPES.Int, val: req.body.id});
+            parameters.push({ name: 'fkTipoEmpleado', type: TYPES.Int, val: req.body.tipoEmpleado});
+            parameters.push({ name: 'Nombre', type: TYPES.VarChar, val: req.body.name});
+            parameters.push({ name: 'FechaContratacion', type: TYPES.Date, val: req.body.date});
+            parameters.push({ name: 'Foto', type: TYPES.NVarChar, val: req.body.photo});
             parameters.push({ name: 'Email', type: TYPES.NVarChar, val: req.body.email});
             parameters.push({ name: 'EPassword', type: TYPES.NVarChar, val: req.body.password });
 
-            dbContext.post("ActualizarCuentaEmpleado", parameters, function (error, data) {
+            dbContext.post("ActualizarEmpleadoCuenta", parameters, function (error, data) {
                 if( data.length == 0){
                     return res.sendStatus(204);
                 }else{
@@ -84,8 +88,13 @@ function AccountRepository(dbContext){
                 } 
             });
 
-        }else{
-            parameters.push({ name: 'idCliente', type: TYPES.Int, val: req.body.id });
+    }
+        function updateAccountCliente(req,res){
+        
+            parameters.push({ name: 'idCliente', type: TYPES.Int, val: req.body.id});
+            parameters.push({ name: 'Nombre', type: TYPES.VarChar, val: req.body.name});
+            parameters.push({ name: 'FechaCumpleannos', type: TYPES.Date, val: req.body.birthdate});
+            parameters.push({ name: 'Ubicacion', type: TYPES.VarChar, val: req.body.location});
             parameters.push({ name: 'Email', type: TYPES.NVarChar, val: req.body.email });
             parameters.push({ name: 'CPassword', type: TYPES.NVarChar, val: req.body.password });
             parameters.push({ name: 'RecibirInfo', type: TYPES.VarChar, val: req.body.info});
@@ -98,15 +107,14 @@ function AccountRepository(dbContext){
                 } 
             });
         }
-    }
 
     return {
         login: loginAccount,
         registerCliente:registerAccountCliente,
         registerEmpleado:registerAccountEmpleado,
-        update:updateAccount
+        updateCliente:updateAccountCliente,
+        updateEmpleado:updateAccountEmpleado
     }
-    
 
 }
 

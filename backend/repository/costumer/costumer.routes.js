@@ -10,10 +10,6 @@ module.exports = function(router){
     
     router.route('/costumer/coupons/get')
         .post(costumerRepository.getCoupons)
-
-    router.route('/costumer/register')
-        .post(costumerRepository.register)    
-
-    router.route('/costumer/update')
-        .post(costumerRepository.update)    
+  
+  
 }

@@ -219,7 +219,7 @@ BEGIN
 
 		IF(@ValidarCategoria>0)
 			BEGIN
-				SELECT P.Nombre, P.Descripcion,P.Foto,S.Cantidad,S.Cantidad,S.fkSucursal
+				SELECT P.pkProducto, P.Nombre, P.Descripcion, P.Foto, P.Precio
 				FROM Producto P JOIN Stock S ON P.pkProducto = S.fkProducto  
 				WHERE P.fkTipoProducto = @Categoria
 

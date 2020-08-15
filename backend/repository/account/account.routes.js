@@ -14,7 +14,11 @@ module.exports = function(router){
     router.route('/account/register/empleado')
         .post(accountRepository.registerEmpleado)
 
-    router.route('/account/update')
-        .post(accountRepository.update)
+    router.route('/account/updateCliente')
+        .post(accountRepository.updateCliente)
+
+    router.route('/account/updateEmpleado')
+        .post(accountRepository.updateEmpleado)
+
            
 }

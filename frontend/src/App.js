@@ -13,6 +13,8 @@ import Categories from './components/Categories'
 import addToCart from './components/addToCart'
 import RegisterEmployee from './components/RegisterEmployee'
 import Reportes from './components/Reportes'
+import updateCliente from './components/UpdateCliente'
+import clienteProfile from './components/clienteProfile'
 
 function App() {
   return (
@@ -22,11 +24,12 @@ function App() {
         <Route path="/" exact component={Fornitures} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={RegisterAcc} />
-        <Route path="/updateacc/:id" component={RegisterAcc} />
         <Route path="/categories" component={Categories} />
         <Route path="/cart" component={addToCart}/>
         <Route path= "/registerEmp" component={RegisterEmployee}/>
         <Route path="/reports" component={Reportes}/>
+        <Route path='/updateCliente' component={updateCliente}/>
+        <Route path='/profileCliente' component={clienteProfile}/>
       </div>
       <Footer/>
     </Router>

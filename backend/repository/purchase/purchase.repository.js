@@ -65,7 +65,23 @@ function PurchaseRepository(dbContext){
             });
         
     }
+    function getCalification(req,res){
+        var parameters = [];
+        parameters.push({ name: 'fkCompra', type: TYPES.Int, val: req.body.id});
+        parameters.push({ name: 'EvaluacionServicio', type: TYPES.Int, val: req.body.servicio});
+        parameters.push({ name: 'EvaluacionProducto', type: TYPES.Int, val: req.body.producto});
+        parameters.push({ name: 'EvaluacionEntrega', type: TYPES.Int, val: req.body.entrega});
+        parameters.push({ name: 'Comentario', type: TYPES.NVarChar, val: req.body.comentario});
 
+        dbContext.post("AgregarEvaluacionCompra", parameters, function (error, data) {
+            if( data.length == 0){
+                return res.sendStatus(204);
+            }else{
+                return res.json(response(data, error));
+            } 
+        });
+
+    }
 
 
 
@@ -74,7 +90,8 @@ function PurchaseRepository(dbContext){
         shopping: addToShoppingList,
         bill: billGeneration,
         billLine: billLineGeneration,
-        getPayment: getPaymentMethods
+        getPayment: getPaymentMethods,
+        getCalification: getCalification
     }
 
 }
