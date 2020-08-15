@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
+import { Redirect } from 'react-router';
 
 class Navigation extends Component {
 
@@ -32,20 +33,47 @@ class Navigation extends Component {
                             </li>
                             <li className="nav-item">
                                 {
-                                    <Link className="nav-link" to="/login">
-                                    Iniciar Sesión
-                                   </Link>
+
+                                   ( localStorage.getItem('idEmpleado') !== 'undefined' && localStorage.getItem('idEmpleado') !== null) ?
+                                   <Link className="nav-link" to="/profileEmpleado">
+                                   Perfil
+                                  </Link>
+                                   :
                                     
+                                   ( localStorage.getItem('idCliente') !== 'undefined' && localStorage.getItem('idCliente') !== null) ?
+                                    <Link className="nav-link" to="/profileCliente">
+                                    Perfil
+                                    </Link>
+                                    :
+                                   <Link className="nav-link" to="/login">
+                                   Iniciar Sesión
+                                  </Link>
                                 }
                             </li>
                             <li>
                                 {
-    
+                                   ( localStorage.getItem('idEmpleado') !== 'undefined' && localStorage.getItem('idEmpleado') !== null) ?
+                                   <Link className="nav-link" to="/registerEmp">
+                                   Registrar Empleado
+                                   </Link>
+                                   :
                                      <Link className="nav-link" to="/cart">
                                      Carrito
                                      </Link>
 
                                 }
+                            </li>
+                            <li>
+                            {
+                                   ( localStorage.getItem('idEmpleado') !== 'undefined' && localStorage.getItem('idEmpleado') !== null) ?
+                                   <Link className="nav-link" to="/reports">
+                                   Reportes
+                                   </Link>
+                                   :
+                                <div></div>
+
+                                }
+
                             </li>
                             <li>
                                 <button className="btn btn-dark" type="button"  onClick={this.refreshPage}>

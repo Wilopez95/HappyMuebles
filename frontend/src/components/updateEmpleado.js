@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
-export default class UpdateCliente extends Component {
+export default class updateEmpleado extends Component {
 
     render() {
         return (
-            <h1>update del cliente</h1>
+            <h1>update del empleado</h1>
         )
     }
 }
