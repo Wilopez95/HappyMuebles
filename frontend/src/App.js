@@ -15,7 +15,7 @@ import RegisterEmployee from './components/RegisterEmployee'
 import Reportes from './components/Reportes'
 import clienteProfile from './components/clienteProfile'
 import empleadoProfile from './components/empleadoProfile'
-import updateEmpleado from './components/updateEmpleado'
+import UpdateEmpleado from './components/UpdateEmpleado'
 
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
         <Route path="/reports" component={Reportes}/>
         <Route path='/profileCliente' component={clienteProfile}/>
         <Route path='/profileEmpleado' component={empleadoProfile}/>
-        <Route path='/updateEmpleado' component={updateEmpleado}/>
+        <Route path='/UpdateEmpleado' component={UpdateEmpleado}/>
       </div>
       <Footer/>
     </Router>
