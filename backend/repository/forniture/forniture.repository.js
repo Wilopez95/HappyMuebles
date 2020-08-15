@@ -18,20 +18,6 @@ function FornitureRepository(dbContext){
         }
     } 
 
-   /* function getFornituresCategory(req,res,category){
-        if(req.params.category){
-            var parameters = [];
-
-            parameters.push({name: 'Category', type: TYPES.Int, val: req.params.category})
-            var query = "execute ObtenerMueblesCategoria @Categoria = @category"
-
-            dbContext.getQuery(query, parameters, false, function (error, data) {
-                return res.json(response(data, error));
-            });
-            
-        }
-    }*/
-
 
     function getFornituresCategory(req,res,category){
             var parameters = [];

@@ -25,6 +25,12 @@ export default class addToCart extends Component {
         console.log(prueba)
         }
     }
+
+    selectCoupon = (pPorcentaje)  =>{
+        console.log(pPorcentaje)
+        localStorage.setItem('Cupon',pPorcentaje)
+        window.location.reload(false);
+    }
    
    
     render() {
@@ -45,12 +51,31 @@ export default class addToCart extends Component {
                                             this.state.coupons.length ===0 ?
                                             <li>No hay cupones disponibles </li>
                                                 :
-                                             this.state.coupons.map(coupon => <li className="list-group-item list-group-item-action" key={coupon._id}>
+                                             this.state.coupons.map(coupon => <li className="list-group-item list-group-item-action" 
+                                             key={coupon._id}
+                                             onDoubleClick={() => this.selectCoupon(coupon['Porcentaje'])}>
                                             {coupon['Descripcion']}
                                             </li>)
                                         }
                                     </ul>
                                 </div>
+                            </div>
+
+                            <div className= "col-md">
+                                 hola
+                            </div>               
+
+                            <div>
+                                 {
+                                    localStorage.getItem('Cupon')===null?
+                                    <h4>Seleccione un cupon </h4>
+                                    :
+                                    <div>
+                                        <h4>Monto de descuento:{ Number(localStorage.getItem('totalPrice'))*Number(localStorage.getItem('Cupon')) }</h4>
+                                        
+                                    </div>
+
+                                 }   
                             </div>
                             <div>
                                 {
@@ -71,7 +96,12 @@ export default class addToCart extends Component {
                                 localStorage.getItem('cartList') ===null ?
                                 <li>No hay productos seleccionados </li>
                                 :
-                                JSON.parse(localStorage.getItem('cartList')).map(product => <li className="list-group-item list-group-item-action" key={product._id}>
+                                JSON.parse(localStorage.getItem('cartList')).map(product => 
+                                <li 
+                                    className="list-group-item list-group-item-action" 
+                                     key={product._id}
+                                     >
+
                                     {product}
                                 </li>)
                             }

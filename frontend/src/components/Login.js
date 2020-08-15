@@ -34,10 +34,13 @@ export default class Login extends Component {
         })
         console.log(res)
         if(res.data !== ""){
+            localStorage.setItem('idEmpleado',res.data[0].pkEmpleado)
             localStorage.setItem('idCliente',res.data[0].pkCliente)
         }else{
             console.log('no se puede logear')
         }
+
+        window.location.reload(false);
     }
 
     render() {

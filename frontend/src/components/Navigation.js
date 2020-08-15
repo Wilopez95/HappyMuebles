@@ -31,15 +31,21 @@ class Navigation extends Component {
                                 </Link>
                             </li>
                             <li className="nav-item">
-
-                                <Link className="nav-link" to="/login">
+                                {
+                                    <Link className="nav-link" to="/login">
                                     Iniciar Sesión
-                                </Link>
+                                   </Link>
+                                    
+                                }
                             </li>
                             <li>
-                                <Link className="nav-link" to="/cart">
-                                    Carrito
-                                </Link>
+                                {
+    
+                                     <Link className="nav-link" to="/cart">
+                                     Carrito
+                                     </Link>
+
+                                }
                             </li>
                             <li>
                                 <button className="btn btn-dark" type="button"  onClick={this.refreshPage}>

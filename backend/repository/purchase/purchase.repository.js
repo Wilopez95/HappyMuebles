@@ -60,9 +60,7 @@ function PurchaseRepository(dbContext){
     }
     function getPaymentMethods(req,res){
             var parameters=[];
-            var query = "execute VerMetodosDePago"
-
-            dbContext.getQuery(query, parameters, false, function (error, data) {
+            dbContext.post("VerMetodosDePago", parameters,function (error, data) {
                 return res.json(response(data, error));
             });
         
