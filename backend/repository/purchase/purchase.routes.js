@@ -27,4 +27,6 @@ module.exports = function(router){
     router.route('/purchase/client/history/:id')
     .get(purchaseRepository.getCHistory)
   
+    router.route('/purchase/sucursal/history/:id')
+    .get(purchaseRepository.getSHistory)
 }

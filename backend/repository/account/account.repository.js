@@ -72,7 +72,7 @@ function AccountRepository(dbContext){
     function updateAccountEmpleado(req,res){
             var parameters = [];
 
-            parameters.push({ name: 'pkEmpleado', type: TYPES.Int, val: req.body.id});
+            parameters.push({ name: 'idEmpleado', type: TYPES.Int, val: req.body.id});
             parameters.push({ name: 'fkTipoEmpleado', type: TYPES.Int, val: req.body.tipoEmpleado});
             parameters.push({ name: 'Nombre', type: TYPES.VarChar, val: req.body.name});
             parameters.push({ name: 'FechaContratacion', type: TYPES.Date, val: req.body.date});

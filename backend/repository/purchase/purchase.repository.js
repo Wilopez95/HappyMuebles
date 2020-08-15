@@ -93,6 +93,16 @@ function PurchaseRepository(dbContext){
             });
         }
     }
+    function getHistorySucursal(req,res){
+        if (req.params.id) {
+            var parameters = [];
+            parameters.push({ name: 'Id', type: TYPES.Int, val: req.params.id});
+            var query = "ObtenerHistorialCompra @fkSucursal =@id"
+            dbContext.getQuery(query, parameters, false, function (error, data) {
+                return res.json(response(data, error));
+            });
+        }
+    }
 
 
 
@@ -103,7 +113,8 @@ function PurchaseRepository(dbContext){
         billLine: billLineGeneration,
         getPayment: getPaymentMethods,
         getCalification: getCalification,
-        getCHistory: getHistoryClient
+        getCHistory: getHistoryClient,
+        getSHistory: getHistorySucursal
     }
 
 }
