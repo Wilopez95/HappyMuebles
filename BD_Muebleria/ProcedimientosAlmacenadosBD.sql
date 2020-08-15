@@ -587,20 +587,55 @@ GO
 
 
 --------------------------------------------------------------------------------------------------
+
+CREATE PROCEDURE ProcesarFacturacion
+	@fkFactura int
+AS
+BEGIN
+	BEGIN TRY
+		DECLARE @idCompra int
+		DECLARE @MontoCompra money
+
+		SELECT @idCompra = F.fkCompra
+		FROM Factura F
+		WHERE F.pkFactura = @fkFactura 
+
+		INSERT INTO LineaFactura(fkFactura,Cantidad,Detalle,Monto)
+		SELECT @fkFactura,L.Cantidad, P.Nombre,dbo.transformarMonto(L.Cantidad * P.Precio)
+		FROM ListaCompra L JOIN Producto P ON L.fkProducto = P.pkProducto 
+		WHERE L.fkCompra = @idCompra 
+
+		SELECT @MontoCompra = dbo.ObtenerMontoPorCompra(@idCompra)
+
+		UPDATE Factura
+		SET MontoTotal = @MontoCompra
+		WHERE pkFactura = @fkFactura 
+
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------
 CREATE PROCEDURE GenerarFactura
 	@idMetodoPago int,
 	@idCompra int,
 	@idSucursal int
 AS
 BEGIN
+	DECLARE @idFactura int 
 	BEGIN TRY
 		INSERT INTO Factura(fkMetodoPago, fkCompra,fkSucursal,MontoTotal)
 		VALUES (@idMetodoPago, @idCompra,@idSucursal,0)
 
-		SELECT TOP(1) F.pkFactura
+		SELECT TOP(1) @idFactura = F.pkFactura
 		FROM Factura F
 		WHERE F.fkCompra = @idCompra
 		Order by F.pkFactura desc
+
+		execute ProcesarFacturacion @fkFactura = @idFactura
 
 	END TRY
 	BEGIN CATCH
@@ -1221,37 +1256,7 @@ BEGIN
 	RETURN
 END
 GO
---------------------------------------------------------------------------------------------------
-CREATE PROCEDURE ProcesarFacturacion
-	@fkFactura int
-AS
-BEGIN
-	BEGIN TRY
-		DECLARE @idCompra int
-		DECLARE @MontoCompra money
 
-		SELECT @idCompra = F.fkCompra
-		FROM Factura F
-		WHERE F.pkFactura = @fkFactura 
-
-		INSERT INTO LineaFactura(fkFactura,Cantidad,Detalle,Monto)
-		SELECT @fkFactura,L.Cantidad, P.Nombre,dbo.transformarMonto(L.Cantidad * P.Precio)
-		FROM ListaCompra L JOIN Producto P ON L.fkProducto = P.pkProducto 
-		WHERE L.fkCompra = @idCompra 
-
-		SELECT @MontoCompra = dbo.ObtenerMontoPorCompra(@idCompra)
-
-		UPDATE Factura
-		SET MontoTotal = @MontoCompra
-		WHERE pkFactura = @fkFactura 
-
-	END TRY
-	BEGIN CATCH
-		raiserror('Ocurrio un error ejecutando',1,1)
-	END CATCH
-	RETURN
-END
-GO
 ---------------------------------------------------------------------------
 CREATE PROCEDURE AgregarEvaluacionCompra
 	@fkCompra int,
