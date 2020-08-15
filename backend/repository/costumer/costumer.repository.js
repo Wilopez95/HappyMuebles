@@ -6,15 +6,15 @@ function CostumerRepository(dbContext){
 
    
     function getProfileCliente(req,res){
-        var parameters = [];
-        parameters.push({ name: 'idCliente', type: TYPES.Int, val: req.body.id});
-            dbContext.post("obtenerPerfilCliente", parameters, function (error, data) {
-                if( data.length == 0){
-                    return res.sendStatus(204);
-                }else{
-                    return res.json(response(data, error));
-                } 
+        if (req.params.id) {
+            var parameters = [];
+            parameters.push({ name: 'Id', type: TYPES.Int, val: req.params.id});
+            var query = "obtenerPerfilCliente @idCliente =@id"
+            dbContext.getQuery(query, parameters, false, function (error, data) {
+                return res.json(response(data, error));
             });
+        }
+            
     }
 
     function getCostumerCoupons(req,res){

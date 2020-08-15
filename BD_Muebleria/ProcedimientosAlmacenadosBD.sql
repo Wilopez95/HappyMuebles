@@ -305,7 +305,7 @@ END
 GO
 --------------------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE obtenerPerfilCliente
+CREATE PROCEDURE [dbo].[obtenerPerfilCliente]
 	@idCliente int
 AS
 BEGIN
@@ -320,9 +320,11 @@ BEGIN
 
 		IF(@CantCliente>0)
 			BEGIN
-				SELECT  C.pkCliente,Nombre,Ubicacion 
-				FROM Cliente C 
-				WHERE C.pkCliente = @idCliente 
+				SELECT TOP 1 dbo.Cliente.pkCliente, dbo.Cliente.Nombre, dbo.Cliente.FechaCumpleannos, dbo.CuentaCliente.Email, dbo.CuentaCliente.RecibirInfo, dbo.TelefonoXCliente.Numero
+				FROM dbo.Cliente LEFT JOIN
+                         dbo.CuentaCliente ON dbo.Cliente.pkCliente = dbo.CuentaCliente.fkCliente INNER JOIN
+                         dbo.TelefonoXCliente ON dbo.Cliente.pkCliente = dbo.TelefonoXCliente.fkCliente
+				WHERE dbo.Cliente.pkCliente = @idCliente 
 			END
 		ELSE
 			BEGIN
@@ -1462,7 +1464,7 @@ AS
 BEGIN
 	
 	BEGIN TRY
-		SELECT C.FechaCompra, S.NombreSucursal, Cl.Nombre NombreCliente,Mp.Detalle MetodoPago
+		SELECT C.pkCompra,C.FechaCompra, S.NombreSucursal, Cl.Nombre NombreCliente,Mp.Detalle MetodoPago
 		FROM Factura F JOIN MetodoPago Mp ON F.fkMetodoPago = Mp.pkMetodoPago
 		JOIN Compra C ON F.fkCompra = C.pkCompra
 		JOIN Sucursal S ON F.fkSucursal = S.pkSucursal

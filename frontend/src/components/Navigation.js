@@ -6,7 +6,7 @@ class Navigation extends Component {
 
     refreshPage() {
         localStorage.clear()
-        window.location.reload(false);
+        window.location.href = "/"
       }
 
     render() {
@@ -77,7 +77,7 @@ class Navigation extends Component {
                             </li>
                             <li>
                                 <button className="btn btn-dark" type="button"  onClick={this.refreshPage}>
-                                    Log out
+                                    Salir
                                 </button>
                             </li>
                         </ul>

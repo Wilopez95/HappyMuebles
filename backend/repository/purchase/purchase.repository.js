@@ -83,6 +83,17 @@ function PurchaseRepository(dbContext){
 
     }
 
+    function getHistoryClient(req,res){
+        if (req.params.id) {
+            var parameters = [];
+            parameters.push({ name: 'Id', type: TYPES.Int, val: req.params.id});
+            var query = "ObtenerHistorialCompra @fkCliente =@id"
+            dbContext.getQuery(query, parameters, false, function (error, data) {
+                return res.json(response(data, error));
+            });
+        }
+    }
+
 
 
     return {
@@ -91,7 +102,8 @@ function PurchaseRepository(dbContext){
         bill: billGeneration,
         billLine: billLineGeneration,
         getPayment: getPaymentMethods,
-        getCalification: getCalification
+        getCalification: getCalification,
+        getCHistory: getHistoryClient
     }
 
 }

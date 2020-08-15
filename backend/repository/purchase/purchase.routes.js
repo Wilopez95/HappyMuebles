@@ -24,5 +24,7 @@ module.exports = function(router){
     router.route('/purchase/calification')
     .post(purchaseRepository.getCalification)
 
+    router.route('/purchase/client/history/:id')
+    .get(purchaseRepository.getCHistory)
   
 }
