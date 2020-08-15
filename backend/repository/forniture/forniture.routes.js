@@ -7,9 +7,21 @@ module.exports = function(router){
     router.route('/fornitures/:page')
         .get(fornitureRepository.getPage)
 
-    router.route('/fornitures/category/:category')
+    router.route('/fornitures/category/:id')
         .get(fornitureRepository.getCategory)
 
     router.route('/fornitures')
     .get(fornitureRepository.getRandom)
+
+    router.route('/fornitures/description/:id')
+    .get(fornitureRepository.getForniture)
+
+    router.route('/fornitures/stock/check')
+    .get(fornitureRepository.getStock)
+
+    router.route('/fornitures/sucursales/get')
+    .get(fornitureRepository.getSucursales)
+
+
+   
 }

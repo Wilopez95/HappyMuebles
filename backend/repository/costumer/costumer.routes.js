@@ -5,11 +5,11 @@ const dbContext = require('../../Database/dbContext');
 module.exports = function(router){
     const costumerRepository = _costumerRepository(dbContext);
 
-    router.route('/costumer/:id')
-        .get(costumerRepository.getInfo)
+    router.route('/costumer/info/get')
+        .post(costumerRepository.getInfo)
     
-    router.route('/costumer/coupons/:id')
-        .get(costumerRepository.getCoupons)
+    router.route('/costumer/coupons/get')
+        .post(costumerRepository.getCoupons)
 
     router.route('/costumer/register')
         .post(costumerRepository.register)    

@@ -7,9 +7,9 @@ insert into TipoEmpleado (Descripcion) values ('Bodegueros');
 insert into TipoEmpleado (Descripcion) values ('Inspector');
 insert into TipoEmpleado (Descripcion) values ('Gerente');
 
-insert into Taller (Nombre, Ubicacion, Email) values ('article foaming', 'POLYGON((30 -10, 40 -10, 40 -20, 30 -20, 30 -10))', 'tlathleiffure0@ed.gov');
-insert into Taller (Nombre, Ubicacion, Email) values ('Ketamine Hydrochloride', 'POLYGON((115 -10, 125 -10, 125 -20, 115 -20, 115 -10))', 'dpolly1@accuweather.com');
-insert into Taller (Nombre, Ubicacion, Email) values ('Gabapentin', 'POLYGON((25 -75, 40 -75, 40 -85, 25 -85, 25 -75))', 'smerrgen2@creativecommons.org');
+insert into Taller (Nombre, Ubicacion, Email) values ('Taller1', 'POLYGON((30 -10, 40 -10, 40 -20, 30 -20, 30 -10))', 'tlathleiffure0@ed.gov');
+insert into Taller (Nombre, Ubicacion, Email) values ('Taller2', 'POLYGON((115 -10, 125 -10, 125 -20, 115 -20, 115 -10))', 'dpolly1@accuweather.com');
+insert into Taller (Nombre, Ubicacion, Email) values ('Taller3', 'POLYGON((20 -75, 30 -75, 30 -85, 20 -85, 20 -75))', 'smerrgen2@creativecommons.org');
 
 
 
