@@ -783,7 +783,7 @@ CREATE PROCEDURE VerMetodosDePago
 AS
 BEGIN
 	BEGIN TRY
-		SELECT MP.Detalle FROM MetodoPago MP
+		SELECT MP.pkMetodoPago, MP.Detalle FROM MetodoPago MP
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
