@@ -2,17 +2,16 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-export default class clienteProfile extends Component {
+export default class empleadoProfile extends Component {
 
     render() {
         return (
             <div>
-                <h1>Profile del cliente</h1>
-                <Link className="nav-link" to="/updateCliente">
-                Modificar Cuenta
+                <h1>Profile del empleado</h1>
+                <Link className="nav-link" to="/updateEmpleado">
+                    Modificar Cuenta
                 </Link>
             </div>
-          
         )
     }
 }
