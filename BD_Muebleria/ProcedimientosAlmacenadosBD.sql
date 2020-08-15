@@ -1464,7 +1464,7 @@ AS
 BEGIN
 	
 	BEGIN TRY
-		SELECT C.pkCompra,C.FechaCompra, S.NombreSucursal, Cl.Nombre NombreCliente,Mp.Detalle MetodoPago
+		SELECT C.pkCompra,C.FechaCompra, S.NombreSucursal, Cl.Nombre NombreCliente,Mp.Detalle MetodoPago,F.MontoTotal
 		FROM Factura F JOIN MetodoPago Mp ON F.fkMetodoPago = Mp.pkMetodoPago
 		JOIN Compra C ON F.fkCompra = C.pkCompra
 		JOIN Sucursal S ON F.fkSucursal = S.pkSucursal
@@ -1544,6 +1544,58 @@ BEGIN
 	END CATCH
 	RETURN
 END
+GO
+---------------------------------------------------------
+CREATE PROCEDURE ConsultarVentas
+	@idSucursal int = NULL
+
+AS
+BEGIN
+	
+	BEGIN TRY
+		SELECT SUM(Lc.Cantidad) Cantidad,		
+			   CASE WHEN (GROUPING (P.Nombre) = 1) THEN 'TOTAL-PRODUCTO'
+					ELSE ISNULL(P.Nombre,'UNKNOWN')
+				END AS Productos,
+				CASE WHEN (GROUPING (S.NombreSucursal) = 1) THEN 'TOTAL-VENTAS-SUCURSAL'
+					ELSE ISNULL(S.NombreSucursal,'UNKNOWN')
+				END AS Sucursales,
+			   SUM(F.MontoTotal) TotalVentasxSucursal
+		FROM Factura F JOIN Sucursal S ON F.fkSucursal = S.pkSucursal 
+		JOIN Compra C ON F.fkCompra = C.pkCompra 
+		JOIN ListaCompra Lc ON  C.pkCompra = Lc.fkCompra 
+		JOIN Producto P ON Lc.fkProducto = P.pkProducto 
+		WHERE ISNULL(@idSucursal,F.fkSucursal) = F.fkSucursal
+		GROUP BY P.Nombre,S.NombreSucursal
+		WITH CUBE
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+---------------------------------------------------------
+CREATE PROCEDURE AgregarEntrega
+	@idSucursal int,
+	@idCompra int,
+	@idCliente int,
+	@MontoXEntrega int
+
+AS
+BEGIN
+	
+	BEGIN TRY
+		INSERT INTO Entrega(fkSucursal,fkCompra,fkCliente,Monto)
+		VALUES (@idSucursal,@idCompra,@idCliente,@MontoXEntrega)
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+
 
 
 
