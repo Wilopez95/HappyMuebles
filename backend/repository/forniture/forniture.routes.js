@@ -7,7 +7,7 @@ module.exports = function(router){
     router.route('/fornitures/:page')
         .get(fornitureRepository.getPage)
 
-    router.route('/fornitures/category/get')
+    router.route('/fornitures/category/:id')
         .get(fornitureRepository.getCategory)
 
     router.route('/fornitures')

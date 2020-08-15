@@ -19,15 +19,17 @@ function FornitureRepository(dbContext){
     } 
 
 
-    function getFornituresCategory(req,res,category){
+    function getFornituresCategory(req,res){
+        if (req.params.id) {
             var parameters = [];
-
-            parameters.push({name: 'Category', type: TYPES.Int, val: req.body.category})
-            var query = "execute ObtenerMueblesCategoria @Categoria = @category"
+            
+            parameters.push({ name: 'Id', type: TYPES.Int, val: req.params.id});
+            var query = "execute ObtenerMueblesCategoria @Categoria =@id"
 
             dbContext.getQuery(query, parameters, false, function (error, data) {
                 return res.json(response(data, error));
             });
+        }
         
     }
     function getFornituresRandom(req,res){

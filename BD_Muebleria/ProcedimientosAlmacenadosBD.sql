@@ -204,7 +204,7 @@ END
 GO
 --------------------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE ObtenerMueblesCategoria
+CREATE PROCEDURE [dbo].[ObtenerMueblesCategoria]
 	@Categoria int
 AS
 BEGIN
@@ -219,8 +219,9 @@ BEGIN
 
 		IF(@ValidarCategoria>0)
 			BEGIN
-				SELECT P.pkProducto, P.Nombre, P.Descripcion, P.Foto, P.Precio
-				FROM Producto P JOIN Stock S ON P.pkProducto = S.fkProducto  
+
+				SELECT  P.pkProducto, P.Nombre, P.Descripcion, P.Foto, P.Precio, TP.pkTipoProducto, TP.Detalle from Producto P
+				INNER JOIN TipoProducto TP ON P.fkTipoProducto = TP.pkTipoProducto 
 				WHERE P.fkTipoProducto = @Categoria
 
 			END
@@ -428,7 +429,6 @@ BEGIN
 END
 GO
 --------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------
 GO
 CREATE PROCEDURE ActualizarCuentaCliente
 	@idCliente int,
@@ -450,6 +450,33 @@ BEGIN
 END
 GO
 --------------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE ActualizarClienteCuenta
+	@idCliente int,
+	@Nombre varchar(40) = NULL,
+	@FechaCumpleannos date = NULL,
+	@Ubicacion geometry = NULL,
+	@Email nvarchar(30) = NULL,
+	@CPassword nvarchar(16) = NULL,
+	@RecibirInfo bit = NULL
+AS
+BEGIN
+
+	BEGIN TRY
+		UPDATE Cliente
+		SET Nombre = ISNULL(@Nombre,Nombre),FechaCumpleannos = ISNULL(@FechaCumpleannos,FechaCumpleannos),Ubicacion = ISNULL(@Ubicacion,Ubicacion)
+		WHERE pkCliente = @idCliente  
+
+		UPDATE CuentaCliente
+		SET Email=ISNULL(@Email,Email),CPassword=ISNULL(@CPassword,CPassword),RecibirInfo=ISNULL(@RecibirInfo,RecibirInfo)
+		WHERE fkCliente = @idCliente
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
 --------------------------------------------------------------------------------------------
 GO
 CREATE PROCEDURE RegistrarEmpleado
@@ -514,7 +541,7 @@ GO
 --------------------------------------------------------------------------------------------
 GO
 CREATE PROCEDURE ActualizarCuentaEmpleado
-	@pkCuenta int,
+	@idEmpleado int,
 	@EPassword nvarchar(16) = NULL,
 	@Email nvarchar(50)= NULL
 AS
@@ -523,7 +550,35 @@ BEGIN
 	BEGIN TRY
 		UPDATE Cuenta
 		SET EPassword = ISNULL(@EPassword,EPassword),Email = ISNULL(@Email,Email) 
-		WHERE pkCuenta = @pkCuenta 
+		WHERE fkEmpleado = @idEmpleado 
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------------------------------------
+GO
+CREATE PROCEDURE ActualizarEmpleadoCuenta
+	@idEmpleado int,
+	@fkTipoEmpleado int = NULL,
+	@Nombre varchar(40) = NULL,
+	@FechaContratacion date =  NULL,
+	@Foto nvarchar(max) = NULL,
+	@EPassword nvarchar(16) = NULL,
+	@Email nvarchar(50)= NULL
+AS
+BEGIN
+
+	BEGIN TRY
+		UPDATE Empleado
+		SET fkTipoEmpleado = ISNULL(@fkTipoEmpleado,fkTipoEmpleado),Nombre=ISNULL(@Nombre,Nombre),FechaContratacion=ISNULL(@FechaContratacion,FechaContratacion),Foto=ISNULL(@Foto,Foto)
+		WHERE pkEmpleado = @idEmpleado
+
+		UPDATE Cuenta
+		SET EPassword = ISNULL(@EPassword,EPassword),Email = ISNULL(@Email,Email) 
+		WHERE fkEmpleado = @idEmpleado 
 	END TRY
 	BEGIN CATCH
 		raiserror('Ocurrio un error ejecutando',1,1)
@@ -587,20 +642,55 @@ GO
 
 
 --------------------------------------------------------------------------------------------------
+
+CREATE PROCEDURE ProcesarFacturacion
+	@fkFactura int
+AS
+BEGIN
+	BEGIN TRY
+		DECLARE @idCompra int
+		DECLARE @MontoCompra money
+
+		SELECT @idCompra = F.fkCompra
+		FROM Factura F
+		WHERE F.pkFactura = @fkFactura 
+
+		INSERT INTO LineaFactura(fkFactura,Cantidad,Detalle,Monto)
+		SELECT @fkFactura,L.Cantidad, P.Nombre,dbo.transformarMonto(L.Cantidad * P.Precio)
+		FROM ListaCompra L JOIN Producto P ON L.fkProducto = P.pkProducto 
+		WHERE L.fkCompra = @idCompra 
+
+		SELECT @MontoCompra = dbo.ObtenerMontoPorCompra(@idCompra)
+
+		UPDATE Factura
+		SET MontoTotal = @MontoCompra
+		WHERE pkFactura = @fkFactura 
+
+	END TRY
+	BEGIN CATCH
+		raiserror('Ocurrio un error ejecutando',1,1)
+	END CATCH
+	RETURN
+END
+GO
+--------------------------------------------------------------
 CREATE PROCEDURE GenerarFactura
 	@idMetodoPago int,
 	@idCompra int,
 	@idSucursal int
 AS
 BEGIN
+	DECLARE @idFactura int 
 	BEGIN TRY
 		INSERT INTO Factura(fkMetodoPago, fkCompra,fkSucursal,MontoTotal)
 		VALUES (@idMetodoPago, @idCompra,@idSucursal,0)
 
-		SELECT TOP(1) F.pkFactura
+		SELECT TOP(1) @idFactura = F.pkFactura
 		FROM Factura F
 		WHERE F.fkCompra = @idCompra
 		Order by F.pkFactura desc
+
+		execute ProcesarFacturacion @fkFactura = @idFactura
 
 	END TRY
 	BEGIN CATCH
@@ -1221,37 +1311,7 @@ BEGIN
 	RETURN
 END
 GO
---------------------------------------------------------------------------------------------------
-CREATE PROCEDURE ProcesarFacturacion
-	@fkFactura int
-AS
-BEGIN
-	BEGIN TRY
-		DECLARE @idCompra int
-		DECLARE @MontoCompra money
 
-		SELECT @idCompra = F.fkCompra
-		FROM Factura F
-		WHERE F.pkFactura = @fkFactura 
-
-		INSERT INTO LineaFactura(fkFactura,Cantidad,Detalle,Monto)
-		SELECT @fkFactura,L.Cantidad, P.Nombre,dbo.transformarMonto(L.Cantidad * P.Precio)
-		FROM ListaCompra L JOIN Producto P ON L.fkProducto = P.pkProducto 
-		WHERE L.fkCompra = @idCompra 
-
-		SELECT @MontoCompra = dbo.ObtenerMontoPorCompra(@idCompra)
-
-		UPDATE Factura
-		SET MontoTotal = @MontoCompra
-		WHERE pkFactura = @fkFactura 
-
-	END TRY
-	BEGIN CATCH
-		raiserror('Ocurrio un error ejecutando',1,1)
-	END CATCH
-	RETURN
-END
-GO
 ---------------------------------------------------------------------------
 CREATE PROCEDURE AgregarEvaluacionCompra
 	@fkCompra int,

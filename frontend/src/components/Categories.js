@@ -7,6 +7,7 @@ export default class FornituresHomeList extends Component {
 
     state = {
         fornitures: [],
+        Category: 1,
         seen: false,
         product: {
             name: 'Juan',
@@ -17,11 +18,23 @@ export default class FornituresHomeList extends Component {
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
+        this.getData(1);
 
-        const res = await axios.get('http://localhost:3300/api/fornitures/');
+    }
+
+    async getData(id) {
+        const res = await axios.get('http://localhost:3300/api/fornitures/category/'+id);
         this.setState({ fornitures: res.data });
+    }
 
+    onChangeCategory = e => {
+        console.log(e.target.value);
+        this.setState({
+            Category:e.target.value
+        })
+
+        this.getData(e.target.value);
     }
 
     viewMore = (name,description,photo,detail,price) => {
@@ -50,19 +63,20 @@ export default class FornituresHomeList extends Component {
                             <h4 className="text-center">Filtros por Categoria</h4>
                         </div>
                         <div className="form-group">
-                            <select value={this.state.value} onChange={this.handleChange}>
-                                <option value="grapefruit">Grapefruit</option>
-                                <option value="lime">Lime</option>
-                                <option value="coconut">Coconut</option>
-                                <option value="mango">Mango</option>
+                            <select value={this.state.value} onChange={this.onChangeCategory}>
+                                <option value="1">Armario</option>
+                                <option value="2">Alacena</option>
+                                <option value="3">Cama</option>
+                                <option value="4">Escritorio</option>
+                                <option value="5">Libreria</option>
+                                <option value="6">Comoda</option>
+                                <option value="7">Comedor</option>
+                                <option value="8">Mueble Cocina</option>
+                                <option value="9">Terraza</option>
+                                <option value="10">Oficina</option>
                             </select>
                         </div>
                         <div className="row">
-                            <div className="col text-center">
-                                <button type="submit" className="btn btn-primary">
-                                    Filtrar
-                                </button>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -79,7 +93,7 @@ export default class FornituresHomeList extends Component {
                                 <div className="card">
                                     <div className="card-body">
                                         <h5 className="text-center">{forniture.Nombre}</h5>
-                                        <img src={forniture.Foto} className="rounded mx-auto d-block img-sizes" alt=""></img>
+                                        <img src={forniture.Foto} className="rounded mx-auto d-block img-sizes2" alt=""></img>
                                         <p className="text-center">{forniture.Descripcion}</p>
 
                                         <div className="row">
