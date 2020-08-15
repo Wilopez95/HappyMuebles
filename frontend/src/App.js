@@ -15,7 +15,7 @@ import RegisterEmployee from './components/RegisterEmployee'
 import Reportes from './components/Reportes'
 import clienteProfile from './components/clienteProfile'
 import empleadoProfile from './components/empleadoProfile'
-import updateEmpleado from './components/updateEmpleado'
+import UpdateEmpleado from './components/UpdateEmpleado'
 
 
 function App() {

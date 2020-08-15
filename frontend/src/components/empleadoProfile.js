@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import updateEmpleado from './updateEmpleado'
+import UpdateEmpleado from './UpdateEmpleado'
 
 
 export default class empleadoProfile extends Component {
