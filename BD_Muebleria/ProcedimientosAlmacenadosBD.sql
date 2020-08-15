@@ -204,7 +204,7 @@ END
 GO
 --------------------------------------------------------------------------------------------
 GO
-CREATE PROCEDURE ObtenerMueblesCategoria
+CREATE PROCEDURE [dbo].[ObtenerMueblesCategoria]
 	@Categoria int
 AS
 BEGIN
@@ -219,8 +219,8 @@ BEGIN
 
 		IF(@ValidarCategoria>0)
 			BEGIN
-				SELECT P.Nombre, P.Descripcion,P.Foto,S.Cantidad,S.Cantidad,S.fkSucursal
-				FROM Producto P JOIN Stock S ON P.pkProducto = S.fkProducto  
+				SELECT  P.pkProducto, P.Nombre, P.Descripcion, P.Foto, P.Precio, TP.pkTipoProducto, TP.Detalle from Producto P
+				INNER JOIN TipoProducto TP ON P.fkTipoProducto = TP.pkTipoProducto 
 				WHERE P.fkTipoProducto = @Categoria
 
 			END
