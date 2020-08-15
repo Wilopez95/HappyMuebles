@@ -48,6 +48,7 @@ CREATE TABLE Producto(
 CREATE TABLE Sucursal(
 	pkSucursal int NOT NULL PRIMARY KEY IDENTITY(1,1),
 	NumeroSucursal int,
+	NombreSucursal varchar(15),
 	Ubicacion geometry NOT NULL
 );
 
