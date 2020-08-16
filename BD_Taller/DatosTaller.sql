@@ -11,8 +11,6 @@ insert into Taller (Nombre, Ubicacion, Email) values ('Taller1', 'POLYGON((30 -1
 insert into Taller (Nombre, Ubicacion, Email) values ('Taller2', 'POLYGON((115 -10, 125 -10, 125 -20, 115 -20, 115 -10))', 'dpolly1@accuweather.com');
 insert into Taller (Nombre, Ubicacion, Email) values ('Taller3', 'POLYGON((20 -75, 30 -75, 30 -85, 20 -85, 20 -75))', 'smerrgen2@creativecommons.org');
 
-
-
 insert into Empleado (Identificacion, Nombre, fkTipoEmpleado, fechaContratacion, salario, fkTaller) values ('3579514251865882', 'Hildegarde', 1, '2019-01-26 14:35:29', '$1375.15', 1);
 insert into Empleado (Identificacion, Nombre, fkTipoEmpleado, fechaContratacion, salario, fkTaller) values ('503838811043747436', 'Decca', 4, '2019-05-11 02:21:06', '$1143.13', 2);
 insert into Empleado (Identificacion, Nombre, fkTipoEmpleado, fechaContratacion, salario, fkTaller) values ('3540199137233855', 'Portie', 2, '2018-07-27 16:00:54', '$481.51', 1);
@@ -35,7 +33,6 @@ insert into Empleado (Identificacion, Nombre, fkTipoEmpleado, fechaContratacion,
 insert into Empleado (Identificacion, Nombre, fkTipoEmpleado, fechaContratacion, salario, fkTaller) values ('4041373242759730', 'Sanford', 3, '2018-12-02 10:39:01', '$340.87', 2);
 
 
-
 insert into TipoProducto (Detalle) values ('Games');
 insert into TipoProducto (Detalle) values ('Automotive');
 insert into TipoProducto (Detalle) values ('Clothing');
@@ -43,36 +40,34 @@ insert into TipoProducto (Detalle) values ('Outdoors');
 insert into TipoProducto (Detalle) values ('Home');
 insert into TipoProducto (Detalle) values ('Beauty');
 insert into TipoProducto (Detalle) values ('Movies');
-insert into TipoProducto (Detalle) values ('Games');
 insert into TipoProducto (Detalle) values ('Electronics');
-insert into TipoProducto (Detalle) values ('Beauty');
 
 
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (5, 'West LLC', '$66.47');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (3, 'Raynor Group', '$132.72');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (10, 'Braun-Eichmann', '$179.53');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (9, 'Volkman, Baumbach and Pacocha', '$254.44');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (5, 'Walter Inc', '$52.10');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (6, 'Renner, Senger and Howe', '$50.19');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (4, 'Cassin Inc', '$247.73');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (9, 'Jacobson, Kuhlman and Abshire', '$351.93');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (7, 'Crist-Jones', '$112.63');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (4, 'Harvey, White and Bernhard', '$113.46');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (7, 'Abbott, Donnelly and Blanda', '$250.64');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (10, 'Nitzsche, Murphy and Larkin', '$262.82');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (8, 'Brown, Koelpin and Denesik', '$190.86');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (9, 'Wiza and Sons', '$62.29');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (7, 'Aufderhar Group', '$444.96');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (5, 'Aufderhar-Abbott', '$362.64');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (7, 'Price-Von', '$162.78');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (9, 'Bailey, Blanda and Rippin', '$196.43');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (7, 'Jast-Dare', '$392.53');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (2, 'Satterfield, Reilly and Gutkowski', '$327.60');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (6, 'Fadel-Kihn', '$248.62');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (1, 'Collins, Berge and O''Keefe', '$408.84');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (8, 'Morar and Sons', '$431.72');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (1, 'Dicki, Schinner and Kiehn', '$337.94');
-insert into Producto (fkTipoProducto, Descripcion, Precio) values (8, 'Heaney LLC', '$228.55');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (5, 'Juego de mesa', 'West LLC', '$66.47');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (3, 'Ropero', 'Raynor Group', '$132.72');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (6, 'Coqueta', 'Braun-Eichmann', '$179.53');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (1, 'Juego', 'Volkman, Baumbach and Pacocha', '$254.44');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (5, 'Juego de mesa', 'Walter Inc', '$52.10');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (6, 'Coqueta', 'Renner, Senger and Howe', '$50.19');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (4, 'Mesa de jardín', 'Cassin Inc', '$247.73');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (2, 'Marco', 'Jacobson, Kuhlman and Abshire', '$351.93');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (7, 'Stereo', 'Crist-Jones', '$112.63');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (4, 'Mesa de jardín', 'Harvey, White and Bernhard', '$113.46');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (7, 'Stereo', 'Abbott, Donnelly and Blanda', '$250.64');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (1, 'Juego', 'Nitzsche, Murphy and Larkin', '$262.82');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (8, 'Microondas',  'Brown, Koelpin and Denesik', '$190.86');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (3, 'Super Ropero', 'Wiza and Sons', '$62.29');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (7, 'Stereo', 'Aufderhar Group', '$444.96');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (5, 'Juego de mesa', 'Aufderhar-Abbott', '$362.64');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (7, 'Stereo', 'Price-Von', '$162.78');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (4, 'Gnomo', 'Bailey, Blanda and Rippin', '$196.43');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (7, 'Stereo', 'Jast-Dare', '$392.53');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (2, 'Marco', 'Satterfield, Reilly and Gutkowski', '$327.60');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (6, 'Coqueta', 'Fadel-Kihn', '$248.62');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (1, 'Juego', 'Collins, Berge and O''Keefe', '$408.84');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (8, 'Microondas', 'Morar and Sons', '$431.72');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (1, 'Juego', 'Dicki, Schinner and Kiehn', '$337.94');
+insert into Producto (fkTipoProducto, Nombre, Descripcion, Precio) values (8, 'Microondas', 'Heaney LLC', '$228.55');
 
 
 insert into Stock (fkProducto, Cantidad, fkTaller) values (1, 1, 1);
