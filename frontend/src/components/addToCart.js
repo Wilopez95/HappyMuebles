@@ -26,7 +26,7 @@ export default class addToCart extends Component {
                     compra:id
                 }
                 console.log(newIten)
-                const rep = await axios.post('http://localhost:3300/api/purchase/addShoppingList/add',newIten)
+                const rep = axios.post('http://localhost:3300/api/purchase/addShoppingList/add',newIten)
                 
             }
         )
