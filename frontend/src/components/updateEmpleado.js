@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
-export default class updateEmpleado extends Component {
+export default class UpdateEmpleado extends Component {
 
     state = {
         tipoEmpleado: null,
@@ -49,7 +49,7 @@ export default class updateEmpleado extends Component {
         return (
             <div className="card cord-body">
                 <h1 className="text-center">Actualizar perfil</h1>
-                <form>
+                <form onSubmit={this.submit}>
                         <div className="form-group">
                             <input name="name" type="text" className="form-control" placeholder="Nombre" onChange={this.onInputChange}/>
                         </div>
@@ -69,7 +69,6 @@ export default class updateEmpleado extends Component {
                         <input name="password" type="password" className="form-control" placeholder="Contraseña" onChange={this.onInputChange}/>
                         </div>
                         <button className="btn btn-dark">Actualizar</button>
-                   
                 </form>
             </div>
             
