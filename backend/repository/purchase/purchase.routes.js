@@ -7,6 +7,9 @@ module.exports = function(router){
     router.route('/purchase/estado')
         .post(purchaseRepository.register)
 
+    router.route('/purchase')
+        .post(purchaseRepository.newpurchase)
+
     router.route('/purchase/addShoppingList/add')
         .post(purchaseRepository.shopping)
     

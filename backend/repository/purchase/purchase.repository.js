@@ -20,7 +20,6 @@ function PurchaseRepository(dbContext){
         var parameters = [];
         parameters.push({ name: 'idProducto', type: TYPES.Int, val: req.body.producto});
         parameters.push({ name: 'idCompra', type: TYPES.Int, val: req.body.compra});
-        parameters.push({ name: 'Cantidad', type: TYPES.Int, val: req.body.cantidad});
 
         dbContext.post("AgregarAListaCompra", parameters, function (error, data) {
             if( data.length == 0){
@@ -104,6 +103,17 @@ function PurchaseRepository(dbContext){
         }
     }
 
+    function addnewpurchase(req,res){
+        var parameters = [];
+        dbContext.post("GenerarCompraNueva", parameters, function (error, data) {
+            if( data.length == 0){
+                return res.sendStatus(204);
+            }else{
+                return res.json(response(data, error));
+            } 
+        });
+    }
+
 
 
     return {
@@ -114,7 +124,8 @@ function PurchaseRepository(dbContext){
         getPayment: getPaymentMethods,
         getCalification: getCalification,
         getCHistory: getHistoryClient,
-        getSHistory: getHistorySucursal
+        getSHistory: getHistorySucursal,
+        newpurchase: addnewpurchase
     }
 
 }

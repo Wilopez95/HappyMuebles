@@ -33,7 +33,6 @@ function App() {
         <Route path='/profileCliente' component={clienteProfile}/>
         <Route path='/profileEmpleado' component={empleadoProfile}/>
         <Route path='/updatempleado' component={UpdateEmpleado}/>
-        
       </div>
       <Footer/>
     </Router>

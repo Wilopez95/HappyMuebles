@@ -11,9 +11,31 @@ export default class addToCart extends Component {
         id:'',
         metodosPago:[]
     }
+
     addShoppingList =  async e =>{
-     //aqui deberia hacer el post 
+        const res = await axios.post('http://localhost:3300/api/purchase')
+        this.addListProducs(res.data[0].idCompra)
+          
     }
+
+    addListProducs= async (id) => {
+        JSON.parse(localStorage.getItem('productsID')).map(
+            product => {
+                const newIten = {
+                    producto: product,
+                    compra:id
+                }
+                console.log(newIten)
+                const rep = await axios.post('http://localhost:3300/api/purchase/addShoppingList/add',newIten)
+                
+            }
+        )
+    }
+
+
+
+
+
 
     async componentDidMount() {
         if(localStorage.getItem('idCliente')!==null && localStorage.getItem('idCliente') !== 'undefined'){
@@ -45,9 +67,9 @@ export default class addToCart extends Component {
             <div className = "row">
                     <div className = "col-md-4">
                         <div className="card card-body">
-                            <h3>Info Compra</h3>
+                            <h3>Información de compra</h3>
                             <span> 
-                                <h4>Precio total: {localStorage.getItem('totalPrice')}</h4>  
+                                <h4>Precio total: {localStorage.getItem('totalPrice')}₡</h4>  
                             </span>
 
                             <h4>Cupones disponibles:</h4>

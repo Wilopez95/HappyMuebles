@@ -604,7 +604,7 @@ BEGIN
 		FROM Compra C
 		Order by C.pkCompra desc
 
-		SELECT @CompraGenerada
+		SELECT @CompraGenerada AS idCompra
 		
 		IF (@idEmpleado != NULL)
 		BEGIN
