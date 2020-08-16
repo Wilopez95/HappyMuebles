@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 
-export default class updateEmpleado extends Component {
+export default class UpdateEmpleado extends Component {
 
     state = {
         tipoEmpleado: null,
