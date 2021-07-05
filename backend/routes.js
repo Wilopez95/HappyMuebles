@@ -6,6 +6,7 @@ function eRoutes() {
     var account = require('./repository/account/account.routes')(router);
     var costumer = require('./repository/costumer/costumer.routes')(router);
     var employee = require('./repository/employee/employee.routes')(router);
+    var purchase = require('./repository/purchase/purchase.routes')(router);
     return router;
 }
 

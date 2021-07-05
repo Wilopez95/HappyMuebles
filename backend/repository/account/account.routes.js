@@ -8,10 +8,17 @@ module.exports = function(router){
     router.route('/account/login')
         .post(accountRepository.login)
 
-    router.route('/account/register')
-        .post(accountRepository.register)
+    router.route('/account/register/cliente')
+        .post(accountRepository.registerCliente)
     
-    router.route('/account/update')
-        .post(accountRepository.update)
+    router.route('/account/register/empleado')
+        .post(accountRepository.registerEmpleado)
+
+    router.route('/account/updateCliente')
+        .post(accountRepository.updateCliente)
+
+    router.route('/account/updateEmpleado')
+        .post(accountRepository.updateEmpleado)
+
            
 }

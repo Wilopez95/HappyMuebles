@@ -1,4 +1,4 @@
-CREATE DATABASE TallerMuebleria
+--CREATE DATABASE TallerMuebleria
 
 use TallerMuebleria
 
@@ -28,12 +28,12 @@ Descripcion   	varchar(30) constraint nn_DescEmpleado not null,
 
 
 CREATE TABLE Producto(
-pkProducto		int  constraint pk_Producto primary key IDENTITY(1,1),
+pkProducto int  constraint pk_Producto primary key IDENTITY(1,1),
 fkTipoProducto	int,
-Descripcion   	varchar(MAX) constraint nn_DescProducto not null,
+Nombre varchar(250) NOT NULL,
+Descripcion varchar(MAX) constraint nn_DescProducto not null,
 precio	money
 )
-
 
 CREATE TABLE TipoProducto(
 pkTipoProducto	int  constraint pk_TipoProducto primary key IDENTITY(1,1),
@@ -47,8 +47,6 @@ Cantidad	int,
 fkTaller    int
 )
 
-
-
 ALTER TABLE Empleado
 ADD FOREIGN KEY (fkTipoEmpleado) REFERENCES TipoEmpleado(pkTipoEmpleado);
 
@@ -58,7 +56,6 @@ ADD FOREIGN KEY (fkTaller) REFERENCES Taller(pkTaller);
 
 ALTER TABLE Producto
 ADD FOREIGN KEY (fkTipoProducto) REFERENCES TipoProducto(pkTipoProducto);
-
 
 ALTER TABLE Stock
 ADD FOREIGN KEY (fkProducto) REFERENCES Producto(pkProducto);

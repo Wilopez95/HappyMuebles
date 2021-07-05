@@ -1,0 +1,17 @@
+.view_content {
+    position: fixed;
+    z-index: 10;
+    height: 350px;
+    width: 75%;
+    border: 3px solid black;
+    background: lightgray;
+}
+
+.main_conteiner {
+    background: red;
+}
+
+.img-sizes {
+    height: 200px;
+    width: 200px;
+}
